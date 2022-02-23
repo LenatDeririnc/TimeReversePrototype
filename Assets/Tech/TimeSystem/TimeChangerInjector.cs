@@ -4,14 +4,16 @@ namespace TimeSystem
 {
     public class TimeChangerInjector : MonoBehaviour
     {
+        [SerializeField] private MonoBehaviour timeChanger;
+
         private void Awake()
         {
-            var timeChanger = GetComponent<ITimeChanger>();
+            var changer = timeChanger.GetComponent<ITimeChanger>();
 
-            if (timeChanger == null)
+            if (changer == null)
                 return;
-
-            TimeManager.TimeHandler = new TimeHandler(timeChanger);
+            
+            TimeManager.TimeHandler.SetTimeChanger(changer);
         }
     }
 }

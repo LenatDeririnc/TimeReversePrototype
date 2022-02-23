@@ -955,9 +955,7 @@ namespace ECM.Controllers
         
         #endregion
 
-        public float TimeChangerValue()
-        {
-            return Mathf.Clamp(moveDirection.magnitude, 0, 1);
-        }
+        public float TimeChangerValue() =>
+            Mathf.Clamp(moveDirection.magnitude, 0, 1);
     }
 }

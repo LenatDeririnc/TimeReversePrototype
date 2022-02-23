@@ -21,7 +21,7 @@ namespace ECM.Components
     /// and feed this information to the 'CharacterMovement' component, which perform the movement. 
     /// </summary>
 
-    public sealed class CharacterMovement : MonoBehaviour
+    public sealed class CharacterMovement : MonoBehaviour, ITimeChanger
     {
         #region EDITOR EXPOSED FIELDS
 
@@ -1707,5 +1707,8 @@ namespace ECM.Components
         }
 
         #endregion
+
+        public float TimeChangerValue() =>
+            Mathf.Clamp(cachedRigidbody.velocity.magnitude, 0, 1);
     }
 }
