@@ -265,6 +265,9 @@ GameObject:
   - component: {fileID: 8128953649603301176}
   - component: {fileID: 8128953649603301179}
   - component: {fileID: 8128953649603301178}
+  - component: {fileID: 4361141552723069428}
+  - component: {fileID: 8821133259874591025}
+  - component: {fileID: 4107801973989958486}
   m_Layer: 0
   m_Name: ECM_FirstPerson
   m_TagString: Untagged
@@ -417,3 +420,41 @@ MonoBehaviour:
   _backwardSpeed: 3
   _strafeSpeed: 4
   _runSpeedMultiplier: 2
+--- !u!114 &4361141552723069428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128953649603301181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 205e465c738342218b9c8239b83f5a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeChanger: {fileID: 8128953649603301176}
+--- !u!114 &8821133259874591025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128953649603301181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8407089bdfa042269dfe38820088f454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4107801973989958486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128953649603301181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 139769850d9d81240b40fe433bb35c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerComponent: {fileID: 8821133259874591025}
