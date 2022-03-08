@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using InputHandler;
+using UnityEngine;
 
 namespace ECM.Controllers
 {
@@ -194,26 +195,8 @@ namespace ECM.Controllers
 
         protected override void HandleInput()
         {
-            // Toggle pause / resume.
-            // By default, will restore character's velocity on resume (eg: restoreVelocityOnResume = true)
-
-            if (Input.GetKeyDown(KeyCode.P))
-                pause = !pause;
-
-            // Player input
-
-            moveDirection = new Vector3
-            {
-                x = Input.GetAxisRaw("Horizontal"),
-                y = 0.0f,
-                z = Input.GetAxisRaw("Vertical")
-            };
-
-            run = Input.GetButton("Fire3");
-
-            jump = Input.GetButton("Jump");
-
-            crouch = Input.GetKey(KeyCode.C);
+            base.HandleInput();
+            run = InputHandlerComponent.Instance.run;
         }
 
         #endregion

@@ -1,19 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using CharacterSystem;
+using CompassSystem;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TimeSystem
 {
     public class TimeChangerInjector : MonoBehaviour
     {
-        [SerializeField] private MonoBehaviour timeChanger;
+        [FormerlySerializedAs("timeChanger")] [SerializeField] private MonoBehaviour movingCharacter;
+        [SerializeField] private CompassComponent _compassComponent;
 
-        private void Awake()
+        private void Start()
         {
-            var changer = timeChanger.GetComponent<ITimeChanger>();
-
-            if (changer == null)
-                return;
-            
-            TimeManager.TimeHandler.SetTimeChanger(changer);
+            TimeManagerComponent.TimeManager.SetMovingObject(PlayerComponent.Instance.Velocity);
         }
     }
 }

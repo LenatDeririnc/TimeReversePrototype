@@ -1,6 +1,7 @@
 ﻿using ECM.Common;
 using System;
 using System.Collections;
+using Common;
 using TimeSystem;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace ECM.Components
     /// and feed this information to the 'CharacterMovement' component, which perform the movement. 
     /// </summary>
 
-    public sealed class CharacterMovement : MonoBehaviour, ITimeChanger
+    public sealed class CharacterMovement : MonoBehaviour, IVelocity
     {
         #region EDITOR EXPOSED FIELDS
 
@@ -1708,7 +1709,7 @@ namespace ECM.Components
 
         #endregion
 
-        public float TimeChangerValue() =>
-            Mathf.Clamp(cachedRigidbody.velocity.magnitude, 0, 1);
+        public Vector3 Velocity() =>
+            Vector3.ClampMagnitude(cachedRigidbody.velocity, 1);
     }
 }

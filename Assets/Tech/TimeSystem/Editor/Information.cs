@@ -2,21 +2,21 @@
 
 namespace TimeSystem.Editor
 {
-    [CustomEditor(typeof(TimeManager))]
+    [CustomEditor(typeof(TimeManagerComponent))]
     public class Information : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            if (TimeManager.TimeHandler == null)
+            if (TimeManagerComponent.TimeManager == null)
             {
                 EditorGUILayout.HelpBox("Info available only on play mode", MessageType.Info);
                 return;
             }
 
             EditorGUILayout.HelpBox(message:
-                $"Time: {TimeManager.TimeHandler.time}\n" +
-                $"Speed: {TimeManager.TimeHandler.timeSpeed}\n" +
-                $"TickRates: {TimeManager.TimeHandler.tickRates}",
+                $"Time: {TimeManagerComponent.TimeManager.time}\n" +
+                $"Speed: {TimeManagerComponent.TimeManager.timeSpeed}\n" +
+                $"TickRates: {TimeManagerComponent.TimeManager.tickRates}",
                 MessageType.Info);
         }
     }

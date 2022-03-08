@@ -1,6 +1,7 @@
-﻿using ECM.Components;
+﻿using Common;
+using ECM.Components;
 using ECM.Helpers;
-using TimeSystem;
+using InputHandler;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,7 +15,7 @@ namespace ECM.Controllers
     /// can easily be modified or completely replaced overriding this related methods in a derived class.
     /// </summary>
 
-    public class BaseCharacterController : MonoBehaviour, ITimeChanger
+    public class BaseCharacterController : MonoBehaviour, IVelocity
     {
         #region EDITOR EXPOSED FIELDS
 
@@ -470,12 +471,6 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Toggle pause / resume.
-        /// </summary>
-
-        public bool pause { get; set; }
-
-        /// <summary>
         /// Is the character paused?
         /// </summary>
 
@@ -513,22 +508,10 @@ namespace ECM.Controllers
         /// While paused, will turn the Rigidbody into kinematic, preventing any physical interaction.
         /// </summary>
 
-        private void Pause()
+        private void SetPause(bool value)
         {
-            if (pause && !isPaused)
-            {
-                // Pause 
-
-                movement.Pause(true);
-                isPaused = true;
-            }
-            else if (!pause && isPaused)
-            {
-                // Resume
-
-                movement.Pause(false, restoreVelocityOnResume);
-                isPaused = false;
-            }
+            isPaused = value;
+            movement.Pause(value, !value && restoreVelocityOnResume);
         }
 
         /// <summary>
@@ -837,24 +820,11 @@ namespace ECM.Controllers
 
         protected virtual void HandleInput()
         {
-            // Toggle pause / resume.
-            // By default, will restore character's velocity on resume (eg: restoreVelocityOnResume = true)
+            moveDirection = InputHandlerComponent.Instance.moveDirection.Velocity();
 
-            if (Input.GetKeyDown(KeyCode.P))
-                pause = !pause;
+            jump = InputHandlerComponent.Instance.jump;
 
-            // Handle user input
-
-            moveDirection = new Vector3
-            {
-                x = Input.GetAxisRaw("Horizontal"),
-                y = 0.0f,
-                z = Input.GetAxisRaw("Vertical")
-            };
-
-            jump = Input.GetButton("Jump");
-
-            crouch = Input.GetKey(KeyCode.C);
+            crouch = InputHandlerComponent.Instance.crouch;
         }
 
         #endregion
@@ -911,16 +881,12 @@ namespace ECM.Controllers
             animator = GetComponentInChildren<Animator>();
 
             rootMotionController = GetComponentInChildren<RootMotionController>();
+
+            InputHandlerComponent.OnPauseChanged += SetPause;
         }
 
         public virtual void FixedUpdate()
         {
-            // Pause / resume character
-
-            Pause();
-
-            // If paused, return
-
             if (isPaused)
                 return;
 
@@ -955,7 +921,7 @@ namespace ECM.Controllers
         
         #endregion
 
-        public float TimeChangerValue() =>
-            Mathf.Clamp(moveDirection.magnitude, 0, 1);
+        public Vector3 Velocity() =>
+            Vector3.ClampMagnitude(moveDirection, 1);
     }
 }

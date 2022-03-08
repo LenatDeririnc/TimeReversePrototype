@@ -10,7 +10,7 @@ namespace CharacterSystem
 
         void Update()
         {
-            _animator.SetFloat(Direction, TimeManager.TimeHandler.timeSpeed);
+            _animator.SetFloat(Direction, TimeManagerComponent.TimeManager.timeSpeed);
         }
     }
 }
