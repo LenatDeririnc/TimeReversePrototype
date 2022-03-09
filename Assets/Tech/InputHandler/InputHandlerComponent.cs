@@ -53,8 +53,8 @@ namespace InputHandler
             if (Input.GetKeyDown(KeyCode.P))
                 pause = !pause;
 
-            mouseX = Input.GetAxis("Mouse X");
-            mouseY = Input.GetAxis("Mouse Y");
+            mouseX = Mathf.Clamp(Input.GetAxis("Mouse X") + Input.GetAxis("HorizontalLook"), -1, 1);
+            mouseY = Mathf.Clamp(Input.GetAxis("Mouse Y") + Input.GetAxis("VerticalLook"), -1, 1);
 
             var horizontal = Input.GetAxisRaw("Horizontal");
             var vertical = Input.GetAxisRaw("Vertical");
