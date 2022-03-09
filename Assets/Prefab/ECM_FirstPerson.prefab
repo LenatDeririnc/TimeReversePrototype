@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 967086081133806969}
   - component: {fileID: 8512376941051339230}
   - component: {fileID: 7355124012551563431}
-  - component: {fileID: 1809674257123924554}
   - component: {fileID: 7230906146265029416}
   m_Layer: 0
   m_Name: Player
@@ -102,9 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eae04a4fe514bf4789aec1bdb93100b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxLateralSpeed: 10
-  _maxRiseSpeed: 20
-  _maxFallSpeed: 20
+  _maxLateralSpeed: 100
+  _maxRiseSpeed: 100
+  _maxFallSpeed: 100
   _useGravity: 1
   _gravity: {x: 0, y: -30, z: 0}
   _slideOnSteepSlope: 0
@@ -169,20 +168,6 @@ MonoBehaviour:
   _backwardSpeed: 3
   _strafeSpeed: 4
   _runSpeedMultiplier: 2
---- !u!114 &1809674257123924554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497698983247570982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 205e465c738342218b9c8239b83f5a40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movingCharacter: {fileID: 967086081133806969}
-  _compassComponent: {fileID: 7822573174412301981}
 --- !u!114 &7230906146265029416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +490,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8128953649603301188}
+  - component: {fileID: 1618002697107087639}
   m_Layer: 0
   m_Name: ECM_FirstPerson
   m_TagString: Untagged
@@ -528,3 +514,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1618002697107087639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128953649603301181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e9ed5f3d3e4a4faff35c3dde46ac3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CompassComponent: {fileID: 7822573174412301981}

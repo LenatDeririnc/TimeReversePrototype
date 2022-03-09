@@ -6,7 +6,7 @@ namespace EditorTools
     [ExecuteInEditMode]
     public abstract class DeprecatedComponent : MonoBehaviour
     {
-        private void OnValidate()
+        private void Awake()
         {
             Destroy(this);
         }

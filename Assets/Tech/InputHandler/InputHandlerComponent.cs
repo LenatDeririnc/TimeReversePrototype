@@ -1,5 +1,7 @@
 ﻿using System;
+using CharacterSystem;
 using Common;
+using CompassSystem;
 using SingletonSystem;
 using UnityEngine;
 
@@ -10,7 +12,12 @@ namespace InputHandler
         public bool run { get; private set; }
         public bool pause { get; private set; }
 
-        public Vector3 moveDirection;
+        public Vector3 moveDirection { get; private set; }
+        public VelocityConverter moveDirectionVelocity { get; } = new VelocityConverter(Vector3.zero);
+
+        public VelocityConverter ForwardMovement { get; } = new VelocityConverter(Vector3.zero);
+
+        public VelocityConverter BackMovement  { get; } = new VelocityConverter(Vector3.zero);
 
         public bool jump { get; private set; }
         public bool crouch { get; private set; }
@@ -20,6 +27,7 @@ namespace InputHandler
         public float mouseY { get; private set; }
 
         public static Action<bool> OnPauseChanged;
+
 
         private void Pause()
         {
@@ -48,17 +56,27 @@ namespace InputHandler
             mouseX = Input.GetAxis("Mouse X");
             mouseY = Input.GetAxis("Mouse Y");
 
+            var horizontal = Input.GetAxisRaw("Horizontal");
+            var vertical = Input.GetAxisRaw("Vertical");
+
             // Handle user input
 
             var move = new Vector3()
             {
-                x = Input.GetAxisRaw("Horizontal"),
+                x = horizontal,
                 y = 0.0f,
-                z = Input.GetAxisRaw("Vertical")
+                z = vertical
             };
             Vector3.ClampMagnitude(move, 1);
 
             moveDirection = move;
+            moveDirectionVelocity.Set(move);
+
+            var forward = new Vector3(horizontal, 0, Mathf.Clamp(vertical, 0, 1));
+
+            ForwardMovement.Set(forward);
+
+            BackMovement.Set(moveDirection - forward);
 
             run = Input.GetButton("Fire3");
 

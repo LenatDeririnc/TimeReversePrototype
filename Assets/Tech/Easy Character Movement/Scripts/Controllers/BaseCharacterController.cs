@@ -2,6 +2,7 @@
 using ECM.Components;
 using ECM.Helpers;
 using InputHandler;
+using TimeSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -820,7 +821,8 @@ namespace ECM.Controllers
 
         protected virtual void HandleInput()
         {
-            moveDirection = InputHandlerComponent.Instance.moveDirection;
+            var direction = InputHandlerComponent.Instance.ForwardMovement.Velocity();
+            moveDirection = direction * Mathf.Clamp(TimeManagerComponent.TimeManager.timeSpeed, 0, 1);
 
             jump = InputHandlerComponent.Instance.jump;
 

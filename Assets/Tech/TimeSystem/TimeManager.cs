@@ -1,4 +1,5 @@
 ﻿using System;
+using CharacterSystem;
 using Common;
 using CompassSystem;
 using UnityEngine;
@@ -20,16 +21,9 @@ namespace TimeSystem
         private float _timeSpeed = 0f;
         private float _time = 0f;
 
-        private CompassComponent _compassComponent;
-
         public void SetMovingObject(IVelocity changer)
         {
             _velocityCharacter = changer;
-        }
-
-        public void SetCompassObject(CompassComponent component)
-        {
-            _compassComponent = component;
         }
 
         public void Update()
@@ -41,7 +35,7 @@ namespace TimeSystem
 
         private void UpdateTickRate()
         {
-            var newValue = (int) (_time / TickRate);
+            int newValue = (int) (_time / TickRate);
 
             if (newValue > _tickRates)
                 OnTickAdd?.Invoke();
@@ -58,7 +52,9 @@ namespace TimeSystem
 
         private bool IsRollback()
         {
-            return _compassComponent.IsRollbackAngle() && _compassComponent.IsMoving();
+            Debug.Log($"{RollbackController.Instance.IsRollbackActive()}, {RollbackController.Instance.IsRollbackAngle()}");
+
+            return RollbackController.Instance.IsRollbackActive() && RollbackController.Instance.IsRollbackAngle();
         }
 
         private void UpdateTimeSpeed()

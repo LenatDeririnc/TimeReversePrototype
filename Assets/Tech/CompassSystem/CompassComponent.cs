@@ -2,6 +2,7 @@
 using CharacterSystem;
 using Common;
 using Helpers;
+using InputHandler;
 using SingletonSystem;
 using TimeSystem;
 using UnityEngine;
@@ -13,10 +14,10 @@ namespace CompassSystem
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Sector _rollbackSector;
         public Transform Transform { get; private set; }
-        private IVelocity _velocity;
+        private IVelocity _updatePositionVelocity;
 
         public Sector RollbackSector => _rollbackSector;
-        public IVelocity Velocity => _velocity;
+        public IVelocity Velocity => _updatePositionVelocity;
 
 
         protected override void Awake()
@@ -24,28 +25,20 @@ namespace CompassSystem
             base.Awake();
             Transform = transform;
             _rollbackSector.transform = Transform;
-            TimeManagerComponent.TimeManager.SetCompassObject(this);
         }
 
         private void Start()
         {
             UpdateForward();
-            SetVelocitySetter(new PlayerMovementVelocity(PlayerComponent.Instance.CharacterMovement, PlayerComponent.Instance.MouseLook));
+            SetVelocitySetter(new MoveLookVelocity(
+                InputHandlerComponent.Instance.moveDirectionVelocity,
+                PlayerComponent.Instance.CharacterMovement,
+                PlayerComponent.Instance.MouseLook));
         }
 
         public void SetVelocitySetter(IVelocity component)
         {
-            _velocity = component ?? throw new InvalidCastException();
-        }
-
-        public bool IsMoving()
-        {
-            return _velocity.Velocity().magnitude > 0;
-        }
-
-        public bool IsRollbackAngle()
-        {
-            return Sector.Intersection(_velocity.Velocity(), _rollbackSector);
+            _updatePositionVelocity = component ?? throw new InvalidCastException();
         }
 
         public void UpdateForward()
@@ -56,9 +49,6 @@ namespace CompassSystem
 
         private void Update()
         {
-            if (!IsMoving())
-                return;
-
             UpdateForward();
         }
     }

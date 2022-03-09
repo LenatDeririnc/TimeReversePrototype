@@ -1,5 +1,4 @@
-﻿using Common;
-using ECM.Components;
+﻿using ECM.Components;
 using ECM.Controllers;
 using SingletonSystem;
 using TimelineSystem;
@@ -14,15 +13,12 @@ namespace CharacterSystem
         public MouseLook MouseLook;
         private PlayerTimeline _timeline;
 
-        public IVelocity Velocity { get; private set; }
-
         public Transform Transform { get; private set; }
 
         protected override void Awake()
         {
             base.Awake();
             Transform = transform;
-            Velocity = CharacterMovement;
             _timeline = new PlayerTimeline(this);
         }
 
@@ -41,6 +37,11 @@ namespace CharacterSystem
             };
 
             return info;
+        }
+
+        public bool IsMoving()
+        {
+            return CharacterController.Velocity().magnitude > 0;
         }
     }
 }
