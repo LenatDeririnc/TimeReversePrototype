@@ -820,7 +820,7 @@ namespace ECM.Controllers
 
         protected virtual void HandleInput()
         {
-            moveDirection = InputHandlerComponent.Instance.moveDirection.Velocity();
+            moveDirection = InputHandlerComponent.Instance.moveDirection;
 
             jump = InputHandlerComponent.Instance.jump;
 

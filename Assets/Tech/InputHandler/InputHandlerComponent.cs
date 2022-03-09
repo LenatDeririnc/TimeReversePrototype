@@ -7,14 +7,17 @@ namespace InputHandler
 {
     public class InputHandlerComponent : Singleton<InputHandlerComponent>
     {
-        public bool run { get; set; }
-        public bool pause { get; set; }
+        public bool run { get; private set; }
+        public bool pause { get; private set; }
 
-        public MoveDirection moveDirection;
+        public Vector3 moveDirection;
 
-        public bool jump { get; set; }
-        public bool crouch { get; set; }
-        public bool isPaused { get; set; }
+        public bool jump { get; private set; }
+        public bool crouch { get; private set; }
+        public bool isPaused { get; private set; }
+
+        public float mouseX { get; private set; }
+        public float mouseY { get; private set; }
 
         public static Action<bool> OnPauseChanged;
 
@@ -42,6 +45,9 @@ namespace InputHandler
             if (Input.GetKeyDown(KeyCode.P))
                 pause = !pause;
 
+            mouseX = Input.GetAxis("Mouse X");
+            mouseY = Input.GetAxis("Mouse Y");
+
             // Handle user input
 
             var move = new Vector3()
@@ -52,7 +58,7 @@ namespace InputHandler
             };
             Vector3.ClampMagnitude(move, 1);
 
-            moveDirection = new MoveDirection(move);
+            moveDirection = move;
 
             run = Input.GetButton("Fire3");
 
@@ -70,18 +76,5 @@ namespace InputHandler
         {
             HandleInput();
         }
-    }
-
-    public readonly struct MoveDirection : IVelocity
-    {
-        private readonly Vector3 _value;
-
-        public MoveDirection(Vector3 newDirection)
-        {
-            _value = newDirection;
-        }
-
-        public Vector3 Velocity() =>
-            _value;
     }
 }

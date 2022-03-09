@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Common;
+using InputHandler;
+using UnityEngine;
 
 namespace ECM.Components
 {
@@ -11,7 +13,7 @@ namespace ECM.Components
     /// This must be attached to the game object with 'CharacterMovement' component.
     /// </summary>
 
-    public class MouseLook : MonoBehaviour
+    public class MouseLook : MonoBehaviour, IVelocity
     {
         #region EDITOR EXPOSED FIELDS
 
@@ -51,6 +53,8 @@ namespace ECM.Components
         [Tooltip("The maximum pitch angle (in degrees).")]
         [SerializeField]
         private float _maxPitchAngle = 90.0f;
+
+        private Vector3 _lookVelocity = new Vector3(0, 0, 0);
 
         #endregion
 
@@ -175,8 +179,10 @@ namespace ECM.Components
 
         public virtual void LookRotation(CharacterMovement movement, Transform cameraTransform)
         {
-            var yaw = Input.GetAxis("Mouse X") * lateralSensitivity;
-            var pitch = Input.GetAxis("Mouse Y") * verticalSensitivity;
+            var yaw = InputHandlerComponent.Instance.mouseX * lateralSensitivity;
+            var pitch = InputHandlerComponent.Instance.mouseY * verticalSensitivity;
+
+            _lookVelocity = new Vector3(pitch, yaw, 0);
 
             var yawRotation = Quaternion.Euler(0.0f, yaw, 0.0f);
             var pitchRotation = Quaternion.Euler(-pitch, 0.0f, 0.0f);
@@ -295,5 +301,8 @@ namespace ECM.Components
         }
         
         #endregion
+
+        public Vector3 Velocity() =>
+            _lookVelocity;
     }
 }

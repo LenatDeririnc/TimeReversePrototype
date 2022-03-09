@@ -30,13 +30,12 @@ namespace CompassSystem
         private void Start()
         {
             UpdateForward();
-            SetVelocitySetter(PlayerComponent.Instance.CharacterMovement);
+            SetVelocitySetter(new PlayerMovementVelocity(PlayerComponent.Instance.CharacterMovement, PlayerComponent.Instance.MouseLook));
         }
 
-        public void SetVelocitySetter(MonoBehaviour component)
+        public void SetVelocitySetter(IVelocity component)
         {
-            IVelocity velocity = component as IVelocity;
-            _velocity = velocity ?? throw new InvalidCastException();
+            _velocity = component ?? throw new InvalidCastException();
         }
 
         public bool IsMoving()
