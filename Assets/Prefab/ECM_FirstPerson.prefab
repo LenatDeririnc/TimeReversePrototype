@@ -479,7 +479,7 @@ MonoBehaviour:
   _playerTransform: {fileID: 6303919232749796089}
   _rollbackSector:
     transform: {fileID: 135171768090457524}
-    angle: 45
+    angle: 22.5
     rotation: 180
 --- !u!1 &8128953649603301181
 GameObject:

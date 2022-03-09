@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using InputHandler;
 using UnityEngine;
 
 namespace TimeSystem
@@ -47,7 +48,7 @@ namespace TimeSystem
             _tickRates = newValue;
         }
 
-        private float ScaledTimeSpeed()
+        public float ScaledTimeSpeed()
         {
             return _timeSpeed * Time.deltaTime;
         }
@@ -65,7 +66,7 @@ namespace TimeSystem
             _timeSpeed = _velocityCharacter.Velocity().magnitude;
 
             if (IsRollback())
-                _timeSpeed = -1;
+                _timeSpeed = -InputHandlerComponent.Instance.BackMovement.Velocity().magnitude;
         }
 
         private void UpdateTime()

@@ -16,7 +16,7 @@ namespace TimeMovementSystem
 
         private void Update()
         {
-            _transform.position += _transform.forward * TimeManagerComponent.TimeManager.timeSpeed * _speed;
+            _transform.position += _transform.forward * TimeManagerComponent.TimeManager.ScaledTimeSpeed() * _speed;
         }
     }
 }

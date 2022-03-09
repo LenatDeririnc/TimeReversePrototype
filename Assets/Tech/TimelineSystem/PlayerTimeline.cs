@@ -26,6 +26,9 @@ namespace TimelineSystem
 
         private void ExecuteLastPlayerInfo()
         {
+            if (_timelineData.Count <= 0)
+                return;
+
             var transformData = _timelineData.Pop();
             _playerComponent.SetTransformData(transformData);
         }
