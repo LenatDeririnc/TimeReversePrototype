@@ -15,13 +15,14 @@ namespace CharacterSystem
         public CharacterMovement CharacterMovement;
         public MouseLook MouseLook;
         private PlayerTimeline _timeline;
+        public Rigidbody _Rigidbody;
 
         public Transform Transform { get; private set; }
 
         public TransformInfo newData;
         public TransformInfo lastPosition;
 
-        private bool isUpdated = false;
+        private bool isPositionUpdated = false;
 
         protected override void Awake()
         {
@@ -34,11 +35,12 @@ namespace CharacterSystem
         {
             if (!RollbackController.Instance.IsRollbackActive())
             {
-                isUpdated = false;
+                isPositionUpdated = false;
                 return;
             }
 
-            if (!isUpdated)
+            //TODO: Переделать
+            if (!isPositionUpdated)
                 return;
 
             var tm = TimeManagerComponent.TimeManager;
@@ -54,7 +56,7 @@ namespace CharacterSystem
                 position = Transform.position,
                 rotation = Transform.rotation,
             };
-            isUpdated = true;
+            isPositionUpdated = true;
         }
 
         public TransformInfo GetPlayerInfo()
@@ -70,7 +72,6 @@ namespace CharacterSystem
 
         public void Destroy()
         {
-            CharacterMovement.enabled = false;
             Debug.Log("YOU DEAD");
         }
     }

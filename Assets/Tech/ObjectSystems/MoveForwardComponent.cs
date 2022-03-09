@@ -1,7 +1,8 @@
-﻿using TimeSystem;
+﻿using System;
+using TimeSystem;
 using UnityEngine;
 
-namespace TimeMovementSystem
+namespace ObjectSystems
 {
     public class MoveForwardComponent : MonoBehaviour
     {
