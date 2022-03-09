@@ -1,12 +1,15 @@
-﻿using ECM.Components;
+﻿using System;
+using DamageSystem;
+using ECM.Components;
 using ECM.Controllers;
 using SingletonSystem;
 using TimelineSystem;
+using TimeSystem;
 using UnityEngine;
 
 namespace CharacterSystem
 {
-    public class PlayerComponent : Singleton<PlayerComponent>
+    public class PlayerComponent : Singleton<PlayerComponent>, IDestroyable
     {
         public BaseCharacterController CharacterController;
         public CharacterMovement CharacterMovement;
@@ -15,6 +18,11 @@ namespace CharacterSystem
 
         public Transform Transform { get; private set; }
 
+        public TransformInfo newData;
+        public TransformInfo lastPosition;
+
+        private bool isUpdated = false;
+
         protected override void Awake()
         {
             base.Awake();
@@ -22,15 +30,36 @@ namespace CharacterSystem
             _timeline = new PlayerTimeline(this);
         }
 
-        public void SetTransformData(PlayerTimelineInfo data)
+        private void Update()
         {
-            Transform.position = data.position;
-            Transform.rotation = data.rotation;
+            if (!RollbackController.Instance.IsRollbackActive())
+            {
+                isUpdated = false;
+                return;
+            }
+
+            if (!isUpdated)
+                return;
+
+            var tm = TimeManagerComponent.TimeManager;
+            Transform.position = Vector3.Lerp(lastPosition.position, newData.position, 1-tm.TickRateDivideRatio);
+            Transform.rotation = Quaternion.Lerp(lastPosition.rotation, newData.rotation, 1-tm.TickRateDivideRatio);
         }
 
-        public PlayerTimelineInfo GetPlayerInfo()
+        public void SetTransformData(TransformInfo data)
         {
-            var info = new PlayerTimelineInfo()
+            newData = data;
+            lastPosition = new TransformInfo()
+            {
+                position = Transform.position,
+                rotation = Transform.rotation,
+            };
+            isUpdated = true;
+        }
+
+        public TransformInfo GetPlayerInfo()
+        {
+            var info = new TransformInfo()
             {
                 position = Transform.position,
                 rotation = Transform.rotation,
@@ -39,9 +68,10 @@ namespace CharacterSystem
             return info;
         }
 
-        public bool IsMoving()
+        public void Destroy()
         {
-            return CharacterController.Velocity().magnitude > 0;
+            CharacterMovement.enabled = false;
+            Debug.Log("YOU DEAD");
         }
     }
 }

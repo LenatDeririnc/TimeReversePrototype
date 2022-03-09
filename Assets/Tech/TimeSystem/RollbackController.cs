@@ -1,11 +1,7 @@
-﻿using System;
-using Common;
-using CompassSystem;
+﻿using CompassSystem;
 using Helpers;
 using InputHandler;
 using SingletonSystem;
-using TMPro;
-using UnityEngine;
 
 namespace TimeSystem
 {

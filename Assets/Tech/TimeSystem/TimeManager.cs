@@ -1,7 +1,5 @@
 ﻿using System;
-using CharacterSystem;
 using Common;
-using CompassSystem;
 using UnityEngine;
 
 namespace TimeSystem
@@ -9,6 +7,10 @@ namespace TimeSystem
     public class TimeManager
     {
         public const float TickRate = 0.1f;
+
+        public float TickRateCount => (_time / TickRate);
+        public float TickRateMod => (_time % TickRate);
+        public float TickRateDivideRatio => (TickRateMod / TickRate);
         public float timeSpeed => _timeSpeed;
         public float time => _time;
         public int tickRates => _tickRates;
@@ -35,7 +37,7 @@ namespace TimeSystem
 
         private void UpdateTickRate()
         {
-            int newValue = (int) (_time / TickRate);
+            int newValue = (int) TickRateCount;
 
             if (newValue > _tickRates)
                 OnTickAdd?.Invoke();
@@ -52,8 +54,6 @@ namespace TimeSystem
 
         private bool IsRollback()
         {
-            Debug.Log($"{RollbackController.Instance.IsRollbackActive()}, {RollbackController.Instance.IsRollbackAngle()}");
-
             return RollbackController.Instance.IsRollbackActive() && RollbackController.Instance.IsRollbackAngle();
         }
 

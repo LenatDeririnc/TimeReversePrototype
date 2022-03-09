@@ -7,11 +7,11 @@ namespace TimelineSystem
     public class PlayerTimeline
     {
         private readonly PlayerComponent _playerComponent;
-        private Stack<PlayerTimelineInfo> _timelineData;
+        private Stack<TransformInfo> _timelineData;
 
         public PlayerTimeline(PlayerComponent playerComponent)
         {
-            _timelineData = new Stack<PlayerTimelineInfo>();
+            _timelineData = new Stack<TransformInfo>();
             _playerComponent = playerComponent;
             TimeManagerComponent.TimeManager.OnTickAdd += AddPlayerInfo;
             TimeManagerComponent.TimeManager.OnTickRemove += ExecuteLastPlayerInfo;
