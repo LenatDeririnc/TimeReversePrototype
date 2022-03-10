@@ -180,9 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8407089bdfa042269dfe38820088f454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterController: {fileID: 7355124012551563431}
-  CharacterMovement: {fileID: 967086081133806969}
+  playerController: {fileID: 7355124012551563431}
+  playerMovement: {fileID: 967086081133806969}
   MouseLook: {fileID: 8512376941051339230}
+  _Rigidbody: {fileID: 0}
 --- !u!1 &2565097305269317893
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,9 +22,10 @@ namespace ECM.Components
     /// and feed this information to the 'CharacterMovement' component, which perform the movement. 
     /// </summary>
 
-    public sealed class PlayerMovement : MonoBehaviour, IVelocity
+    [Serializable]
+    public class PlayerMovementEditorFields
     {
-        #region EDITOR EXPOSED FIELDS
+        #region EDITOR_FIELDS
 
         [Header("Speed Limiters")]
         [Tooltip("The maximum lateral speed this character can move, " +
@@ -49,7 +50,6 @@ namespace ECM.Components
         private bool _useGravity = true;
 
         [Tooltip("The gravity applied to this character.")]
-        [SerializeField]
         private Vector3 _gravity = new Vector3(0.0f, -30.0f, 0.0f);
 
         [Header("Slopes")]
@@ -77,28 +77,6 @@ namespace ECM.Components
         private float _snapStrength = 0.5f;
 
         #endregion
-
-        #region FIELDS
-
-        // The buffer to store the overlap test results into.
-
-        private static readonly Collider[] OverlappedColliders = new Collider[8];
-        
-        private Coroutine _lateFixedUpdateCoroutine;
-
-        private Vector3 _normal;
-
-        private float _referenceCastDistance;
-
-        private bool _forceUnground;
-        private float _forceUngroundTimer;
-        private bool _performGroundDetection = true;
-
-        private Vector3 _savedVelocity;
-        private Vector3 _savedAngularVelocity;
-
-        #endregion
-
         #region PROPERTIES
 
         /// <summary>
@@ -167,7 +145,7 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// The maximum angle (in degrees) the slope needs to be before the character starts to slide. 
+        /// The maximum angle (in degrees) the slope needs to be before the character starts to slide.
         /// </summary>
 
         public float slopeLimit
@@ -207,6 +185,36 @@ namespace ECM.Components
             get { return _snapStrength; }
             set { _snapStrength = Mathf.Clamp01(value); }
         }
+        #endregion
+    }
+
+    public sealed class PlayerMovement : MonoBehaviour, IVelocity
+    {
+
+        public PlayerMovementEditorFields playerMovementEditorFields;
+
+        #region FIELDS
+
+        // The buffer to store the overlap test results into.
+
+        private static readonly Collider[] OverlappedColliders = new Collider[8];
+        
+        private Coroutine _lateFixedUpdateCoroutine;
+
+        private Vector3 _normal;
+
+        private float _referenceCastDistance;
+
+        private bool _forceUnground;
+        private float _forceUngroundTimer;
+        private bool _performGroundDetection = true;
+
+        private Vector3 _savedVelocity;
+        private Vector3 _savedAngularVelocity;
+
+        #endregion
+
+        #region PROPERTIES
 
         /// <summary>
         /// Cached CapsuleCollider component.
@@ -245,7 +253,7 @@ namespace ECM.Components
 
         /// <summary>
         /// The real surface normal.
-        /// 
+        ///
         /// This is different from groundNormal, because when SphereCast contacts the edge of a collider
         /// (rather than a face directly on) the hit.normal that is returned is the interpolation of the two normals
         /// of the faces that are joined to that edge.
@@ -408,7 +416,7 @@ namespace ECM.Components
 
         public bool isValidSlope
         {
-            get { return !slideOnSteepSlope || groundAngle < slopeLimit; }
+            get { return !playerMovementEditorFields.slideOnSteepSlope || groundAngle < playerMovementEditorFields.slopeLimit; }
         }
 
         /// <summary>
@@ -1044,7 +1052,7 @@ namespace ECM.Components
 
             if (isGrounded)
             {
-                if (!slideOnSteepSlope || groundAngle < slopeLimit)
+                if (!playerMovementEditorFields.slideOnSteepSlope || groundAngle < playerMovementEditorFields.slopeLimit)
                 {
                     // Walkable 'ground' movement
 
@@ -1058,7 +1066,7 @@ namespace ECM.Components
 
                     isSliding = true;
 
-                    velocity += gravity * (slideGravityMultiplier * Time.deltaTime);
+                    velocity += playerMovementEditorFields.gravity * (playerMovementEditorFields.slideGravityMultiplier * Time.deltaTime);
                 }
             }
             else
@@ -1100,8 +1108,8 @@ namespace ECM.Components
 
                 // If desired, apply gravity
 
-                if (useGravity)
-                    velocity += gravity * Time.deltaTime;
+                if (playerMovementEditorFields.useGravity)
+                    velocity += playerMovementEditorFields.gravity * Time.deltaTime;
             }
             
             // If moving towards a step,
@@ -1136,7 +1144,7 @@ namespace ECM.Components
 
             // On walkable 'ground'
 
-            if (!slideOnSteepSlope || groundAngle < slopeLimit)
+            if (!playerMovementEditorFields.slideOnSteepSlope || groundAngle < playerMovementEditorFields.slopeLimit)
             {
                 // Cancel any vertical velocity on landing
 
@@ -1191,7 +1199,7 @@ namespace ECM.Components
 
                 isSliding = true;
                 
-                velocity += gravity * (slideGravityMultiplier * Time.deltaTime);
+                velocity += playerMovementEditorFields.gravity * (playerMovementEditorFields.slideGravityMultiplier * Time.deltaTime);
             }
         }
 
@@ -1283,8 +1291,8 @@ namespace ECM.Components
 
             // If desired, apply gravity
 
-            if (useGravity)
-                velocity += gravity * Time.deltaTime;
+            if (playerMovementEditorFields.useGravity)
+                velocity += playerMovementEditorFields.gravity * Time.deltaTime;
         }
 
         /// <summary>
@@ -1339,8 +1347,8 @@ namespace ECM.Components
         private void LimitLateralVelocity()
         {
             var lateralVelocity = Vector3.ProjectOnPlane(velocity, transform.up);
-            if (lateralVelocity.sqrMagnitude > maxLateralSpeed * maxLateralSpeed)
-                cachedRigidbody.velocity += lateralVelocity.normalized * maxLateralSpeed - lateralVelocity;
+            if (lateralVelocity.sqrMagnitude > playerMovementEditorFields.maxLateralSpeed * playerMovementEditorFields.maxLateralSpeed)
+                cachedRigidbody.velocity += lateralVelocity.normalized * playerMovementEditorFields.maxLateralSpeed - lateralVelocity;
         }
 
         /// <summary>
@@ -1356,10 +1364,10 @@ namespace ECM.Components
             var up = transform.up;
             
             var verticalSpeed = Vector3.Dot(velocity, up);
-            if (verticalSpeed < -maxFallSpeed)
-                cachedRigidbody.velocity += up * (-maxFallSpeed - verticalSpeed);
-            if (verticalSpeed > maxRiseSpeed)
-                cachedRigidbody.velocity += up * (maxRiseSpeed - verticalSpeed);
+            if (verticalSpeed < -playerMovementEditorFields.maxFallSpeed)
+                cachedRigidbody.velocity += up * (-playerMovementEditorFields.maxFallSpeed - verticalSpeed);
+            if (verticalSpeed > playerMovementEditorFields.maxRiseSpeed)
+                cachedRigidbody.velocity += up * (playerMovementEditorFields.maxRiseSpeed - verticalSpeed);
         }
 
         /// <summary>
@@ -1385,7 +1393,7 @@ namespace ECM.Components
 
             // If enabled, snap to ground
 
-            if (snapToGround && isOnGround)
+            if (playerMovementEditorFields.snapToGround && isOnGround)
                 SnapToGround();
 
             // Speed Limit
@@ -1427,7 +1435,7 @@ namespace ECM.Components
 
             // If enabled, snap to ground
 
-            if (snapToGround && isGrounded)
+            if (playerMovementEditorFields.snapToGround && isGrounded)
                 SnapToGround();
             
             // Speed Limit
@@ -1471,7 +1479,7 @@ namespace ECM.Components
 
             // Compute final snap velocity and update character's velocity
 
-            var snapVelocity = transform.up * (-distanceToGround * snapStrength / Time.deltaTime);
+            var snapVelocity = transform.up * (-distanceToGround * playerMovementEditorFields.snapStrength / Time.deltaTime);
 
             var newVelocity = velocity + snapVelocity;
 
@@ -1609,23 +1617,6 @@ namespace ECM.Components
         #endregion
 
         #region MONOBEHAVIOUR
-
-        public void OnValidate()
-        {
-            maxLateralSpeed = _maxLateralSpeed;
-            maxRiseSpeed = _maxRiseSpeed;
-            maxFallSpeed = _maxFallSpeed;
-
-            useGravity = _useGravity;
-            gravity = _gravity;
-
-            slideOnSteepSlope = _slideOnSteepSlope;
-            slopeLimit = _slopeLimit;
-            slideGravityMultiplier = _slideGravityMultiplier;
-
-            snapToGround = _snapToGround;
-            snapStrength = _snapStrength;
-        }
 
         public void Awake()
         {

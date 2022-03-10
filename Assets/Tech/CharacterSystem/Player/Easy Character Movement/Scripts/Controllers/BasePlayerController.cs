@@ -172,7 +172,7 @@ namespace ECM.Controllers
                 _allowVerticalMovement = value;
 
                 if (movement)
-                    movement.useGravity = !_allowVerticalMovement;
+                    movement.playerMovementEditorFields.useGravity = !_allowVerticalMovement;
             }
         }
 
@@ -320,7 +320,7 @@ namespace ECM.Controllers
         public float jumpImpulse
         {
             //get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.gravity); }
-            get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.gravity.magnitude); }
+            get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.playerMovementEditorFields.gravity.magnitude); }
         }
 
         /// <summary>
