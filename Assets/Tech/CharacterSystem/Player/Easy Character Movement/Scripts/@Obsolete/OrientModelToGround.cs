@@ -14,7 +14,7 @@ namespace ECM.Helpers
     /// </summary>
 
     [Obsolete("This has been replaced by the OrientToGround component.")]
-    [RequireComponent(typeof(CharacterMovement))]
+    [RequireComponent(typeof(PlayerMovement))]
     public sealed class OrientModelToGround : MonoBehaviour
     {
         #region EDITOR EXPOSED FIELDS
@@ -38,7 +38,7 @@ namespace ECM.Helpers
 
         #region FIELDS
 
-        private CharacterMovement _movement;
+        private PlayerMovement _movement;
 
         private Quaternion _groundRotation = Quaternion.identity;
 
@@ -98,7 +98,7 @@ namespace ECM.Helpers
 
         public void Awake()
         {
-            _movement = GetComponent<CharacterMovement>();
+            _movement = GetComponent<PlayerMovement>();
 
             _groundRotation = modelTransform.rotation;
         }

@@ -14,7 +14,7 @@ namespace ECM.EditorTools
             // Instance Game object with required character's components
 
             var gameObject = new GameObject("ECM_Character", typeof(Rigidbody), typeof(CapsuleCollider),
-                typeof(GroundDetection), typeof(CharacterMovement), typeof(BaseCharacterController));
+                typeof(GroundDetection), typeof(PlayerMovement), typeof(BasePlayerController));
 
             // Initialize rigidbody
 
@@ -71,7 +71,7 @@ namespace ECM.EditorTools
             // Instance Game object with required character's components
 
             var gameObject = new GameObject("ECM_FirstPerson", typeof(Rigidbody), typeof(CapsuleCollider),
-                typeof(GroundDetection), typeof(CharacterMovement), typeof(MouseLook),
+                typeof(GroundDetection), typeof(PlayerMovement), typeof(MouseLook),
                 typeof(BaseFirstPersonController));
 
             // Initialize rigidbody

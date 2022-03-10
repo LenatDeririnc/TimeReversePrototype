@@ -22,7 +22,7 @@ namespace ECM.Components
     /// and feed this information to the 'CharacterMovement' component, which perform the movement. 
     /// </summary>
 
-    public sealed class CharacterMovement : MonoBehaviour, IVelocity
+    public sealed class PlayerMovement : MonoBehaviour, IVelocity
     {
         #region EDITOR EXPOSED FIELDS
 

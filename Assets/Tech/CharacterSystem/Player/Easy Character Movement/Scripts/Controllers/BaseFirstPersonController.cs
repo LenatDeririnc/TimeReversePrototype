@@ -12,7 +12,7 @@ namespace ECM.Controllers
     /// As the base character controllers, this default behaviour can easily be modified or completely replaced in a derived class. 
     /// </summary>
 
-    public class BaseFirstPersonController : BaseCharacterController
+    public class BaseFirstPersonController : BasePlayerController
     {
         #region EDITOR EXPOSED FIELDS
 

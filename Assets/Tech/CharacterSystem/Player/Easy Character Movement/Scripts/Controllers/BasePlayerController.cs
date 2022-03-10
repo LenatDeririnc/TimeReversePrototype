@@ -16,7 +16,7 @@ namespace ECM.Controllers
     /// can easily be modified or completely replaced overriding this related methods in a derived class.
     /// </summary>
 
-    public class BaseCharacterController : MonoBehaviour, IVelocity
+    public class BasePlayerController : MonoBehaviour, IVelocity
     {
         #region EDITOR EXPOSED FIELDS
 
@@ -145,7 +145,7 @@ namespace ECM.Controllers
         /// Cached CharacterMovement component.
         /// </summary>
 
-        public CharacterMovement movement { get; private set; }
+        public PlayerMovement movement { get; private set; }
 
         /// <summary>
         /// Cached animator component (if any).
@@ -877,7 +877,7 @@ namespace ECM.Controllers
         {
             // Cache components
 
-            movement = GetComponent<CharacterMovement>();
+            movement = GetComponent<PlayerMovement>();
             movement.platformUpdatesRotation = true;
 
             animator = GetComponentInChildren<Animator>();

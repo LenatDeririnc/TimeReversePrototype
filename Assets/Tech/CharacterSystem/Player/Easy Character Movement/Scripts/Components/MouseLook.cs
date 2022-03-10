@@ -177,7 +177,7 @@ namespace ECM.Components
         /// <param name="movement">The character movement component.</param>
         /// <param name="cameraTransform">The camera transform.</param>
 
-        public virtual void LookRotation(CharacterMovement movement, Transform cameraTransform)
+        public virtual void LookRotation(PlayerMovement movement, Transform cameraTransform)
         {
             var yaw = InputHandlerComponent.Instance.mouseX * lateralSensitivity;
             var pitch = InputHandlerComponent.Instance.mouseY * verticalSensitivity;

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using CharacterSystem;
+using CharacterSystem.Player;
+using Common;
 using TimeSystem;
 
 namespace TimelineSystem
@@ -19,7 +21,7 @@ namespace TimelineSystem
 
         private void AddPlayerInfo()
         {
-            var newValue = _playerComponent.GetPlayerInfo();
+            var newValue = _playerComponent.GetPlayerTransformInfo();
 
             _timelineData.Push(newValue);
         }
@@ -30,7 +32,7 @@ namespace TimelineSystem
                 return;
 
             var transformData = _timelineData.Pop();
-            _playerComponent.SetTransformData(transformData);
+            _playerComponent.PlayerRollbackMovement.SetPosition(transformData);
         }
     }
 }
