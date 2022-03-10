@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 5158566508503921252}
   - component: {fileID: 3960936034342874178}
   - component: {fileID: 2966849763166064688}
-  - component: {fileID: 967086081133806969}
   - component: {fileID: 8512376941051339230}
   - component: {fileID: 7355124012551563431}
   - component: {fileID: 7230906146265029416}
+  - component: {fileID: 8754185356640154724}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -89,28 +89,6 @@ MonoBehaviour:
   _ledgeOffset: 0
   _castDistance: 0.5
   _triggerInteraction: 1
---- !u!114 &967086081133806969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497698983247570982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eae04a4fe514bf4789aec1bdb93100b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxLateralSpeed: 100
-  _maxRiseSpeed: 100
-  _maxFallSpeed: 100
-  _useGravity: 1
-  _gravity: {x: 0, y: -30, z: 0}
-  _slideOnSteepSlope: 0
-  _slopeLimit: 45
-  _slideGravityMultiplier: 2
-  _snapToGround: 1
-  _snapStrength: 0.5
 --- !u!114 &8512376941051339230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,9 +159,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 7355124012551563431}
-  playerMovement: {fileID: 967086081133806969}
+  playerMovement: {fileID: 8754185356640154724}
   MouseLook: {fileID: 8512376941051339230}
   _Rigidbody: {fileID: 0}
+--- !u!114 &8754185356640154724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497698983247570982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eae04a4fe514bf4789aec1bdb93100b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovementEditorFields:
+    _maxLateralSpeed: 10
+    _maxRiseSpeed: 20
+    _maxFallSpeed: 20
+    _useGravity: 1
+    _slideOnSteepSlope: 0
+    _slopeLimit: 45
+    _slideGravityMultiplier: 2
+    _snapToGround: 1
+    _snapStrength: 0.5
 --- !u!1 &2565097305269317893
 GameObject:
   m_ObjectHideFlags: 0
