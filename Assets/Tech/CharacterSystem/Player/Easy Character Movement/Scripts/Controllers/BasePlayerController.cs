@@ -20,6 +20,10 @@ namespace ECM.Controllers
     {
         #region EDITOR EXPOSED FIELDS
 
+        [Header("Movement Fields")]
+        [SerializeField]
+        private PlayerMovementEditorFields PlayerMovementEditorFields;
+
         [Header("Movement")]
         [Tooltip("Maximum movement speed (in m/s).")]
         [SerializeField]
@@ -171,8 +175,8 @@ namespace ECM.Controllers
             {
                 _allowVerticalMovement = value;
 
-                if (movement)
-                    movement.playerMovementEditorFields.useGravity = !_allowVerticalMovement;
+                if (movement != null)
+                    movement.fields.useGravity = !_allowVerticalMovement;
             }
         }
 
@@ -320,7 +324,7 @@ namespace ECM.Controllers
         public float jumpImpulse
         {
             //get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.gravity); }
-            get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.playerMovementEditorFields.gravity.magnitude); }
+            get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.fields.gravity.magnitude); }
         }
 
         /// <summary>
@@ -877,8 +881,14 @@ namespace ECM.Controllers
         {
             // Cache components
 
-            movement = GetComponent<PlayerMovement>();
-            movement.platformUpdatesRotation = true;
+            var groundDetection = GetComponent<BaseGroundDetection>();
+            var rigidbody = GetComponent<Rigidbody>();
+            var collider = GetComponent<Collider>();
+
+            movement = new PlayerMovement(transform, groundDetection, rigidbody, collider, PlayerMovementEditorFields)
+                {
+                    platformUpdatesRotation = true
+                };
 
             animator = GetComponentInChildren<Animator>();
 
@@ -893,6 +903,8 @@ namespace ECM.Controllers
                 return;
 
             // Perform character movement
+
+            movement?.FixedUpdate();
 
             Move();
 

@@ -7,191 +7,9 @@ using UnityEngine;
 
 namespace ECM.Components
 {
-    /// <summary>
-    /// Character Movement.
-    /// 
-    /// 'CharacterMovement' is the core of the ECM system and is responsible to perform
-    /// all the heavy work to move a character (a.k.a. Character motor),
-    /// such as apply forces, impulses, constraints, platforms interaction, etc.
-    /// 
-    /// This is analogous to the Unity's character controller, but unlike the Unity character controller,
-    /// this make use of Rigidbody physics.
-    /// 
-    /// The controller (eg: 'BaseCharacterController') determines how the Character should be moved,
-    /// such as in response from user input, AI, animation, etc.
-    /// and feed this information to the 'CharacterMovement' component, which perform the movement. 
-    /// </summary>
-
-    [Serializable]
-    public class PlayerMovementEditorFields
+    public sealed class PlayerMovement : IVelocity
     {
-        #region EDITOR_FIELDS
-
-        [Header("Speed Limiters")]
-        [Tooltip("The maximum lateral speed this character can move, " +
-                 "including movement from external forces like sliding, collisions, etc.")]
-        [SerializeField]
-        private float _maxLateralSpeed = 10.0f;
-
-        [Tooltip("The maximum rising speed, " +
-                 "including movement from external forces like sliding, collisions, etc.")]
-        [SerializeField]
-        private float _maxRiseSpeed = 20.0f;
-
-        [Tooltip("The maximum falling speed, " +
-                 "including movement from external forces like sliding, collisions, etc.")]
-        [SerializeField]
-        private float _maxFallSpeed = 20.0f;
-
-        [Header("Gravity")]
-        [Tooltip("Enable / disable character's custom gravity." +
-                 "If enabled the character will be affected by this gravity force.")]
-        [SerializeField]
-        private bool _useGravity = true;
-
-        [Tooltip("The gravity applied to this character.")]
-        private Vector3 _gravity = new Vector3(0.0f, -30.0f, 0.0f);
-
-        [Header("Slopes")]
-        [Tooltip("Should the character slide down of a steep slope?")]
-        [SerializeField]
-        private bool _slideOnSteepSlope;
-
-        [Tooltip("The maximum angle (in degrees) for a walkable slope.")]
-        [SerializeField]
-        private float _slopeLimit = 45.0f;
-
-        [Tooltip("The amount of gravity to be applied when sliding off a steep slope.")]
-        [SerializeField]
-        private float _slideGravityMultiplier = 2.0f;
-
-        [Header("Ground-Snap")]
-        [Tooltip("When enabled, will force the character to safely follow the walkable 'ground' geometry.")]
-        [SerializeField]
-        private bool _snapToGround = true;
-
-        [Tooltip("A tolerance of how close to the 'ground' maintain the character.\n" +
-                 "0 == no snap at all, 1 == 100% stick to ground.")]
-        [Range(0.0f, 1.0f)]
-        [SerializeField]
-        private float _snapStrength = 0.5f;
-
-        #endregion
-        #region PROPERTIES
-
-        /// <summary>
-        /// The maximum lateral speed this character can move,
-        /// including movement from external forces like sliding, collisions, etc.
-        /// </summary>
-
-        public float maxLateralSpeed
-        {
-            get { return _maxLateralSpeed; }
-            set { _maxLateralSpeed = Mathf.Max(0.0f, value); }
-        }
-
-        /// <summary>
-        /// The maximum rising speed,
-        /// including movement from external forces like sliding, collisions, etc.
-        /// </summary>
-
-        public float maxRiseSpeed
-        {
-            get { return _maxRiseSpeed; }
-            set { _maxRiseSpeed = Mathf.Max(0.0f, value); }
-        }
-
-        /// <summary>
-        /// The maximum fall speed,
-        /// including movement from external forces like sliding, collisions, etc.
-        /// </summary>
-
-        public float maxFallSpeed
-        {
-            get { return _maxFallSpeed; }
-            set { _maxFallSpeed = Mathf.Max(0.0f, value); }
-        }
-
-        /// <summary>
-        /// Enable / disable character's gravity.
-        /// If enabled the character will be affected by its custom gravity force.
-        /// </summary>
-
-        public bool useGravity
-        {
-            get { return _useGravity; }
-            set { _useGravity = value; }
-        }
-
-        /// <summary>
-        /// The amount of gravity to be applied to this character.
-        /// We apply gravity manually for more tuning control.
-        /// </summary>
-
-        public Vector3 gravity
-        {
-            get { return _gravity; }
-            set { _gravity = value; }
-        }
-
-        /// <summary>
-        /// Should the character slide down of a steep slope?
-        /// </summary>
-
-        public bool slideOnSteepSlope
-        {
-            get { return _slideOnSteepSlope; }
-            set { _slideOnSteepSlope = value; }
-        }
-
-        /// <summary>
-        /// The maximum angle (in degrees) the slope needs to be before the character starts to slide.
-        /// </summary>
-
-        public float slopeLimit
-        {
-            get { return _slopeLimit; }
-            set { _slopeLimit = Mathf.Clamp(value, 0.0f, 89.0f); }
-        }
-
-        /// <summary>
-        /// The percentage of gravity that will be applied to the slide.
-        /// </summary>
-
-        public float slideGravityMultiplier
-        {
-            get { return _slideGravityMultiplier; }
-            set { _slideGravityMultiplier = Mathf.Max(1.0f, value); }
-        }
-
-        /// <summary>
-        /// If enabled, will prevent the character leaving the ground.
-        /// This will cause the character to safely follow the geometry of the ground.
-        /// </summary>
-
-        public bool snapToGround
-        {
-            get { return _snapToGround; }
-            set { _snapToGround = value; }
-        }
-
-        /// <summary>
-        /// The strength of snap to ground.
-        /// 0 == no snap at all, 1 == 100% stick to ground.
-        /// </summary>
-
-        public float snapStrength
-        {
-            get { return _snapStrength; }
-            set { _snapStrength = Mathf.Clamp01(value); }
-        }
-        #endregion
-    }
-
-    public sealed class PlayerMovement : MonoBehaviour, IVelocity
-    {
-
-        public PlayerMovementEditorFields playerMovementEditorFields;
+        public PlayerMovementEditorFields fields;
 
         #region FIELDS
 
@@ -199,7 +17,7 @@ namespace ECM.Components
 
         private static readonly Collider[] OverlappedColliders = new Collider[8];
         
-        private Coroutine _lateFixedUpdateCoroutine;
+        // private Coroutine _lateFixedUpdateCoroutine;
 
         private Vector3 _normal;
 
@@ -216,20 +34,22 @@ namespace ECM.Components
 
         #region PROPERTIES
 
+        public Transform transform { get; }
+
         /// <summary>
         /// Cached CapsuleCollider component.
         /// </summary>
 
         public CapsuleCollider capsuleCollider
         {
-            get { return groundDetection.capsuleCollider; }
+            get { return pGroundDetection.capsuleCollider; }
         }
 
         /// <summary>
         /// Cached GroundDetection component.
         /// </summary>
 
-        private BaseGroundDetection groundDetection { get; set; }
+        private BaseGroundDetection pGroundDetection { get; set; }
 
         /// <summary>
         /// The impact point in world space where the cast hit the 'ground' collider.
@@ -238,7 +58,7 @@ namespace ECM.Components
 
         public Vector3 groundPoint
         {
-            get { return groundDetection.groundPoint; }
+            get { return pGroundDetection.groundPoint; }
         }
 
         /// <summary>
@@ -248,7 +68,7 @@ namespace ECM.Components
 
         public Vector3 groundNormal
         {
-            get { return groundDetection.groundNormal; }
+            get { return pGroundDetection.groundNormal; }
         }
 
         /// <summary>
@@ -261,7 +81,7 @@ namespace ECM.Components
 
         public Vector3 surfaceNormal
         {
-            get { return groundDetection.surfaceNormal; }
+            get { return pGroundDetection.surfaceNormal; }
         }
 
         /// <summary>
@@ -270,7 +90,7 @@ namespace ECM.Components
 
         public float groundDistance
         {
-            get { return groundDetection.groundDistance; }
+            get { return pGroundDetection.groundDistance; }
         }
 
         /// <summary>
@@ -280,7 +100,7 @@ namespace ECM.Components
 
         public Collider groundCollider
         {
-            get { return groundDetection.groundCollider; }
+            get { return pGroundDetection.groundCollider; }
         }
 
         /// <summary>
@@ -290,7 +110,7 @@ namespace ECM.Components
 
         public Rigidbody groundRigidbody
         {
-            get { return groundDetection.groundRigidbody; }
+            get { return pGroundDetection.groundRigidbody; }
         }
 
         /// <summary>
@@ -299,7 +119,7 @@ namespace ECM.Components
 
         public bool isGrounded
         {
-            get { return groundDetection.isOnGround && groundDetection.isValidGround; }
+            get { return pGroundDetection.isOnGround && pGroundDetection.isValidGround; }
         }
 
         /// <summary>
@@ -310,7 +130,7 @@ namespace ECM.Components
         {
             get
             {
-                return groundDetection.prevGroundHit.isOnGround && groundDetection.prevGroundHit.isValidGround;
+                return pGroundDetection.prevGroundHit.isOnGround && pGroundDetection.prevGroundHit.isValidGround;
             }
         }
 
@@ -320,7 +140,7 @@ namespace ECM.Components
 
         public bool isOnGround
         {
-            get { return groundDetection.isOnGround; }
+            get { return pGroundDetection.isOnGround; }
         }
 
         /// <summary>
@@ -329,7 +149,7 @@ namespace ECM.Components
 
         public bool wasOnGround
         {
-            get { return groundDetection.prevGroundHit.isOnGround; }
+            get { return pGroundDetection.prevGroundHit.isOnGround; }
         }
 
         /// <summary>
@@ -338,7 +158,7 @@ namespace ECM.Components
 
         public bool isValidGround
         {
-            get { return groundDetection.isValidGround; }
+            get { return pGroundDetection.isValidGround; }
         }
 
         /// <summary>
@@ -353,7 +173,7 @@ namespace ECM.Components
 
         public bool isOnLedgeSolidSide
         {
-            get { return groundDetection.isOnLedgeSolidSide; }
+            get { return pGroundDetection.isOnLedgeSolidSide; }
         }
 
         /// <summary>
@@ -362,7 +182,7 @@ namespace ECM.Components
 
         public bool isOnLedgeEmptySide
         {
-            get { return groundDetection.isOnLedgeEmptySide; }
+            get { return pGroundDetection.isOnLedgeEmptySide; }
         }
 
         /// <summary>
@@ -371,7 +191,7 @@ namespace ECM.Components
 
         public float ledgeDistance
         {
-            get { return groundDetection.ledgeDistance; }
+            get { return pGroundDetection.ledgeDistance; }
         }
 
         /// <summary>
@@ -380,7 +200,7 @@ namespace ECM.Components
 
         public bool isOnStep
         {
-            get { return groundDetection.isOnStep; }
+            get { return pGroundDetection.isOnStep; }
         }
 
         /// <summary>
@@ -389,7 +209,7 @@ namespace ECM.Components
 
         public float stepHeight
         {
-            get { return groundDetection.stepHeight; }
+            get { return pGroundDetection.stepHeight; }
         }
 
         /// <summary>
@@ -398,7 +218,7 @@ namespace ECM.Components
 
         public bool isOnSlope
         {
-            get { return groundDetection.isOnSlope; }
+            get { return pGroundDetection.isOnSlope; }
         }
 
         /// <summary>
@@ -407,7 +227,7 @@ namespace ECM.Components
 
         public float groundAngle
         {
-            get { return groundDetection.groundAngle; }
+            get { return pGroundDetection.groundAngle; }
         }
 
         /// <summary>
@@ -416,7 +236,7 @@ namespace ECM.Components
 
         public bool isValidSlope
         {
-            get { return !playerMovementEditorFields.slideOnSteepSlope || groundAngle < playerMovementEditorFields.slopeLimit; }
+            get { return !fields.slideOnSteepSlope || groundAngle < fields.slopeLimit; }
         }
 
         /// <summary>
@@ -483,7 +303,7 @@ namespace ECM.Components
 
         public GroundHit groundHit
         {
-            get { return groundDetection.groundHit; }
+            get { return pGroundDetection.groundHit; }
         }
 
         /// <summary>
@@ -492,7 +312,7 @@ namespace ECM.Components
 
         public GroundHit prevGroundHit
         {
-            get { return groundDetection.prevGroundHit; }
+            get { return pGroundDetection.prevGroundHit; }
         }
 
         /// <summary>
@@ -501,7 +321,7 @@ namespace ECM.Components
 
         public LayerMask groundMask
         {
-            get { return groundDetection.groundMask; }
+            get { return pGroundDetection.groundMask; }
         }
 
         /// <summary>
@@ -511,7 +331,7 @@ namespace ECM.Components
 
         public LayerMask overlapMask
         {
-            get { return groundDetection.overlapMask; }
+            get { return pGroundDetection.overlapMask; }
         }
 
         /// <summary>
@@ -520,7 +340,7 @@ namespace ECM.Components
 
         public QueryTriggerInteraction triggerInteraction
         {
-            get { return groundDetection.triggerInteraction; }
+            get { return pGroundDetection.triggerInteraction; }
         }
 
         /// <summary>
@@ -729,7 +549,7 @@ namespace ECM.Components
         private void OverlapRecovery(ref Vector3 probingPosition, Quaternion probingRotation)
         {
             int overlapCount;
-            var overlappedColliders = groundDetection.OverlapCapsule(probingPosition, probingRotation, out overlapCount);
+            var overlappedColliders = pGroundDetection.OverlapCapsule(probingPosition, probingRotation, out overlapCount);
 
             for (var i = 0; i < overlapCount; i++)
             {
@@ -766,7 +586,7 @@ namespace ECM.Components
             float scanDistance = Mathf.Infinity)
         {
             groundHitInfo = new GroundHit();
-            return groundDetection.ComputeGroundHit(probingPosition, probingRotation, ref groundHitInfo, scanDistance);
+            return pGroundDetection.ComputeGroundHit(probingPosition, probingRotation, ref groundHitInfo, scanDistance);
         }
 
         /// <summary>
@@ -866,7 +686,7 @@ namespace ECM.Components
             _forceUnground = true;
             _forceUngroundTimer = time;
 
-            groundDetection.castDistance = 0.0f;
+            pGroundDetection.castDistance = 0.0f;
         }
 
         /// <summary>
@@ -893,7 +713,7 @@ namespace ECM.Components
 
         private void ResetGroundInfo()
         {
-            groundDetection.ResetGroundInfo();
+            pGroundDetection.ResetGroundInfo();
 
             isSliding = false;
 
@@ -927,8 +747,8 @@ namespace ECM.Components
                 {
                     // Perform ground detection and update cast distance based on where we are
 
-                    groundDetection.DetectGround();
-                    groundDetection.castDistance = isGrounded ? _referenceCastDistance : 0.0f;
+                    pGroundDetection.DetectGround();
+                    pGroundDetection.castDistance = isGrounded ? _referenceCastDistance : 0.0f;
                 }
             }
 
@@ -942,12 +762,12 @@ namespace ECM.Components
             var up = transform.up;
 
             if (isValidGround)
-                _normal = isOnLedgeSolidSide ? up : groundDetection.groundNormal;
+                _normal = isOnLedgeSolidSide ? up : pGroundDetection.groundNormal;
             else
             {
                 // Flatten normal on invalid 'ground' to prevent climbing it
                 
-                _normal = Vector3.Cross(Vector3.Cross(up, groundDetection.groundNormal), up).normalized;
+                _normal = Vector3.Cross(Vector3.Cross(up, pGroundDetection.groundNormal), up).normalized;
             }
 
             // Check if we are over a rigidbody...
@@ -994,7 +814,7 @@ namespace ECM.Components
             var distance = speed * Time.deltaTime;
 
             RaycastHit hitInfo;
-            if (!groundDetection.FindGround(direction, out hitInfo, distance))
+            if (!pGroundDetection.FindGround(direction, out hitInfo, distance))
                 return;
 
             // If no remaining distance, return
@@ -1028,7 +848,7 @@ namespace ECM.Components
 
             // If we have found valid ground reset ground detection cast distance
 
-            groundDetection.castDistance = _referenceCastDistance;
+            pGroundDetection.castDistance = _referenceCastDistance;
         }
 
         /// <summary>
@@ -1052,7 +872,7 @@ namespace ECM.Components
 
             if (isGrounded)
             {
-                if (!playerMovementEditorFields.slideOnSteepSlope || groundAngle < playerMovementEditorFields.slopeLimit)
+                if (!fields.slideOnSteepSlope || groundAngle < fields.slopeLimit)
                 {
                     // Walkable 'ground' movement
 
@@ -1066,7 +886,7 @@ namespace ECM.Components
 
                     isSliding = true;
 
-                    velocity += playerMovementEditorFields.gravity * (playerMovementEditorFields.slideGravityMultiplier * Time.deltaTime);
+                    velocity += fields.gravity * (fields.slideGravityMultiplier * Time.deltaTime);
                 }
             }
             else
@@ -1108,8 +928,8 @@ namespace ECM.Components
 
                 // If desired, apply gravity
 
-                if (playerMovementEditorFields.useGravity)
-                    velocity += playerMovementEditorFields.gravity * Time.deltaTime;
+                if (fields.useGravity)
+                    velocity += fields.gravity * Time.deltaTime;
             }
             
             // If moving towards a step,
@@ -1144,7 +964,7 @@ namespace ECM.Components
 
             // On walkable 'ground'
 
-            if (!playerMovementEditorFields.slideOnSteepSlope || groundAngle < playerMovementEditorFields.slopeLimit)
+            if (!fields.slideOnSteepSlope || groundAngle < fields.slopeLimit)
             {
                 // Cancel any vertical velocity on landing
 
@@ -1199,7 +1019,7 @@ namespace ECM.Components
 
                 isSliding = true;
                 
-                velocity += playerMovementEditorFields.gravity * (playerMovementEditorFields.slideGravityMultiplier * Time.deltaTime);
+                velocity += fields.gravity * (fields.slideGravityMultiplier * Time.deltaTime);
             }
         }
 
@@ -1291,8 +1111,8 @@ namespace ECM.Components
 
             // If desired, apply gravity
 
-            if (playerMovementEditorFields.useGravity)
-                velocity += playerMovementEditorFields.gravity * Time.deltaTime;
+            if (fields.useGravity)
+                velocity += fields.gravity * Time.deltaTime;
         }
 
         /// <summary>
@@ -1347,8 +1167,8 @@ namespace ECM.Components
         private void LimitLateralVelocity()
         {
             var lateralVelocity = Vector3.ProjectOnPlane(velocity, transform.up);
-            if (lateralVelocity.sqrMagnitude > playerMovementEditorFields.maxLateralSpeed * playerMovementEditorFields.maxLateralSpeed)
-                cachedRigidbody.velocity += lateralVelocity.normalized * playerMovementEditorFields.maxLateralSpeed - lateralVelocity;
+            if (lateralVelocity.sqrMagnitude > fields.maxLateralSpeed * fields.maxLateralSpeed)
+                cachedRigidbody.velocity += lateralVelocity.normalized * fields.maxLateralSpeed - lateralVelocity;
         }
 
         /// <summary>
@@ -1364,10 +1184,10 @@ namespace ECM.Components
             var up = transform.up;
             
             var verticalSpeed = Vector3.Dot(velocity, up);
-            if (verticalSpeed < -playerMovementEditorFields.maxFallSpeed)
-                cachedRigidbody.velocity += up * (-playerMovementEditorFields.maxFallSpeed - verticalSpeed);
-            if (verticalSpeed > playerMovementEditorFields.maxRiseSpeed)
-                cachedRigidbody.velocity += up * (playerMovementEditorFields.maxRiseSpeed - verticalSpeed);
+            if (verticalSpeed < -fields.maxFallSpeed)
+                cachedRigidbody.velocity += up * (-fields.maxFallSpeed - verticalSpeed);
+            if (verticalSpeed > fields.maxRiseSpeed)
+                cachedRigidbody.velocity += up * (fields.maxRiseSpeed - verticalSpeed);
         }
 
         /// <summary>
@@ -1393,7 +1213,7 @@ namespace ECM.Components
 
             // If enabled, snap to ground
 
-            if (playerMovementEditorFields.snapToGround && isOnGround)
+            if (fields.snapToGround && isOnGround)
                 SnapToGround();
 
             // Speed Limit
@@ -1435,7 +1255,7 @@ namespace ECM.Components
 
             // If enabled, snap to ground
 
-            if (playerMovementEditorFields.snapToGround && isGrounded)
+            if (fields.snapToGround && isGrounded)
                 SnapToGround();
             
             // Speed Limit
@@ -1479,7 +1299,7 @@ namespace ECM.Components
 
             // Compute final snap velocity and update character's velocity
 
-            var snapVelocity = transform.up * (-distanceToGround * playerMovementEditorFields.snapStrength / Time.deltaTime);
+            var snapVelocity = transform.up * (-distanceToGround * fields.snapStrength / Time.deltaTime);
 
             var newVelocity = velocity + snapVelocity;
 
@@ -1502,7 +1322,7 @@ namespace ECM.Components
             // Check were is character standing on
 
             GroundHit hitInfo;
-            if (!ComputeGroundHit(probingPosition, probingRotation, out hitInfo, groundDetection.castDistance))
+            if (!ComputeGroundHit(probingPosition, probingRotation, out hitInfo, pGroundDetection.castDistance))
                 return;
 
             // If not on a platform, return
@@ -1561,7 +1381,7 @@ namespace ECM.Components
             // Check were is character standing on
 
             GroundHit hitInfo;
-            if (!ComputeGroundHit(probingPosition, probingRotation, out hitInfo, groundDetection.castDistance) || !hitInfo.isValidGround)
+            if (!ComputeGroundHit(probingPosition, probingRotation, out hitInfo, pGroundDetection.castDistance) || !hitInfo.isValidGround)
                 return;
 
             // If character's is leaving a ledge, do not snap its position to ground
@@ -1582,68 +1402,72 @@ namespace ECM.Components
 
             probingPosition = groundedPosition;
         }
-        
+
         /// <summary>
         /// Coroutine used to simulate a LateFixedUpdate method.
         /// </summary>
 
-        private IEnumerator LateFixedUpdate()
+        public void FixedUpdate()
         {
-            var waitTime = new WaitForFixedUpdate();
-            
-            while (true)
-            {
-                yield return waitTime;
+            // Solve any possible overlap after internal physics update
 
-                // Solve any possible overlap after internal physics update
+            var p = transform.position;
+            var q = transform.rotation;
 
-                var p = transform.position;
-                var q = transform.rotation;
+            OverlapRecovery(ref p, q);
 
-                OverlapRecovery(ref p, q);
-                
-                // Attempt to snap to a moving platform (if any)
+            // Attempt to snap to a moving platform (if any)
 
-                if (isOnGround && isOnPlatform)
-                    SnapToPlatform(ref p, ref q);
+            if (isOnGround && isOnPlatform)
+                SnapToPlatform(ref p, ref q);
 
-                // Update rigidbody
+            // Update rigidbody
 
-                cachedRigidbody.MovePosition(p);
-                cachedRigidbody.MoveRotation(q);
-            }
+            cachedRigidbody.MovePosition(p);
+            cachedRigidbody.MoveRotation(q);
         }
 
         #endregion
 
         #region MONOBEHAVIOUR
 
-        public void Awake()
+        public PlayerMovement(Transform p_transform, BaseGroundDetection p_groundDetection, Rigidbody p_cachedRigidbody,
+            Collider p_collider, PlayerMovementEditorFields fields)
         {
+            this.fields = fields;
+
+            transform = p_transform;
+
+            if (transform == null)
+            {
+                Debug.LogError("CharacterMovement: No 'transform' found");
+                return;
+            }
+
             // Cache an initialize components
 
-            groundDetection = GetComponent<BaseGroundDetection>();
-            if (groundDetection == null)
+            pGroundDetection = p_groundDetection;
+            if (pGroundDetection == null)
             {
                 Debug.LogError(
                     string.Format(
                         "CharacterMovement: No 'GroundDetection' found for '{0}' game object.\n" +
                         "Please add a 'GroundDetection' component to '{0}' game object",
-                        name));
+                        p_transform.name));
 
                 return;
             }
 
-            _referenceCastDistance = groundDetection.castDistance;
+            _referenceCastDistance = pGroundDetection.castDistance;
 
-            cachedRigidbody = GetComponent<Rigidbody>();
+            cachedRigidbody = p_cachedRigidbody;
             if (cachedRigidbody == null)
             {
                 Debug.LogError(
                     string.Format(
                         "CharacterMovement: No 'Rigidbody' found for '{0}' game object.\n" +
                         "Please add a 'Rigidbody' component to '{0}' game object",
-                        name));
+                        p_transform.name));
 
                 return;
             }
@@ -1654,7 +1478,7 @@ namespace ECM.Components
 
             // Attempt to validate frictionless material
 
-            var aCollider = GetComponent<Collider>();
+            var aCollider = p_collider;
             if (aCollider == null)
                 return;
 
@@ -1677,25 +1501,7 @@ namespace ECM.Components
                 string.Format(
                     "CharacterMovement: No 'PhysicMaterial' found for '{0}'s Collider, a frictionless one has been created and assigned.\n" +
                     "Please add a Frictionless 'PhysicMaterial' to '{0}' game object.",
-                    name));
-        }
-
-        public void OnEnable()
-        {
-            // Initialize LateFixedUpdate coroutine
-
-            if (_lateFixedUpdateCoroutine != null)
-                StopCoroutine(_lateFixedUpdateCoroutine);
-
-            _lateFixedUpdateCoroutine = StartCoroutine(LateFixedUpdate());
-        }
-
-        public void OnDisable()
-        {
-            // Stop LateFixedUpdate coroutine
-
-            if (_lateFixedUpdateCoroutine != null)
-                StopCoroutine(_lateFixedUpdateCoroutine);
+                    p_transform.name));
         }
 
         #endregion
