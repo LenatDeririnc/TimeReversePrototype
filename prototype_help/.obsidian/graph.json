@@ -1,0 +1,58 @@
+{
+  "collapse-filter": true,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "tag:#class",
+      "color": {
+        "a": 1,
+        "rgb": 10975214
+      }
+    },
+    {
+      "query": "tag:#interface",
+      "color": {
+        "a": 1,
+        "rgb": 5431473
+      }
+    },
+    {
+      "query": "tag:#field",
+      "color": {
+        "a": 1,
+        "rgb": 16777215
+      }
+    },
+    {
+      "query": "tag:#valueType",
+      "color": {
+        "a": 1,
+        "rgb": 2771628
+      }
+    },
+    {
+      "query": "tag:#methods",
+      "color": {
+        "a": 1,
+        "rgb": 14147666
+      }
+    }
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.623595505617978,
+  "repelStrength": 15.2808988764045,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 0.5087618855792622,
+  "close": false
+}

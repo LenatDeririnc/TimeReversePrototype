@@ -1,13 +1,31 @@
-﻿using TimeSystem;
+﻿using System;
+using ECS;
 using UnityEngine;
 
 namespace BootstrapperSystem
 {
-    public class Bootstrapper
+    public class Bootstrapper : MonoBehaviour
     {
-        public Bootstrapper(MonoBehaviour component)
+        private EcsBootstrapper _ecsBootstrapper;
+
+        private void Awake()
         {
-            //TODO: Добавить инициализацию сервисов
+            _ecsBootstrapper = new EcsBootstrapper();
+        }
+
+        private void OnEnable()
+        {
+            _ecsBootstrapper?.Initialize();
+        }
+
+        private void Update()
+        {
+            _ecsBootstrapper?.Execute();
+        }
+
+        private void OnDisable()
+        {
+            _ecsBootstrapper?.TearDown();
         }
     }
 }

@@ -8,16 +8,12 @@ namespace ObjectSystems
     {
         [SerializeField] private float _speed = 0.1f;
 
-        private Transform _transform;
-
         private void Awake()
         {
-            _transform = transform;
-        }
-
-        private void Update()
-        {
-            _transform.position += _transform.forward * TimeManagerComponent.TimeManager.ScaledTimeSpeed() * _speed;
+            var context = Contexts.sharedInstance;
+            var entity = context.game.CreateEntity();
+            entity.AddTransform(transform);
+            entity.AddMovingForward(_speed);
         }
     }
 }

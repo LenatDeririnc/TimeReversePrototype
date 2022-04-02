@@ -1,0 +1,113 @@
+{
+  "main": {
+    "id": "d928daf7097ac63e",
+    "type": "split",
+    "children": [
+      {
+        "id": "2828f549272de59e",
+        "type": "leaf",
+        "dimension": 65.64102564102564,
+        "pinned": true,
+        "state": {
+          "type": "graph",
+          "state": {},
+          "pinned": true
+        }
+      },
+      {
+        "id": "9af1744b37e92c33",
+        "type": "leaf",
+        "dimension": 34.35897435897436,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Compass/Compass.MoveDirrection.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d55e440a112be6f7",
+    "type": "split",
+    "children": [
+      {
+        "id": "0e0718fb013fcadf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "37091207aad95c4f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "677eae780a9205c3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "fe6f34c73b6958e5",
+    "type": "split",
+    "children": [
+      {
+        "id": "af1a02da1d5dda0a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "33fc245816e4792f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Compass/Compass.MoveDirrection.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "9af1744b37e92c33",
+  "lastOpenFiles": [
+    "Compass/Compass.MoveDirrection.md",
+    "Player/Player.Forward.md",
+    "Input/InputDirrection.Dirrection.md",
+    "Compass/Compass.MoveDirrection.Value.md",
+    "Interfaces/MovingObject.md",
+    "Interfaces/MovingObject.Speed.md",
+    "Interfaces/MovingObject.Direction.md",
+    "Player/Player.MoveDirection.Value.md",
+    "Player/Player.MoveDirection.md",
+    "Compass/Compass.RollbackZone.md"
+  ]
+}
