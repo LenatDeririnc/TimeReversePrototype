@@ -5,36 +5,53 @@ using UnityEngine;
 namespace ECM.Components
 {
     /// <summary>
-    /// MouseLook.
-    /// 
-    /// Component used to 'look around' with the mouse.
-    /// This rotate the character along its y-axis (yaw) and a child camera along its local x-axis (pitch).
-    /// 
-    /// This must be attached to the game object with 'CharacterMovement' component.
+    ///     MouseLook.
+    ///     Component used to 'look around' with the mouse.
+    ///     This rotate the character along its y-axis (yaw) and a child camera along its local x-axis (pitch).
+    ///     This must be attached to the game object with 'CharacterMovement' component.
     /// </summary>
-
     public class MouseLook : MonoBehaviour, IVelocity
     {
+        #region MONOBEHAVIOUR
+
+        /// <summary>
+        ///     Validate editor exposed fields.
+        ///     NOTE: If you override this, it is important to call the parent class' version of method
+        ///     eg: base.OnValidate, in the derived class method implementation, in order to fully validate the class.
+        /// </summary>
+        public virtual void OnValidate()
+        {
+            lateralSensitivity = _lateralSensitivity;
+            verticalSensitivity = _verticalSensitivity;
+
+            smoothTime = _smoothTime;
+
+            minPitchAngle = _minPitchAngle;
+            maxPitchAngle = _maxPitchAngle;
+        }
+
+        #endregion
+
+        public Vector3 Velocity()
+        {
+            return _lookVelocity;
+        }
+
         #region EDITOR EXPOSED FIELDS
 
-        [Tooltip("Should the mouse cursor be locked (eg: hidden)?")]
-        [SerializeField]
+        [Tooltip("Should the mouse cursor be locked (eg: hidden)?")] [SerializeField]
         private bool _lockCursor = true;
 
-        [Tooltip("The keyboard key to unlock the mouse cursor.")]
-        [SerializeField]
+        [Tooltip("The keyboard key to unlock the mouse cursor.")] [SerializeField]
         private KeyCode _unlockCursorKey = KeyCode.Escape;
 
-        [Tooltip("How fast the cursor moves in response to mouse lateral (x-axis) movement.")]
-        [SerializeField]
+        [Tooltip("How fast the cursor moves in response to mouse lateral (x-axis) movement.")] [SerializeField]
         private float _lateralSensitivity = 2.0f;
 
-        [Tooltip("How fast the cursor moves in response to mouse vertical (y-axis) movement.")]
-        [SerializeField]
+        [Tooltip("How fast the cursor moves in response to mouse vertical (y-axis) movement.")] [SerializeField]
         private float _verticalSensitivity = 2.0f;
 
-        [Tooltip("Should the rotation be smoothed (eg: interpolated)?")]
-        [SerializeField]
+        [Tooltip("Should the rotation be smoothed (eg: interpolated)?")] [SerializeField]
         private bool _smooth;
 
         [Tooltip("Approximately the time (in seconds) it will take to reach the target.\n" +
@@ -42,16 +59,13 @@ namespace ECM.Components
         [SerializeField]
         public float _smoothTime = 5.0f;
 
-        [Tooltip("Should the rotation around x-axis be clamped?")]
-        [SerializeField]
+        [Tooltip("Should the rotation around x-axis be clamped?")] [SerializeField]
         private bool _clampPitch = true;
 
-        [Tooltip("The minimum pitch angle (in degrees).")]
-        [SerializeField]
+        [Tooltip("The minimum pitch angle (in degrees).")] [SerializeField]
         private float _minPitchAngle = -90.0f;
 
-        [Tooltip("The maximum pitch angle (in degrees).")]
-        [SerializeField]
+        [Tooltip("The maximum pitch angle (in degrees).")] [SerializeField]
         private float _maxPitchAngle = 90.0f;
 
         private Vector3 _lookVelocity = new Vector3(0, 0, 0);
@@ -70,94 +84,94 @@ namespace ECM.Components
         #region PROPERTIES
 
         /// <summary>
-        /// Should the mouse cursor be locked (eg: hidden)?
+        ///     Should the mouse cursor be locked (eg: hidden)?
         /// </summary>
 
         public bool lockCursor
         {
-            get { return _lockCursor; }
-            set { _lockCursor = value; }
+            get => _lockCursor;
+            set => _lockCursor = value;
         }
 
         /// <summary>
-        /// The keyboard key to unlock the mouse cursor.
+        ///     The keyboard key to unlock the mouse cursor.
         /// </summary>
 
         public KeyCode unlockCursorKey
         {
-            get { return _unlockCursorKey; }
-            set { _unlockCursorKey = value; }
+            get => _unlockCursorKey;
+            set => _unlockCursorKey = value;
         }
 
         /// <summary>
-        /// How fast the cursor moves in response to mouse lateral (x-axis) movement.
+        ///     How fast the cursor moves in response to mouse lateral (x-axis) movement.
         /// </summary>
 
         public float lateralSensitivity
         {
-            get { return _lateralSensitivity; }
-            set { _lateralSensitivity = Mathf.Max(0.0f, value); }
+            get => _lateralSensitivity;
+            set => _lateralSensitivity = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// How fast the cursor moves in response to mouse vertical (y-axis) movement.
+        ///     How fast the cursor moves in response to mouse vertical (y-axis) movement.
         /// </summary>
 
         public float verticalSensitivity
         {
-            get { return _verticalSensitivity; }
-            set { _verticalSensitivity = Mathf.Max(0.0f, value); }
+            get => _verticalSensitivity;
+            set => _verticalSensitivity = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Should the rotation be smoothed (eg: interpolated)?
+        ///     Should the rotation be smoothed (eg: interpolated)?
         /// </summary>
 
         public bool smooth
         {
-            get { return _smooth; }
-            set { _smooth = value; }
+            get => _smooth;
+            set => _smooth = value;
         }
 
         /// <summary>
-        /// Approximately the time (in seconds) it will take to reach the target.
-        /// A smaller value will reach the target faster.
+        ///     Approximately the time (in seconds) it will take to reach the target.
+        ///     A smaller value will reach the target faster.
         /// </summary>
 
         public float smoothTime
         {
-            get { return _smoothTime; }
-            set { _smoothTime = Mathf.Max(0.0f, value); }
+            get => _smoothTime;
+            set => _smoothTime = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Should the rotation around x-axis be clamped?
+        ///     Should the rotation around x-axis be clamped?
         /// </summary>
 
         public bool clampPitch
         {
-            get { return _clampPitch; }
-            set { _clampPitch = value; }
+            get => _clampPitch;
+            set => _clampPitch = value;
         }
 
         /// <summary>
-        /// The minimum pitch angle (in degrees).
+        ///     The minimum pitch angle (in degrees).
         /// </summary>
 
         public float minPitchAngle
         {
-            get { return _minPitchAngle; }
-            set { _minPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f); }
+            get => _minPitchAngle;
+            set => _minPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f);
         }
 
         /// <summary>
-        /// The maximum pitch angle (in degrees).
+        ///     The maximum pitch angle (in degrees).
         /// </summary>
 
         public float maxPitchAngle
         {
-            get { return _maxPitchAngle; }
-            set { _maxPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f); }
+            get => _maxPitchAngle;
+            set => _maxPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f);
         }
 
         #endregion
@@ -171,12 +185,11 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Perform 'Look' rotation.
-        /// This rotate the character along its y-axis (yaw) and a child camera along its local x-axis (pitch).
+        ///     Perform 'Look' rotation.
+        ///     This rotate the character along its y-axis (yaw) and a child camera along its local x-axis (pitch).
         /// </summary>
         /// <param name="movement">The character movement component.</param>
         /// <param name="cameraTransform">The camera transform.</param>
-
         public virtual void LookRotation(PlayerMovement movement, Transform cameraTransform)
         {
             var yaw = InputHandlerComponent.Instance.mouseX * lateralSensitivity;
@@ -197,11 +210,10 @@ namespace ECM.Components
             {
                 // On a rotating platform, append platform rotation to target rotation
 
-                if (movement.platformUpdatesRotation && movement.isOnPlatform && movement.platformAngularVelocity != Vector3.zero)
-                {
+                if (movement.platformUpdatesRotation && movement.isOnPlatform &&
+                    movement.platformAngularVelocity != Vector3.zero)
                     characterTargetRotation *=
                         Quaternion.Euler(movement.platformAngularVelocity * Mathf.Rad2Deg * Time);
-                }
 
                 movement.rotation = Quaternion.Slerp(movement.rotation, characterTargetRotation,
                     smoothTime * Time);
@@ -221,14 +233,14 @@ namespace ECM.Components
             UpdateCursorLock();
         }
 
-        public float Time { get => 0.001f; }
+        public float Time => 0.001f;
 
         public virtual void SetCursorLock(bool value)
         {
             lockCursor = value;
             if (lockCursor)
                 return;
-            
+
             // We force unlock the cursor if the user disable the cursor locking helper
 
             Cursor.lockState = CursorLockMode.None;
@@ -279,30 +291,5 @@ namespace ECM.Components
         }
 
         #endregion
-
-        #region MONOBEHAVIOUR
-
-        /// <summary>
-        /// Validate editor exposed fields.
-        /// 
-        /// NOTE: If you override this, it is important to call the parent class' version of method
-        /// eg: base.OnValidate, in the derived class method implementation, in order to fully validate the class.  
-        /// </summary>
-
-        public virtual void OnValidate()
-        {
-            lateralSensitivity = _lateralSensitivity;
-            verticalSensitivity = _verticalSensitivity;
-
-            smoothTime = _smoothTime;
-
-            minPitchAngle = _minPitchAngle;
-            maxPitchAngle = _maxPitchAngle;
-        }
-        
-        #endregion
-
-        public Vector3 Velocity() =>
-            _lookVelocity;
     }
 }

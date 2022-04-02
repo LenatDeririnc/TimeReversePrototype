@@ -1,36 +1,29 @@
-﻿using InputHandler;
+﻿using ECM.Components;
 using UnityEngine;
 
 namespace ECM.Controllers
 {
     /// <summary>
-    /// Base First Person Controller.
-    /// 
-    /// Base class for a first person controller.
-    /// It inherits from 'BaseCharacterController' and extends it to perform classic FPS movement.
-    /// 
-    /// As the base character controllers, this default behaviour can easily be modified or completely replaced in a derived class. 
+    ///     Base First Person Controller.
+    ///     Base class for a first person controller.
+    ///     It inherits from 'BaseCharacterController' and extends it to perform classic FPS movement.
+    ///     As the base character controllers, this default behaviour can easily be modified or completely replaced in a
+    ///     derived class.
     /// </summary>
-
     public class BaseFirstPersonController : BasePlayerController
     {
         #region EDITOR EXPOSED FIELDS
 
-        [Header("First Person")]
-        [Tooltip("Speed when moving forward.")]
-        [SerializeField]
+        [Header("First Person")] [Tooltip("Speed when moving forward.")] [SerializeField]
         private float _forwardSpeed = 5.0f;
 
-        [Tooltip("Speed when moving backwards.")]
-        [SerializeField]
+        [Tooltip("Speed when moving backwards.")] [SerializeField]
         private float _backwardSpeed = 3.0f;
 
-        [Tooltip("Speed when moving sideways.")]
-        [SerializeField]
+        [Tooltip("Speed when moving sideways.")] [SerializeField]
         private float _strafeSpeed = 4.0f;
 
-        [Tooltip("Speed multiplier while running.")]
-        [SerializeField]
+        [Tooltip("Speed multiplier while running.")] [SerializeField]
         private float _runSpeedMultiplier = 2.0f;
 
         #endregion
@@ -38,65 +31,65 @@ namespace ECM.Controllers
         #region PROPERTIES
 
         /// <summary>
-        /// Cached camera pivot transform.
+        ///     Cached camera pivot transform.
         /// </summary>
 
         public Transform cameraPivotTransform { get; private set; }
 
         /// <summary>
-        /// Cached camera transform.
+        ///     Cached camera transform.
         /// </summary>
 
         public Transform cameraTransform { get; private set; }
 
         /// <summary>
-        /// Cached MouseLook component.
+        ///     Cached MouseLook component.
         /// </summary>
 
-        public Components.MouseLook mouseLook { get; private set; }
+        public MouseLook mouseLook { get; private set; }
 
         /// <summary>
-        /// Speed when moving forward.
+        ///     Speed when moving forward.
         /// </summary>
 
         public float forwardSpeed
         {
-            get { return _forwardSpeed; }
-            set { _forwardSpeed = Mathf.Max(0.0f, value); }
+            get => _forwardSpeed;
+            set => _forwardSpeed = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Speed when moving backwards.
+        ///     Speed when moving backwards.
         /// </summary>
 
         public float backwardSpeed
         {
-            get { return _backwardSpeed; }
-            set { _backwardSpeed = Mathf.Max(0.0f, value); }
+            get => _backwardSpeed;
+            set => _backwardSpeed = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Speed when moving sideways.
+        ///     Speed when moving sideways.
         /// </summary>
 
         public float strafeSpeed
         {
-            get { return _strafeSpeed; }
-            set { _strafeSpeed = Mathf.Max(0.0f, value); }
+            get => _strafeSpeed;
+            set => _strafeSpeed = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Speed multiplier while running.
+        ///     Speed multiplier while running.
         /// </summary>
 
         public float runSpeedMultiplier
         {
-            get { return _runSpeedMultiplier; }
-            set { _runSpeedMultiplier = Mathf.Max(value, 1.0f); }
+            get => _runSpeedMultiplier;
+            set => _runSpeedMultiplier = Mathf.Max(value, 1.0f);
         }
 
         /// <summary>
-        /// Run input command.
+        ///     Run input command.
         /// </summary>
 
         public bool run { get; set; }
@@ -106,11 +99,10 @@ namespace ECM.Controllers
         #region METHODS
 
         /// <summary>
-        /// Use this method to animate camera.
-        /// The default implementation use this to animate camera's when crouching.
-        /// Called on LateUpdate.
+        ///     Use this method to animate camera.
+        ///     The default implementation use this to animate camera's when crouching.
+        ///     Called on LateUpdate.
         /// </summary>
-
         protected virtual void AnimateView()
         {
             // Scale camera pivot to simulate crouching
@@ -122,29 +114,26 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Perform 'Look' rotation.
-        /// This rotate the character along its y-axis (yaw) and a child camera along its local x-axis (pitch).
+        ///     Perform 'Look' rotation.
+        ///     This rotate the character along its y-axis (yaw) and a child camera along its local x-axis (pitch).
         /// </summary>
-
         protected virtual void RotateView()
         {
             mouseLook.LookRotation(movement, cameraTransform);
         }
 
         /// <summary>
-        /// Override the default ECM UpdateRotation to perform typical fps rotation.
+        ///     Override the default ECM UpdateRotation to perform typical fps rotation.
         /// </summary>
-
         protected override void UpdateRotation()
         {
             RotateView();
         }
 
         /// <summary>
-        /// Get target speed, relative to input moveDirection,
-        /// eg: forward, backward or strafe.
+        ///     Get target speed, relative to input moveDirection,
+        ///     eg: forward, backward or strafe.
         /// </summary>
-
         protected virtual float GetTargetSpeed()
         {
             // Defaults to forward speed
@@ -173,10 +162,9 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Overrides CalcDesiredVelocity to generate a velocity vector relative to view direction
-        /// eg: forward, backward or strafe.
+        ///     Overrides CalcDesiredVelocity to generate a velocity vector relative to view direction
+        ///     eg: forward, backward or strafe.
         /// </summary>
-
         protected override Vector3 CalcDesiredVelocity()
         {
             // Set character's target speed (eg: moving forward, backward or strafe)
@@ -189,10 +177,9 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Overrides 'BaseCharacterController' HandleInput method,
-        /// to perform custom input code. 
+        ///     Overrides 'BaseCharacterController' HandleInput method,
+        ///     to perform custom input code.
         /// </summary>
-
         protected override void HandleInput()
         {
             base.HandleInput();
@@ -203,9 +190,8 @@ namespace ECM.Controllers
         #region MONOBEHAVIOUR
 
         /// <summary>
-        /// Validate this editor exposed fields.
+        ///     Validate this editor exposed fields.
         /// </summary>
-
         public override void OnValidate()
         {
             // Call the parent class' version of method
@@ -222,9 +208,8 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Initialize this.
+        ///     Initialize this.
         /// </summary>
-
         public override void Awake()
         {
             // Call the parent class' version of method
@@ -233,22 +218,18 @@ namespace ECM.Controllers
 
             // Cache and initialize this components
 
-            mouseLook = GetComponent<Components.MouseLook>();
+            mouseLook = GetComponent<MouseLook>();
             if (mouseLook == null)
-            {
                 Debug.LogError(
                     string.Format(
                         "BaseFPSController: No 'MouseLook' found. Please add a 'MouseLook' component to '{0}' game object",
                         name));
-            }
 
             cameraPivotTransform = transform.Find("Camera_Pivot");
             if (cameraPivotTransform == null)
-            {
                 Debug.LogError(string.Format(
                     "BaseFPSController: No 'Camera_Pivot' found. Please parent a transform gameobject to '{0}' game object.",
                     name));
-            }
 
             var cam = GetComponentInChildren<Camera>();
             if (cam == null)

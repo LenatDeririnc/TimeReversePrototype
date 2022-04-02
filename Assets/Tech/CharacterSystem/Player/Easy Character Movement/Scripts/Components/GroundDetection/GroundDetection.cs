@@ -1,22 +1,21 @@
-﻿#if UNITY_EDITOR
+﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 namespace ECM.Components
 {
     /// <summary>
-    /// Ground detection default implementation.
-    /// This is a feature rich class, capable of detect if the character is on 'ground', and provide additional
-    /// information about it.
+    ///     Ground detection default implementation.
+    ///     This is a feature rich class, capable of detect if the character is on 'ground', and provide additional
+    ///     information about it.
     /// </summary>
-    
     public sealed class GroundDetection : BaseGroundDetection
     {
         #region METHODS
 
         /// <summary>
-        /// Perform a downwards sphere cast from capsule's bottom sphere
+        ///     Perform a downwards sphere cast from capsule's bottom sphere
         /// </summary>
         /// <param name="position">A probing position. This can be different from character's position.</param>
         /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
@@ -24,12 +23,11 @@ namespace ECM.Components
         /// <param name="distance">The length of the sweep.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
         /// <returns>True when intersects ANY 'ground' collider, otherwise false.</returns>
-
         private bool BottomSphereCast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
             float backstepDistance = kBackstepDistance)
         {
             var radius = capsuleCollider.radius;
-    
+
             var height = Mathf.Max(0.0f, capsuleCollider.height * 0.5f - radius);
             var center = capsuleCollider.center - Vector3.up * height;
 
@@ -40,7 +38,7 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Perform a downwards raycast from character's position (capsule's bottom).
+        ///     Perform a downwards raycast from character's position (capsule's bottom).
         /// </summary>
         /// <param name="position">A probing position. This can be different from character's position.</param>
         /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
@@ -48,7 +46,6 @@ namespace ECM.Components
         /// <param name="distance">The length of the sweep.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
         /// <returns>True when intersects ANY 'ground' collider, otherwise false.</returns>
-
         private bool BottomRaycast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
             float backstepDistance = kBackstepDistance)
         {
@@ -58,8 +55,8 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Simulate a sphere cast using a raycast.
-        /// This is needed to retrieve the correct capsule contact info when using bottom raycast.
+        ///     Simulate a sphere cast using a raycast.
+        ///     This is needed to retrieve the correct capsule contact info when using bottom raycast.
         /// </summary>
         /// <param name="position">A probing position. This can be different from character's position.</param>
         /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
@@ -68,7 +65,6 @@ namespace ECM.Components
         /// <param name="distance">The length of the sweep.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
         /// <returns>True when intersects ANY 'ground' collider, otherwise false.</returns>
-        
         private bool SimulateSphereCast(Vector3 position, Quaternion rotation, Vector3 normal, out RaycastHit hitInfo,
             float distance = Mathf.Infinity, float backstepDistance = kBackstepDistance)
         {
@@ -93,7 +89,7 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Check if we are standing on a ledge or a step and update 'grounding' info.
+        ///     Check if we are standing on a ledge or a step and update 'grounding' info.
         /// </summary>
         /// <param name="position">A probing position. This can be different from character's position.</param>
         /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
@@ -101,7 +97,6 @@ namespace ECM.Components
         /// <param name="point">The current contact point.</param>
         /// <param name="normal">The current contact normal.</param>
         /// <param name="groundHitInfo">If found any 'ground', hitInfo will contain more information about it.</param>
-        
         private void DetectLedgeAndSteps(Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo,
             float distance, Vector3 point, Vector3 normal)
         {
@@ -214,7 +209,8 @@ namespace ECM.Components
             // Downward cast from capsule's bottom sphere (filter any 'wall')
 
             RaycastHit hitInfo;
-            if (BottomSphereCast(position, rotation, out hitInfo, distance) && Vector3.Angle(hitInfo.normal, up) < 89.0f)
+            if (BottomSphereCast(position, rotation, out hitInfo, distance) &&
+                Vector3.Angle(hitInfo.normal, up) < 89.0f)
             {
                 // Update ground hit info
 
@@ -292,13 +288,13 @@ namespace ECM.Components
 
             var center = capsuleCollider.center;
             var offset = Mathf.Max(0.0f, capsuleCollider.height * 0.5f - radius);
-            
+
             if (!Application.isPlaying)
                 offset += castDistance;
 
             var color = new Color(0.5f, 1.0f, 0.6f);
             if (Application.isPlaying)
-                color = isOnGround ? (isValidGround ? Color.green : Color.blue) : Color.red;
+                color = isOnGround ? isValidGround ? Color.green : Color.blue : Color.red;
 
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
 

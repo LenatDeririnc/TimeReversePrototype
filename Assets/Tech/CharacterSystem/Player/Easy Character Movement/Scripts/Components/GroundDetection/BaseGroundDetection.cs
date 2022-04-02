@@ -1,22 +1,20 @@
-﻿#if UNITY_EDITOR
+﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 namespace ECM.Components
 {
     /// <summary>
-    /// Base class used to perform 'ground' detection.
-    /// This can be extended to add game specific features.
+    ///     Base class used to perform 'ground' detection.
+    ///     This can be extended to add game specific features.
     /// </summary>
-    
     [RequireComponent(typeof(CapsuleCollider))]
     public abstract class BaseGroundDetection : MonoBehaviour
     {
         #region EDITOR EXPOSED FIELDS
 
-        [Tooltip("Layers to be considered as 'ground' (walkables).")]
-        [SerializeField]
+        [Tooltip("Layers to be considered as 'ground' (walkables).")] [SerializeField]
         private LayerMask _groundMask = 1;
 
         [Tooltip("The maximum angle (in degrees) that will be accounted as 'ground'. " +
@@ -39,8 +37,7 @@ namespace ECM.Components
         [SerializeField]
         private float _castDistance = 0.5f;
 
-        [Tooltip("Should Triggers be considered as 'ground'?")]
-        [SerializeField]
+        [Tooltip("Should Triggers be considered as 'ground'?")] [SerializeField]
         private QueryTriggerInteraction _triggerInteraction = QueryTriggerInteraction.Ignore;
 
         #endregion
@@ -63,76 +60,76 @@ namespace ECM.Components
 
         private int _ignoreRaycastLayer = 2;
         private int _cachedLayer;
-        
+
         #endregion
 
         #region PROPERTIES
 
         /// <summary>
-        /// Layers to be considered as 'ground' (walkables).
+        ///     Layers to be considered as 'ground' (walkables).
         /// </summary>
 
         public LayerMask groundMask
         {
-            get { return _groundMask; }
-            set { _groundMask = value; }
+            get => _groundMask;
+            set => _groundMask = value;
         }
 
         /// <summary>
-        /// The maximum angle that will be accounted as 'ground', anything above is treated as a 'wall'.
+        ///     The maximum angle that will be accounted as 'ground', anything above is treated as a 'wall'.
         /// </summary>
 
         public float groundLimit
         {
-            get { return _groundLimit; }
-            set { _groundLimit = Mathf.Clamp(value, 0.0f, 89.0f); }
+            get => _groundLimit;
+            set => _groundLimit = Mathf.Clamp(value, 0.0f, 89.0f);
         }
 
         /// <summary>
-        /// The maximum height (in meters) for a valid step.
-        /// This will detect a step only if it is closer to the ground than this value.
-        /// As rule of thumb, configure it to your character's collider radius.
+        ///     The maximum height (in meters) for a valid step.
+        ///     This will detect a step only if it is closer to the ground than this value.
+        ///     As rule of thumb, configure it to your character's collider radius.
         /// </summary>
 
         public float stepOffset
         {
-            get { return _stepOffset; }
-            set { _stepOffset = Mathf.Clamp(value, kMinStepOffset, capsuleCollider.radius); }
+            get => _stepOffset;
+            set => _stepOffset = Mathf.Clamp(value, kMinStepOffset, capsuleCollider.radius);
         }
 
         /// <summary>
-        /// The maximum horizontal distance (in meters) a character can stand on a ledge without slide down.
+        ///     The maximum horizontal distance (in meters) a character can stand on a ledge without slide down.
         /// </summary>
 
         public float ledgeOffset
         {
-            get { return _ledgeOffset; }
-            set { _ledgeOffset = Mathf.Clamp(value, 0.0f, capsuleCollider.radius); }
+            get => _ledgeOffset;
+            set => _ledgeOffset = Mathf.Clamp(value, 0.0f, capsuleCollider.radius);
         }
 
         /// <summary>
-        /// Determines the max length of the cast.
-        /// As rule of thumb, configure it to your character's collider radius.
+        ///     Determines the max length of the cast.
+        ///     As rule of thumb, configure it to your character's collider radius.
         /// </summary>
 
         public float castDistance
         {
-            get { return _castDistance; }
-            set { _castDistance = Mathf.Max(kMinCastDistance, value); }
+            get => _castDistance;
+            set => _castDistance = Mathf.Max(kMinCastDistance, value);
         }
 
         /// <summary>
-        /// Specifies whether casts should hit Triggers.
+        ///     Specifies whether casts should hit Triggers.
         /// </summary>
 
         public QueryTriggerInteraction triggerInteraction
         {
-            get { return _triggerInteraction; }
-            set { _triggerInteraction = value; }
+            get => _triggerInteraction;
+            set => _triggerInteraction = value;
         }
 
         /// <summary>
-        /// Cached capsule collider.
+        ///     Cached capsule collider.
         /// </summary>
 
         public CapsuleCollider capsuleCollider
@@ -147,169 +144,120 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Is this character standing on ANY 'ground'?
+        ///     Is this character standing on ANY 'ground'?
         /// </summary>
 
-        public bool isOnGround
-        {
-            get { return _groundHitInfo.isOnGround; }
-        }
+        public bool isOnGround => _groundHitInfo.isOnGround;
 
         /// <summary>
-        /// Is this character standing on VALID 'ground'?
+        ///     Is this character standing on VALID 'ground'?
         /// </summary>
 
-        public bool isValidGround
-        {
-            get { return _groundHitInfo.isValidGround; }
-        }
+        public bool isValidGround => _groundHitInfo.isValidGround;
 
         /// <summary>
-        /// Is this character standing on the 'solid' side of a ledge?
+        ///     Is this character standing on the 'solid' side of a ledge?
         /// </summary>
 
-        public bool isOnLedgeSolidSide
-        {
-            get { return _groundHitInfo.isOnLedgeSolidSide; }
-        }
+        public bool isOnLedgeSolidSide => _groundHitInfo.isOnLedgeSolidSide;
 
         /// <summary>
-        /// Is this character standing on the 'empty' side of a ledge?
+        ///     Is this character standing on the 'empty' side of a ledge?
         /// </summary>
 
-        public bool isOnLedgeEmptySide
-        {
-            get { return _groundHitInfo.isOnLedgeEmptySide; }
-        }
+        public bool isOnLedgeEmptySide => _groundHitInfo.isOnLedgeEmptySide;
 
         /// <summary>
-        /// The horizontal distance from the character's bottom position to the ledge contact point.
+        ///     The horizontal distance from the character's bottom position to the ledge contact point.
         /// </summary>
 
-        public float ledgeDistance
-        {
-            get { return _groundHitInfo.ledgeDistance; }
-        }
+        public float ledgeDistance => _groundHitInfo.ledgeDistance;
 
         /// <summary>
-        /// Is this character standing on a step?
+        ///     Is this character standing on a step?
         /// </summary>
 
-        public bool isOnStep
-        {
-            get { return _groundHitInfo.isOnStep; }
-        }
+        public bool isOnStep => _groundHitInfo.isOnStep;
 
         /// <summary>
-        /// The current step height.
+        ///     The current step height.
         /// </summary>
 
-        public float stepHeight
-        {
-            get { return _groundHitInfo.stepHeight; }
-        }
+        public float stepHeight => _groundHitInfo.stepHeight;
 
         /// <summary>
-        /// Is this character standing on a slope?
+        ///     Is this character standing on a slope?
         /// </summary>
 
-        public bool isOnSlope
-        {
-            get { return !Mathf.Approximately(groundAngle, 0.0f); }
-        }
+        public bool isOnSlope => !Mathf.Approximately(groundAngle, 0.0f);
 
         /// <summary>
-        /// The contact point (in world space) where the cast hit the 'ground' collider.
+        ///     The contact point (in world space) where the cast hit the 'ground' collider.
         /// </summary>
 
-        public Vector3 groundPoint
-        {
-            get { return _groundHitInfo.groundPoint; }
-        }
+        public Vector3 groundPoint => _groundHitInfo.groundPoint;
 
         /// <summary>
-        /// The normal of the 'ground' surface.
+        ///     The normal of the 'ground' surface.
         /// </summary>
 
-        public Vector3 groundNormal
-        {
-            get { return _groundHitInfo.groundNormal; }
-        }
+        public Vector3 groundNormal => _groundHitInfo.groundNormal;
 
         /// <summary>
-        /// The distance from the ray's origin to the impact point.
+        ///     The distance from the ray's origin to the impact point.
         /// </summary>
 
-        public float groundDistance
-        {
-            get { return _groundHitInfo.groundDistance; }
-        }
+        public float groundDistance => _groundHitInfo.groundDistance;
 
         /// <summary>
-        /// The Collider that was hit.
-        /// This is null if the cast hit nothing.
+        ///     The Collider that was hit.
+        ///     This is null if the cast hit nothing.
         /// </summary>
 
-        public Collider groundCollider
-        {
-            get { return _groundHitInfo.groundCollider; }
-        }
+        public Collider groundCollider => _groundHitInfo.groundCollider;
 
         /// <summary>
-        /// The Rigidbody of the collider that was hit.
-        /// If the collider is not attached to a rigidbody then it is null.
+        ///     The Rigidbody of the collider that was hit.
+        ///     If the collider is not attached to a rigidbody then it is null.
         /// </summary>
 
-        public Rigidbody groundRigidbody
-        {
-            get { return _groundHitInfo.groundRigidbody; }
-        }
+        public Rigidbody groundRigidbody => _groundHitInfo.groundRigidbody;
 
         /// <summary>
-        /// The 'ground' angle (in degrees) the character is standing on.
+        ///     The 'ground' angle (in degrees) the character is standing on.
         /// </summary>
 
-        public float groundAngle
-        {
-            get { return !isOnGround ? 0.0f : Vector3.Angle(surfaceNormal, transform.up); }
-        }
+        public float groundAngle => !isOnGround ? 0.0f : Vector3.Angle(surfaceNormal, transform.up);
 
         /// <summary>
-        /// The real surface normal.
-        /// 
-        /// This cab be different from groundNormal, because when SphereCast contacts the edge of a collider
-        /// (rather than a face directly on) the hit.normal that is returned is the interpolation of the two normals
-        /// of the faces that are joined to that edge.
+        ///     The real surface normal.
+        ///     This cab be different from groundNormal, because when SphereCast contacts the edge of a collider
+        ///     (rather than a face directly on) the hit.normal that is returned is the interpolation of the two normals
+        ///     of the faces that are joined to that edge.
         /// </summary>
 
-        public Vector3 surfaceNormal
-        {
-            get { return _groundHitInfo.surfaceNormal; }
-        }
+        public Vector3 surfaceNormal => _groundHitInfo.surfaceNormal;
 
         /// <summary>
-        /// The current GroundHit info.
+        ///     The current GroundHit info.
         /// </summary>
 
-        public GroundHit groundHit
-        {
-            get { return _groundHitInfo; }
-        }
+        public GroundHit groundHit => _groundHitInfo;
 
         /// <summary>
-        /// The previous frame GroundHit info.
+        ///     The previous frame GroundHit info.
         /// </summary>
 
         public GroundHit prevGroundHit { get; private set; }
 
         /// <summary>
-        /// Character overlaps test mask. This is initialized using the rigidbody's layer's collision matrix.
+        ///     Character overlaps test mask. This is initialized using the rigidbody's layer's collision matrix.
         /// </summary>
 
         public LayerMask overlapMask
         {
-            get { return _overlapMask; }
-            set { _overlapMask = value; }
+            get => _overlapMask;
+            set => _overlapMask = value;
         }
 
         #endregion
@@ -317,29 +265,25 @@ namespace ECM.Components
         #region METHODS
 
         /// <summary>
-        /// Initialize overlap mask, this uses the rigidbody's layer's collision matrix.
+        ///     Initialize overlap mask, this uses the rigidbody's layer's collision matrix.
         /// </summary>
-
         protected virtual void InitializeOverlapMask()
         {
             var layer = gameObject.layer;
 
             _overlapMask = 0;
             for (var i = 0; i < 32; i++)
-            {
                 if (!Physics.GetIgnoreLayerCollision(layer, i))
                     _overlapMask |= 1 << i;
-            }
         }
 
         /// <summary>
-        /// Helper method.
-        /// Check the character's capsule against the physics world and return all overlapping colliders.
+        ///     Helper method.
+        ///     Check the character's capsule against the physics world and return all overlapping colliders.
         /// </summary>
         /// <param name="position">The probing position.</param>
         /// <param name="rotation">The probing rotation.</param>
         /// <param name="overlapCount">The amount of entries written to the buffer.</param>
-
         public Collider[] OverlapCapsule(Vector3 position, Quaternion rotation, out int overlapCount)
         {
             var center = capsuleCollider.center;
@@ -371,7 +315,7 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Raycast helper method.
+        ///     Raycast helper method.
         /// </summary>
         /// <param name="origin">The starting point of the ray in world coordinates.</param>
         /// <param name="direction">The direction of the ray.</param>
@@ -379,7 +323,6 @@ namespace ECM.Components
         /// <param name="distance">The length of the cast.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
         /// <returns>True when the intersects any 'ground' collider, otherwise false.</returns>
-        
         protected bool Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float distance,
             float backstepDistance = kBackstepDistance)
         {
@@ -394,7 +337,7 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// SphereCast helper method.
+        ///     SphereCast helper method.
         /// </summary>
         /// <param name="origin">The center of the sphere at the start of the sweep.</param>
         /// <param name="radius">The radius of the sphere.</param>
@@ -403,7 +346,6 @@ namespace ECM.Components
         /// <param name="distance">The length of the cast.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
         /// <returns>True when the intersects any 'ground' collider, otherwise false.</returns>
-        
         protected bool SphereCast(Vector3 origin, float radius, Vector3 direction, out RaycastHit hitInfo,
             float distance, float backstepDistance = kBackstepDistance)
         {
@@ -418,7 +360,7 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// CapsuleCast helper method.
+        ///     CapsuleCast helper method.
         /// </summary>
         /// <param name="bottom">The center of the sphere at the start of the capsule.</param>
         /// <param name="top">The center of the sphere at the end of the capsule.</param>
@@ -428,7 +370,6 @@ namespace ECM.Components
         /// <param name="distance">The length of the cast.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
         /// <returns>True when the intersects any 'ground' collider, otherwise false.</returns>
-        
         protected bool CapsuleCast(Vector3 bottom, Vector3 top, float radius, Vector3 direction, out RaycastHit hitInfo,
             float distance, float backstepDistance = kBackstepDistance)
         {
@@ -444,8 +385,8 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Sweep helper method.
-        /// Tests if a character would collide with anything, if it was moved through the scene.
+        ///     Sweep helper method.
+        ///     Tests if a character would collide with anything, if it was moved through the scene.
         /// </summary>
         /// <param name="position">Character's position, this can be different from character's current rotation.</param>
         /// <param name="rotation">Character's rotation, this can be different from character's current rotation.</param>
@@ -453,13 +394,12 @@ namespace ECM.Components
         /// <param name="hitInfo">If true is returned, hitInfo will contain more information about where the collider was hit.</param>
         /// <param name="distance">The max length of the sweep.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
-
         public virtual bool SweepTest(Vector3 position, Quaternion rotation, Vector3 direction, out RaycastHit hitInfo,
             float distance = Mathf.Infinity, float backstepDistance = kBackstepDistance)
         {
             var radius = capsuleCollider.radius;
             var height = Mathf.Max(0.0f, capsuleCollider.height * 0.5f - radius);
-            
+
             var bottomSphereCenter = capsuleCollider.center - Vector3.up * height;
             var topSphereCenter = capsuleCollider.center + Vector3.up * height;
 
@@ -470,10 +410,9 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Temporary moves the character's collider to 'Ignore Raycast' layer to
-        /// prevent any collision against it during 'grounding' tests.
+        ///     Temporary moves the character's collider to 'Ignore Raycast' layer to
+        ///     prevent any collision against it during 'grounding' tests.
         /// </summary>
-        
         protected virtual void DisableRaycastCollisions()
         {
             _cachedLayer = gameObject.layer;
@@ -481,18 +420,16 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Restore character's collider layer.
+        ///     Restore character's collider layer.
         /// </summary>
-        
         protected virtual void EnableRaycastCollisions()
         {
             gameObject.layer = _cachedLayer;
         }
 
         /// <summary>
-        /// Reset the 'ground' hit info.
+        ///     Reset the 'ground' hit info.
         /// </summary>
-        
         public virtual void ResetGroundInfo()
         {
             var up = transform.up;
@@ -507,22 +444,20 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Compute 'ground' hit info casting downwards the character's volume,
-        /// if found any 'ground' groundHitInfo will contain additional information about it.
-        /// Returns true when intersects any 'ground' collider, otherwise false.
+        ///     Compute 'ground' hit info casting downwards the character's volume,
+        ///     if found any 'ground' groundHitInfo will contain additional information about it.
+        ///     Returns true when intersects any 'ground' collider, otherwise false.
         /// </summary>
         /// <param name="position">A probing position. This can be different from character's position.</param>
         /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
         /// <param name="groundHitInfo">If true is returned, will contain more information about where the collider was hit.</param>
         /// <param name="distance">The length of the cast.</param>
-        
         public abstract bool ComputeGroundHit(Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo,
             float distance = Mathf.Infinity);
 
         /// <summary>
-        /// Perform ground detection.
+        ///     Perform ground detection.
         /// </summary>
-
         public void DetectGround()
         {
             // Prevent hit character's collider during 'grounding' tests
@@ -539,25 +474,23 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Test if would collide with 'ground', if it was moved through the scene (eg: sweep).
-        /// Returns true when intersects any 'ground' collider, otherwise false.
+        ///     Test if would collide with 'ground', if it was moved through the scene (eg: sweep).
+        ///     Returns true when intersects any 'ground' collider, otherwise false.
         /// </summary>
         /// <param name="direction">The direction into which to sweep.</param>
         /// <param name="hitInfo">If true is returned, hitInfo will contain more information about where the collider was hit.</param>
         /// <param name="distance">The length of the sweep.</param>
         /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
-        
         public abstract bool FindGround(Vector3 direction, out RaycastHit hitInfo, float distance = Mathf.Infinity,
             float backstepDistance = kBackstepDistance);
 
         /// <summary>
-        /// Draw gizmos (on editor only).
+        ///     Draw gizmos (on editor only).
         /// </summary>
-
         protected virtual void DrawGizmos()
         {
 #if UNITY_EDITOR
-            
+
             if (!Application.isPlaying)
                 return;
 
@@ -607,10 +540,9 @@ namespace ECM.Components
         #region MONOBEHAVIOUR
 
         /// <summary>
-        /// Validate this editor exposed fields.
-        /// If you overrides it, be sure to call base.OnValidate to fully validate base class.
+        ///     Validate this editor exposed fields.
+        ///     If you overrides it, be sure to call base.OnValidate to fully validate base class.
         /// </summary>
-
         protected virtual void OnValidate()
         {
             groundLimit = _groundLimit;
@@ -620,9 +552,8 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Initialize this.
+        ///     Initialize this.
         /// </summary>
-
         protected virtual void Awake()
         {
             InitializeOverlapMask();
@@ -631,9 +562,8 @@ namespace ECM.Components
         }
 
         /// <summary>
-        /// Draw gizmos.
+        ///     Draw gizmos.
         /// </summary>
-        
         public void OnDrawGizmosSelected()
         {
             DrawGizmos();

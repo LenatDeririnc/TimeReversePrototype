@@ -9,36 +9,33 @@ using UnityEngine.Serialization;
 namespace ECM.Controllers
 {
     /// <summary>
-    /// Base Character Controller.
-    /// 
-    /// A general purpose character controller and base of other controllers.
-    /// It handles keyboard input, and allows for a variable height jump, however this default behaviour
-    /// can easily be modified or completely replaced overriding this related methods in a derived class.
+    ///     Base Character Controller.
+    ///     A general purpose character controller and base of other controllers.
+    ///     It handles keyboard input, and allows for a variable height jump, however this default behaviour
+    ///     can easily be modified or completely replaced overriding this related methods in a derived class.
     /// </summary>
-
     public class BasePlayerController : MonoBehaviour, IVelocity
     {
+        public Vector3 Velocity()
+        {
+            return Vector3.ClampMagnitude(moveDirection, 1);
+        }
+
         #region EDITOR EXPOSED FIELDS
 
-        [Header("Movement Fields")]
-        [SerializeField]
+        [Header("Movement Fields")] [SerializeField]
         private PlayerMovementEditorFields PlayerMovementEditorFields;
 
-        [Header("Movement")]
-        [Tooltip("Maximum movement speed (in m/s).")]
-        [SerializeField]
+        [Header("Movement")] [Tooltip("Maximum movement speed (in m/s).")] [SerializeField]
         private float _speed = 5.0f;
 
-        [Tooltip("Maximum turning speed (in deg/s).")]
-        [SerializeField]
+        [Tooltip("Maximum turning speed (in deg/s).")] [SerializeField]
         private float _angularSpeed = 540.0f;
 
-        [Tooltip("The rate of change of velocity.")]
-        [SerializeField]
+        [Tooltip("The rate of change of velocity.")] [SerializeField]
         private float _acceleration = 50.0f;
 
-        [Tooltip("The rate at which the character's slows down.")]
-        [SerializeField]
+        [Tooltip("The rate at which the character's slows down.")] [SerializeField]
         private float _deceleration = 20.0f;
 
         [Tooltip(
@@ -57,8 +54,7 @@ namespace ECM.Controllers
         [SerializeField]
         private float _brakingFriction = 8f;
 
-        [Tooltip("Friction coefficient applied when 'not grounded'.")]
-        [SerializeField]
+        [Tooltip("Friction coefficient applied when 'not grounded'.")] [SerializeField]
         private float _airFriction;
 
         [Tooltip("When not grounded, the amount of lateral movement control available to the character.\n" +
@@ -67,29 +63,22 @@ namespace ECM.Controllers
         [SerializeField]
         private float _airControl = 0.2f;
 
-        [Header("Crouch")]
-        [Tooltip("Can the character crouch")]
-        [SerializeField]
+        [Header("Crouch")] [Tooltip("Can the character crouch")] [SerializeField]
         private bool _canCrouch = true;
 
-        [Tooltip("The character's capsule height while standing.")]
-        [SerializeField]
+        [Tooltip("The character's capsule height while standing.")] [SerializeField]
         private float _standingHeight = 2.0f;
 
-        [Tooltip("The character's capsule height while crouching.")]
-        [SerializeField]
+        [Tooltip("The character's capsule height while crouching.")] [SerializeField]
         private float _crouchingHeight = 1.0f;
 
-        [Header("Jump")]
-        [Tooltip("The initial jump height (in meters).")]
-        [SerializeField]
+        [Header("Jump")] [Tooltip("The initial jump height (in meters).")] [SerializeField]
         private float _baseJumpHeight = 1.5f;
 
-        [Tooltip("The extra jump time (e.g. holding jump button) in seconds.")]
-        [SerializeField]
+        [Tooltip("The extra jump time (e.g. holding jump button) in seconds.")] [SerializeField]
         private float _extraJumpTime = 0.5f;
 
-        [Tooltip("Acceleration while jump button is held down, given in meters / sec^2."+
+        [Tooltip("Acceleration while jump button is held down, given in meters / sec^2." +
                  "As rule of thumb, configure it to your character's gravity.")]
         [SerializeField]
         private float _extraJumpPower = 25.0f;
@@ -105,8 +94,7 @@ namespace ECM.Controllers
         [SerializeField]
         private float _jumpPostGroundedToleranceTime = 0.15f;
 
-        [Tooltip("Maximum mid-air jumps")]
-        [SerializeField]
+        [Tooltip("Maximum mid-air jumps")] [SerializeField]
         private float _maxMidAirJumps = 1;
 
         [Header("Animation")]
@@ -138,7 +126,7 @@ namespace ECM.Controllers
         protected int _midAirJumpCount;
 
         private bool _allowVerticalMovement;
-        
+
         private bool _restoreVelocityOnResume = true;
 
         #endregion
@@ -146,31 +134,31 @@ namespace ECM.Controllers
         #region PROPERTIES
 
         /// <summary>
-        /// Cached CharacterMovement component.
+        ///     Cached CharacterMovement component.
         /// </summary>
 
         public PlayerMovement movement { get; private set; }
 
         /// <summary>
-        /// Cached animator component (if any).
+        ///     Cached animator component (if any).
         /// </summary>
 
         public Animator animator { get; set; }
 
         /// <summary>
-        /// Cached root motion controller component (if any).
+        ///     Cached root motion controller component (if any).
         /// </summary>
 
         public RootMotionController rootMotionController { get; set; }
 
         /// <summary>
-        /// Allow movement along y-axis and disable gravity force.
-        /// Eg: Flaying, Ladder climb, etc.
+        ///     Allow movement along y-axis and disable gravity force.
+        ///     Eg: Flaying, Ladder climb, etc.
         /// </summary>
 
         public bool allowVerticalMovement
         {
-            get { return _allowVerticalMovement; }
+            get => _allowVerticalMovement;
             set
             {
                 _allowVerticalMovement = value;
@@ -181,231 +169,228 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Maximum movement speed (in m/s).
+        ///     Maximum movement speed (in m/s).
         /// </summary>
 
         public float speed
         {
-            get { return _speed; }
-            set { _speed = Mathf.Max(0.0f, value); }
+            get => _speed;
+            set => _speed = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Maximum turning speed (in deg/s).
+        ///     Maximum turning speed (in deg/s).
         /// </summary>
 
         public float angularSpeed
         {
-            get { return _angularSpeed; }
-            set { _angularSpeed = Mathf.Max(0.0f, value); }
+            get => _angularSpeed;
+            set => _angularSpeed = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// The rate of change of velocity.
+        ///     The rate of change of velocity.
         /// </summary>
 
         public float acceleration
         {
-            get { return movement.isGrounded ? _acceleration : _acceleration * airControl; }
-            set { _acceleration = Mathf.Max(0.0f, value); }
+            get => movement.isGrounded ? _acceleration : _acceleration * airControl;
+            set => _acceleration = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// The rate at which the character's slows down.
+        ///     The rate at which the character's slows down.
         /// </summary>
 
         public float deceleration
         {
-            get { return movement.isGrounded ? _deceleration : _deceleration * airControl; }
-            set { _deceleration = Mathf.Max(0.0f, value); }
+            get => movement.isGrounded ? _deceleration : _deceleration * airControl;
+            set => _deceleration = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Setting that affects movement control. Higher values allow faster changes in direction.
-        /// If useBrakingFriction is false, this also affects the ability to stop more quickly when braking.
+        ///     Setting that affects movement control. Higher values allow faster changes in direction.
+        ///     If useBrakingFriction is false, this also affects the ability to stop more quickly when braking.
         /// </summary>
 
         public float groundFriction
         {
-            get { return _groundFriction; }
-            set { _groundFriction = Mathf.Max(0.0f, value); }
+            get => _groundFriction;
+            set => _groundFriction = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Should brakingFriction be used to slow the character?
-        /// If false, groundFriction will be used.
+        ///     Should brakingFriction be used to slow the character?
+        ///     If false, groundFriction will be used.
         /// </summary>
 
         public bool useBrakingFriction
         {
-            get { return _useBrakingFriction; }
-            set { _useBrakingFriction = value; }
+            get => _useBrakingFriction;
+            set => _useBrakingFriction = value;
         }
 
         /// <summary>
-        /// Friction applied when braking (eg: when there is no input acceleration).  
-        /// Only used if useBrakingFriction is true, otherwise groundFriction is used.
-        /// 
-        /// Braking is composed of friction (velocity dependent drag) and constant deceleration.
+        ///     Friction applied when braking (eg: when there is no input acceleration).
+        ///     Only used if useBrakingFriction is true, otherwise groundFriction is used.
+        ///     Braking is composed of friction (velocity dependent drag) and constant deceleration.
         /// </summary>
 
         public float brakingFriction
         {
-            get { return _brakingFriction; }
-            set { _brakingFriction = Mathf.Max(0.0f, value); }
+            get => _brakingFriction;
+            set => _brakingFriction = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Friction applied when not grounded (eg: falling, flying, etc).
-        /// If useBrakingFriction is false, this also affects the ability to stop more quickly when braking while in air. 
+        ///     Friction applied when not grounded (eg: falling, flying, etc).
+        ///     If useBrakingFriction is false, this also affects the ability to stop more quickly when braking while in air.
         /// </summary>
 
         public float airFriction
         {
-            get { return _airFriction; }
-            set { _airFriction = Mathf.Max(0.0f, value); }
+            get => _airFriction;
+            set => _airFriction = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// When not grounded, the amount of lateral movement control available to the character.
-        /// 0 is no control, 1 is full control.
+        ///     When not grounded, the amount of lateral movement control available to the character.
+        ///     0 is no control, 1 is full control.
         /// </summary>
 
         public float airControl
         {
-            get { return _airControl; }
-            set { _airControl = Mathf.Clamp01(value); }
+            get => _airControl;
+            set => _airControl = Mathf.Clamp01(value);
         }
 
         /// <summary>
-        /// Can crouch? Enable / Disable crouching behavior.
+        ///     Can crouch? Enable / Disable crouching behavior.
         /// </summary>
 
         public bool canCrouch
         {
-            get { return _canCrouch; }
-            set { _canCrouch = value; }
+            get => _canCrouch;
+            set => _canCrouch = value;
         }
 
         /// <summary>
-        /// The character's capsule height while standing.
+        ///     The character's capsule height while standing.
         /// </summary>
 
         public float standingHeight
         {
-            get { return _standingHeight; }
-            set { _standingHeight = Mathf.Max(0.0f, value); }
+            get => _standingHeight;
+            set => _standingHeight = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// The character's capsule height while crouching.
+        ///     The character's capsule height while crouching.
         /// </summary>
 
         public float crouchingHeight
         {
-            get { return _crouchingHeight; }
-            set { _crouchingHeight = Mathf.Max(0.0f, value); }
+            get => _crouchingHeight;
+            set => _crouchingHeight = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// The initial jump height (in meters).
+        ///     The initial jump height (in meters).
         /// </summary>
 
         public float baseJumpHeight
         {
-            get { return _baseJumpHeight; }
-            set { _baseJumpHeight = Mathf.Max(0.0f, value); }
+            get => _baseJumpHeight;
+            set => _baseJumpHeight = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Computed jump impulse.
+        ///     Computed jump impulse.
         /// </summary>
 
-        public float jumpImpulse
-        {
+        public float jumpImpulse =>
             //get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.gravity); }
-            get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.fields.gravity.magnitude); }
-        }
+            Mathf.Sqrt(2.0f * baseJumpHeight * movement.fields.gravity.magnitude);
 
         /// <summary>
-        /// The extra jump time (e.g. holding jump button) in seconds.
+        ///     The extra jump time (e.g. holding jump button) in seconds.
         /// </summary>
 
         public float extraJumpTime
         {
-            get { return _extraJumpTime; }
-            set { _extraJumpTime = Mathf.Max(0.0f, value); }
+            get => _extraJumpTime;
+            set => _extraJumpTime = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Acceleration while jump button is held down, given in meters / sec^2.
+        ///     Acceleration while jump button is held down, given in meters / sec^2.
         /// </summary>
 
         public float extraJumpPower
         {
-            get { return _extraJumpPower; }
-            set { _extraJumpPower = Mathf.Max(0.0f, value); }
+            get => _extraJumpPower;
+            set => _extraJumpPower = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// How early before hitting the ground you can press jump, and still perform the jump.
-        /// Typical values goes from 0.05f to 0.5f, the higher the value, the easier to "chain" jumps and vice-versa.
+        ///     How early before hitting the ground you can press jump, and still perform the jump.
+        ///     Typical values goes from 0.05f to 0.5f, the higher the value, the easier to "chain" jumps and vice-versa.
         /// </summary>
 
         public float jumpPreGroundedToleranceTime
         {
-            get { return _jumpPreGroundedToleranceTime; }
-            set { _jumpPreGroundedToleranceTime = Mathf.Max(value, 0.0f); }
+            get => _jumpPreGroundedToleranceTime;
+            set => _jumpPreGroundedToleranceTime = Mathf.Max(value, 0.0f);
         }
 
         /// <summary>
-        /// How long after leaving the ground you can press jump, and still perform the jump.
-        /// Typical values goes from 0.05f to 0.5f, the higher the value, the easier to "chain" jumps and vice-versa.
+        ///     How long after leaving the ground you can press jump, and still perform the jump.
+        ///     Typical values goes from 0.05f to 0.5f, the higher the value, the easier to "chain" jumps and vice-versa.
         /// </summary>
 
         public float jumpPostGroundedToleranceTime
         {
-            get { return _jumpPostGroundedToleranceTime; }
-            set { _jumpPostGroundedToleranceTime = Mathf.Max(value, 0.0f); }
+            get => _jumpPostGroundedToleranceTime;
+            set => _jumpPostGroundedToleranceTime = Mathf.Max(value, 0.0f);
         }
 
         /// <summary>
-        /// Maximum mid-air jumps.
+        ///     Maximum mid-air jumps.
         /// </summary>
 
         public float maxMidAirJumps
         {
-            get { return _maxMidAirJumps; }
-            set { _maxMidAirJumps = Mathf.Max(0.0f, value); }
+            get => _maxMidAirJumps;
+            set => _maxMidAirJumps = Mathf.Max(0.0f, value);
         }
 
         /// <summary>
-        /// Should move with root motion?
+        ///     Should move with root motion?
         /// </summary>
 
         public bool useRootMotion
         {
-            get { return _useRootMotion; }
-            set { _useRootMotion = value; }
+            get => _useRootMotion;
+            set => _useRootMotion = value;
         }
 
         /// <summary>
-        /// Should root motion handle character's rotation?
+        ///     Should root motion handle character's rotation?
         /// </summary>
 
         public bool useRootMotionRotation
         {
-            get { return _rootMotionRotation; }
-            set { _rootMotionRotation = value; }
+            get => _rootMotionRotation;
+            set => _rootMotionRotation = value;
         }
 
         /// <summary>
-        /// Should root motion be applied?
+        ///     Should root motion be applied?
         /// </summary>
 
         public bool applyRootMotion
         {
-            get { return animator != null && animator.applyRootMotion; }
+            get => animator != null && animator.applyRootMotion;
             set
             {
                 if (animator != null)
@@ -414,12 +399,12 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Jump input command.
+        ///     Jump input command.
         /// </summary>
 
         public bool jump
         {
-            get { return _jump; }
+            get => _jump;
             set
             {
                 // If jump is released, allow to jump again
@@ -439,67 +424,58 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Is the character jumping? (moving up result of jump button press).
+        ///     Is the character jumping? (moving up result of jump button press).
         /// </summary>
 
-        public bool isJumping
-        {
-            get { return _isJumping; }
-        }
+        public bool isJumping => _isJumping;
 
         /// <summary>
-        /// True if character is falling, false if not.
+        ///     True if character is falling, false if not.
         /// </summary>
 
-        public bool isFalling
-        {
-            get { return !movement.isGrounded && movement.velocity.y < 0.0001f; }
-        }
+        public bool isFalling => !movement.isGrounded && movement.velocity.y < 0.0001f;
 
         /// <summary>
-        /// Is the character standing on 'ground'?
+        ///     Is the character standing on 'ground'?
         /// </summary>
 
-        public bool isGrounded
-        {
-            get { return movement.isGrounded; }
-        }
+        public bool isGrounded => movement.isGrounded;
 
         /// <summary>
-        /// Movement input command. The desired move direction.
+        ///     Movement input command. The desired move direction.
         /// </summary>
 
         public Vector3 moveDirection
         {
-            get { return _moveDirection; }
-            set { _moveDirection = Vector3.ClampMagnitude(value, 1.0f); }
+            get => _moveDirection;
+            set => _moveDirection = Vector3.ClampMagnitude(value, 1.0f);
         }
 
         /// <summary>
-        /// Is the character paused?
+        ///     Is the character paused?
         /// </summary>
 
         public bool isPaused { get; private set; }
 
         /// <summary>
-        /// Should saved velocity (when pause == true) be restored on resume (when pause == false)?
-        /// If true, the saved rigidbody velocity will be restored on resume, if false, the rigidbody will be reset (zero).
+        ///     Should saved velocity (when pause == true) be restored on resume (when pause == false)?
+        ///     If true, the saved rigidbody velocity will be restored on resume, if false, the rigidbody will be reset (zero).
         /// </summary>
 
         public bool restoreVelocityOnResume
         {
-            get { return _restoreVelocityOnResume; }
-            set { _restoreVelocityOnResume = value; }
+            get => _restoreVelocityOnResume;
+            set => _restoreVelocityOnResume = value;
         }
 
         /// <summary>
-        /// Crouch input command.
+        ///     Crouch input command.
         /// </summary>
 
         public bool crouch { get; set; }
 
         /// <summary>
-        /// Is the character crouching?
+        ///     Is the character crouching?
         /// </summary>
 
         public bool isCrouching { get; protected set; }
@@ -509,10 +485,10 @@ namespace ECM.Controllers
         #region METHODS
 
         /// <summary>
-        /// Pause Rigidbody physical interaction, will restore current velocities (linear, angular) if desired (restoreVelocityOnResume == true).
-        /// While paused, will turn the Rigidbody into kinematic, preventing any physical interaction.
+        ///     Pause Rigidbody physical interaction, will restore current velocities (linear, angular) if desired
+        ///     (restoreVelocityOnResume == true).
+        ///     While paused, will turn the Rigidbody into kinematic, preventing any physical interaction.
         /// </summary>
-
         private void SetPause(bool value)
         {
             isPaused = value;
@@ -520,51 +496,45 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Rotate the character towards a given direction vector.
+        ///     Rotate the character towards a given direction vector.
         /// </summary>
         /// <param name="direction">The target direction</param>
         /// <param name="onlyLateral">Should it be restricted to XZ only?</param>
-
         public void RotateTowards(Vector3 direction, bool onlyLateral = true)
         {
             movement.Rotate(direction, angularSpeed, onlyLateral);
         }
 
         /// <summary>
-        /// Rotate the character towards move direction vector (input).
+        ///     Rotate the character towards move direction vector (input).
         /// </summary>
         /// <param name="onlyLateral">Should it be restricted to XZ only?</param>
-
         public void RotateTowardsMoveDirection(bool onlyLateral = true)
         {
             RotateTowards(moveDirection, onlyLateral);
         }
 
         /// <summary>
-        /// Rotate the character towards its velocity vector.
+        ///     Rotate the character towards its velocity vector.
         /// </summary>
         /// <param name="onlyLateral">Should it be restricted to XZ only?</param>
-
         public void RotateTowardsVelocity(bool onlyLateral = true)
         {
             RotateTowards(movement.velocity, onlyLateral);
         }
 
         /// <summary>
-        /// Perform jump logic.
+        ///     Perform jump logic.
         /// </summary>
-
         protected virtual void Jump()
         {
             // Update _isJumping flag state
 
             if (isJumping)
-            {
                 // On landing, reset _isJumping flag
 
                 if (!movement.wasGrounded && movement.isGrounded)
                     _isJumping = false;
-            }
 
             // Update jump ungrounded timer (post jump tolerance time)
 
@@ -588,9 +558,9 @@ namespace ECM.Controllers
             if (!movement.isGrounded && _jumpUngroundedTimer > _jumpPostGroundedToleranceTime)
                 return;
 
-            _canJump = false;           // Halt jump until jump button is released
-            _isJumping = true;          // Update isJumping flag
-            _updateJumpTimer = true;    // Allow mid-air jump to be variable height
+            _canJump = false; // Halt jump until jump button is released
+            _isJumping = true; // Update isJumping flag
+            _updateJumpTimer = true; // Allow mid-air jump to be variable height
 
             // Prevent _jumpPostGroundedToleranceTime condition to pass until character become grounded again (_jumpUngroundedTimer reseted).
 
@@ -606,9 +576,8 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Mid-air jump logic.
+        ///     Mid-air jump logic.
         /// </summary>
-
         protected virtual void MidAirJump()
         {
             // Reset mid-air jumps counter
@@ -631,11 +600,11 @@ namespace ECM.Controllers
             if (_midAirJumpCount >= _maxMidAirJumps)
                 return;
 
-            _midAirJumpCount++;         // Increase mid-air jumps counter
+            _midAirJumpCount++; // Increase mid-air jumps counter
 
-            _canJump = false;           // Halt jump until jump button is released
-            _isJumping = true;          // Update isJumping flag
-            _updateJumpTimer = true;    // Allow mid-air jump to be variable height
+            _canJump = false; // Halt jump until jump button is released
+            _isJumping = true; // Update isJumping flag
+            _updateJumpTimer = true; // Allow mid-air jump to be variable height
 
             // Apply jump impulse
 
@@ -647,9 +616,8 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Perform variable jump height logic.
+        ///     Perform variable jump height logic.
         /// </summary>
-
         protected virtual void UpdateJumpTimer()
         {
             if (!_updateJumpTimer)
@@ -683,9 +651,8 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Handle character's Crouch / UnCrouch.
+        ///     Handle character's Crouch / UnCrouch.
         /// </summary>
-        
         protected virtual void Crouch()
         {
             // If crouching behaviour is disabled, return
@@ -733,11 +700,10 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Calculate the desired movement velocity.
-        /// Eg: Convert the input (moveDirection) to movement velocity vector,
+        ///     Calculate the desired movement velocity.
+        ///     Eg: Convert the input (moveDirection) to movement velocity vector,
         ///     use navmesh agent desired velocity, etc.
         /// </summary>
-
         protected virtual Vector3 CalcDesiredVelocity()
         {
             // If using root motion and root motion is being applied (eg: grounded),
@@ -752,11 +718,9 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Perform character movement logic.
-        /// 
-        /// NOTE: Must be called in FixedUpdate.
+        ///     Perform character movement logic.
+        ///     NOTE: Must be called in FixedUpdate.
         /// </summary>
-
         protected virtual void Move()
         {
             // Apply movement
@@ -767,7 +731,9 @@ namespace ECM.Controllers
             var desiredVelocity = CalcDesiredVelocity();
 
             if (useRootMotion && applyRootMotion)
+            {
                 movement.Move(desiredVelocity, speed, !allowVerticalMovement);
+            }
             else
             {
                 // Move with acceleration and friction
@@ -780,7 +746,7 @@ namespace ECM.Controllers
             }
 
             // Jump logic
-            
+
             Jump();
             MidAirJump();
             UpdateJumpTimer();
@@ -792,37 +758,32 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Perform character animation.
+        ///     Perform character animation.
         /// </summary>
-
-        protected virtual void Animate() { }
-
-        /// <summary>
-        /// Update character's rotation.
-        /// By default ECM will rotate the character towards its movement direction,
-        /// however this default behavior can easily be modified overriding this method in a derived class.
-        /// </summary>
-
-        protected virtual void UpdateRotation()
+        protected virtual void Animate()
         {
-            if (useRootMotion && applyRootMotion && useRootMotionRotation)
-            {
-                // Use animation rotation to rotate our character
-                
-                movement.rotation *= animator.deltaRotation;
-            }
-            else
-            {
-                // Rotate towards movement direction (input)
-
-                RotateTowardsMoveDirection();
-            }
         }
 
         /// <summary>
-        /// Handles input.
+        ///     Update character's rotation.
+        ///     By default ECM will rotate the character towards its movement direction,
+        ///     however this default behavior can easily be modified overriding this method in a derived class.
         /// </summary>
+        protected virtual void UpdateRotation()
+        {
+            if (useRootMotion && applyRootMotion && useRootMotionRotation)
+                // Use animation rotation to rotate our character
 
+                movement.rotation *= animator.deltaRotation;
+            else
+                // Rotate towards movement direction (input)
+
+                RotateTowardsMoveDirection();
+        }
+
+        /// <summary>
+        ///     Handles input.
+        /// </summary>
         protected virtual void HandleInput()
         {
             var direction = InputHandlerComponent.Instance.ForwardMovement.Velocity();
@@ -838,12 +799,10 @@ namespace ECM.Controllers
         #region MONOBEHAVIOUR
 
         /// <summary>
-        /// Validate editor exposed fields.
-        /// 
-        /// NOTE: If you override this, it is important to call the parent class' version of method
-        /// eg: base.OnValidate, in the derived class method implementation, in order to fully validate the class.  
+        ///     Validate editor exposed fields.
+        ///     NOTE: If you override this, it is important to call the parent class' version of method
+        ///     eg: base.OnValidate, in the derived class method implementation, in order to fully validate the class.
         /// </summary>
-
         public virtual void OnValidate()
         {
             speed = _speed;
@@ -871,12 +830,10 @@ namespace ECM.Controllers
         }
 
         /// <summary>
-        /// Initialize this component.
-        /// 
-        /// NOTE: If you override this, it is important to call the parent class' version of method,
-        /// (eg: base.Awake) in the derived class method implementation, in order to fully initialize the class. 
+        ///     Initialize this component.
+        ///     NOTE: If you override this, it is important to call the parent class' version of method,
+        ///     (eg: base.Awake) in the derived class method implementation, in order to fully initialize the class.
         /// </summary>
-
         public virtual void Awake()
         {
             // Cache components
@@ -886,9 +843,9 @@ namespace ECM.Controllers
             var collider = GetComponent<Collider>();
 
             movement = new PlayerMovement(transform, groundDetection, rigidbody, collider, PlayerMovementEditorFields)
-                {
-                    platformUpdatesRotation = true
-                };
+            {
+                platformUpdatesRotation = true
+            };
 
             animator = GetComponentInChildren<Animator>();
 
@@ -932,10 +889,7 @@ namespace ECM.Controllers
 
             Animate();
         }
-        
-        #endregion
 
-        public Vector3 Velocity() =>
-            Vector3.ClampMagnitude(moveDirection, 1);
+        #endregion
     }
 }

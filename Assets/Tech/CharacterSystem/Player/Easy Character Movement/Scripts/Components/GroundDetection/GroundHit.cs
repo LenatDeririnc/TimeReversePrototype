@@ -24,16 +24,16 @@ namespace ECM.Components
 
         public float ledgeDistance
         {
-            get { return _ledgeDistance; }
-            set { _ledgeDistance = Mathf.Max(0.0f, value); }
+            get => _ledgeDistance;
+            set => _ledgeDistance = Mathf.Max(0.0f, value);
         }
 
         public bool isOnStep { get; set; }
 
         public float stepHeight
         {
-            get { return _stepHeight; }
-            set { _stepHeight = Mathf.Max(0.0f, value); }
+            get => _stepHeight;
+            set => _stepHeight = Mathf.Max(0.0f, value);
         }
 
         public Vector3 groundPoint { get; set; }

@@ -3,14 +3,11 @@
 namespace ECM.Helpers
 {
     /// <summary>
-    ///
-    /// RootMotionController.
-    /// 
-    /// Helper component to get 'Animator' root-motion velocity vector (animVelocity) and angular velocity vector (animAngularVelocity).
-    /// This must be attached to a game object with an 'Animator' component.
-    /// 
+    ///     RootMotionController.
+    ///     Helper component to get 'Animator' root-motion velocity vector (animVelocity) and angular velocity vector
+    ///     (animAngularVelocity).
+    ///     This must be attached to a game object with an 'Animator' component.
     /// </summary>
-
     [RequireComponent(typeof(Animator))]
     public sealed class RootMotionController : MonoBehaviour
     {
@@ -23,19 +20,19 @@ namespace ECM.Helpers
         #region PROPERTIES
 
         /// <summary>
-        /// The animation velocity vector.
+        ///     The animation velocity vector.
         /// </summary>
 
         public Vector3 animVelocity { get; private set; }
 
         /// <summary>
-        /// The animation angular velocity vector.
+        ///     The animation angular velocity vector.
         /// </summary>
 
         public Vector3 animAngularVelocity { get; private set; }
 
         /// <summary>
-        /// The animation delta rotation from the last evaluated frame.
+        ///     The animation delta rotation from the last evaluated frame.
         /// </summary>
 
         public Quaternion animDeltaRotation { get; private set; }
@@ -49,13 +46,11 @@ namespace ECM.Helpers
             _animator = GetComponent<Animator>();
 
             if (_animator == null)
-            {
                 Debug.LogError(
                     string.Format(
                         "RootMotionController: There is no 'Animator' attached to the '{0}' game object.\n" +
                         "Please attach a 'Animator' to the '{0}' game object",
                         name));
-            }
         }
 
         public void OnAnimatorMove()
