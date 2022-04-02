@@ -196,7 +196,6 @@ namespace ECM.Controllers
         protected override void HandleInput()
         {
             base.HandleInput();
-            run = InputHandlerComponent.Instance.run;
         }
 
         #endregion

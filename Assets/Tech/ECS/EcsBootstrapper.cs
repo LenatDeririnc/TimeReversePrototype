@@ -1,4 +1,6 @@
 ﻿using ECS.Systems;
+using ECS.Systems.Input;
+using TMPro;
 
 namespace ECS
 {
@@ -12,6 +14,11 @@ namespace ECS
             _contexts = Contexts.sharedInstance;
 
             _systems = new Entitas.Systems();
+            
+            //Input
+            _systems.Add(new InputSystem(_contexts));
+            _systems.Add(new LookInputSystem(_contexts));
+            _systems.Add(new MovementInputSystem(_contexts));
 
             _systems.Add(new MovingObjectSystem(_contexts));
         }
