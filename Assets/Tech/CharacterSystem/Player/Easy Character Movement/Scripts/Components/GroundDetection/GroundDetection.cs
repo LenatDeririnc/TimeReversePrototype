@@ -5,24 +5,10 @@ using UnityEditor;
 
 namespace ECM.Components
 {
-    /// <summary>
-    ///     Ground detection default implementation.
-    ///     This is a feature rich class, capable of detect if the character is on 'ground', and provide additional
-    ///     information about it.
-    /// </summary>
     public sealed class GroundDetection : BaseGroundDetection
     {
         #region METHODS
 
-        /// <summary>
-        ///     Perform a downwards sphere cast from capsule's bottom sphere
-        /// </summary>
-        /// <param name="position">A probing position. This can be different from character's position.</param>
-        /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
-        /// <param name="hitInfo">If true is returned, hitInfo will contain more information about where the collider was hit.</param>
-        /// <param name="distance">The length of the sweep.</param>
-        /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
-        /// <returns>True when intersects ANY 'ground' collider, otherwise false.</returns>
         private bool BottomSphereCast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
             float backstepDistance = kBackstepDistance)
         {
@@ -37,15 +23,7 @@ namespace ECM.Components
             return SphereCast(origin, radius, down, out hitInfo, distance, backstepDistance);
         }
 
-        /// <summary>
-        ///     Perform a downwards raycast from character's position (capsule's bottom).
-        /// </summary>
-        /// <param name="position">A probing position. This can be different from character's position.</param>
-        /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
-        /// <param name="hitInfo">If true is returned, hitInfo will contain more information about where the collider was hit.</param>
-        /// <param name="distance">The length of the sweep.</param>
-        /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
-        /// <returns>True when intersects ANY 'ground' collider, otherwise false.</returns>
+
         private bool BottomRaycast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
             float backstepDistance = kBackstepDistance)
         {
@@ -54,17 +32,7 @@ namespace ECM.Components
                    SimulateSphereCast(position, rotation, hitInfo.normal, out hitInfo, distance, backstepDistance);
         }
 
-        /// <summary>
-        ///     Simulate a sphere cast using a raycast.
-        ///     This is needed to retrieve the correct capsule contact info when using bottom raycast.
-        /// </summary>
-        /// <param name="position">A probing position. This can be different from character's position.</param>
-        /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
-        /// <param name="normal">The current contact normal.</param>
-        /// <param name="hitInfo">If true is returned, hitInfo will contain more information about where the collider was hit.</param>
-        /// <param name="distance">The length of the sweep.</param>
-        /// <param name="backstepDistance">Probing backstep distance to avoid initial overlaps.</param>
-        /// <returns>True when intersects ANY 'ground' collider, otherwise false.</returns>
+
         private bool SimulateSphereCast(Vector3 position, Quaternion rotation, Vector3 normal, out RaycastHit hitInfo,
             float distance = Mathf.Infinity, float backstepDistance = kBackstepDistance)
         {
@@ -88,15 +56,7 @@ namespace ECM.Components
             return Raycast(origin, -up, out hitInfo, distance, backstepDistance);
         }
 
-        /// <summary>
-        ///     Check if we are standing on a ledge or a step and update 'grounding' info.
-        /// </summary>
-        /// <param name="position">A probing position. This can be different from character's position.</param>
-        /// <param name="rotation">A probing rotation. This can be different from character's rotation.</param>
-        /// <param name="distance">The cast distance.</param>
-        /// <param name="point">The current contact point.</param>
-        /// <param name="normal">The current contact normal.</param>
-        /// <param name="groundHitInfo">If found any 'ground', hitInfo will contain more information about it.</param>
+
         private void DetectLedgeAndSteps(Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo,
             float distance, Vector3 point, Vector3 normal)
         {
@@ -116,19 +76,15 @@ namespace ECM.Components
             var farHit = Raycast(farPoint, down, out farHitInfo, ledgeStepDistance);
             var isFarGroundValid = farHit && Vector3.Angle(farHitInfo.normal, up) < groundLimit;
 
-            // Flush
 
             if (farHit && !isFarGroundValid)
             {
                 groundHitInfo.surfaceNormal = farHitInfo.normal;
 
-                // Attemp to retrieve the 'ground' below us
 
                 RaycastHit secondaryHitInfo;
                 if (BottomRaycast(position, rotation, out secondaryHitInfo, distance))
                 {
-                    // Update ground info and return
-
                     groundHitInfo.SetFrom(secondaryHitInfo);
                     groundHitInfo.surfaceNormal = secondaryHitInfo.normal;
                 }
@@ -136,18 +92,14 @@ namespace ECM.Components
                 return;
             }
 
-            // Steps
 
             if (isNearGroundValid && isFarGroundValid)
             {
-                // Choose nearest normal
-
                 groundHitInfo.surfaceNormal =
                     (point - nearHitInfo.point).sqrMagnitude < (point - farHitInfo.point).sqrMagnitude
                         ? nearHitInfo.normal
                         : farHitInfo.normal;
 
-                // Check if max vertical distance between points is steep enough to be considered as a step
 
                 var nearHeight = Vector3.Dot(point - nearHitInfo.point, up);
                 var farHeight = Vector3.Dot(point - farHitInfo.point, up);
@@ -162,15 +114,11 @@ namespace ECM.Components
                 return;
             }
 
-            // Ledges
-
-            // If only one of the near / far rays hit we are on a ledge
 
             var isOnLedge = isNearGroundValid != isFarGroundValid;
             if (!isOnLedge)
                 return;
 
-            // On ledge, compute ledge info and check which side of the ledge we are
 
             groundHitInfo.surfaceNormal = isFarGroundValid ? farHitInfo.normal : nearHitInfo.normal;
 
@@ -178,9 +126,6 @@ namespace ECM.Components
 
             if (isFarGroundValid && groundHitInfo.ledgeDistance > ledgeOffset)
             {
-                // On possible ledge 'empty' side,
-                // cast downwards using de ledgeOffset as radius
-
                 groundHitInfo.isOnLedgeEmptySide = true;
 
                 var radius = ledgeOffset;
@@ -206,21 +151,16 @@ namespace ECM.Components
         {
             var up = rotation * Vector3.up;
 
-            // Downward cast from capsule's bottom sphere (filter any 'wall')
 
             RaycastHit hitInfo;
             if (BottomSphereCast(position, rotation, out hitInfo, distance) &&
                 Vector3.Angle(hitInfo.normal, up) < 89.0f)
             {
-                // Update ground hit info
-
                 groundHitInfo.SetFrom(hitInfo);
 
-                // Check if standing on a ledge or step
 
                 DetectLedgeAndSteps(position, rotation, ref groundHitInfo, distance, hitInfo.point, hitInfo.normal);
 
-                // Inform we found 'ground' and if is valid
 
                 groundHitInfo.isOnGround = true;
                 groundHitInfo.isValidGround = !groundHitInfo.isOnLedgeEmptySide &&
@@ -229,13 +169,10 @@ namespace ECM.Components
                 return true;
             }
 
-            // If initial sphere cast fails, or found a 'wall',
-            // fallback to a raycast from character's bottom position
 
             if (!BottomRaycast(position, rotation, out hitInfo, distance))
                 return false;
 
-            // If found 'ground', update ground info and return
 
             groundHitInfo.SetFrom(hitInfo);
             groundHitInfo.surfaceNormal = hitInfo.normal;
@@ -278,11 +215,9 @@ namespace ECM.Components
         {
 #if UNITY_EDITOR
 
-            // Draw 'ground' hit info
 
             base.DrawGizmos();
 
-            // Draw 'grounding' volume
 
             var radius = capsuleCollider.radius;
 
@@ -303,7 +238,6 @@ namespace ECM.Components
 
             Gizmos.matrix = Matrix4x4.identity;
 
-            // When on ledge, show ledge offset radius and state (solid / empty side)
 
             Handles.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
 

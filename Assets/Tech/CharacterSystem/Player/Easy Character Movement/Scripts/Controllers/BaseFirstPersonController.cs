@@ -190,24 +190,6 @@ namespace ECM.Controllers
         #region MONOBEHAVIOUR
 
         /// <summary>
-        ///     Validate this editor exposed fields.
-        /// </summary>
-        public override void OnValidate()
-        {
-            // Call the parent class' version of method
-
-            base.OnValidate();
-
-            // Validate this editor exposed fields
-
-            forwardSpeed = _forwardSpeed;
-            backwardSpeed = _backwardSpeed;
-            strafeSpeed = _strafeSpeed;
-
-            runSpeedMultiplier = _runSpeedMultiplier;
-        }
-
-        /// <summary>
         ///     Initialize this.
         /// </summary>
         public override void Awake()
