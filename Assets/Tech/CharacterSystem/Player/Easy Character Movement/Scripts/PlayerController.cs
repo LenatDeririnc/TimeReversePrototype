@@ -33,28 +33,13 @@ namespace ECM
                 RootMotionController = new RootMotionController(PlayerModel.Animator);
         }
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
             _inputEntity = Contexts.input.CreateEntity();
             _inputEntity.ReplaceInputControlling(this);
+            _inputEntity.ReplaceBasePlayerControllerHolder(BasePlayerController);
         }
-
-        private void LateUpdate()
-        {
-            BasePlayerController.LateUpdate();
-        }
-
-        private void FixedUpdate()
-        {
-            BasePlayerController.FixedUpdate();
-        }
-
-        private void Update()
-        {
-            BasePlayerController.Update();
-        }
-
+        
         private void OnDrawGizmosSelected()
         {
             BaseGroundDetection?.OnDrawGizmosSelected();
@@ -62,7 +47,6 @@ namespace ECM
 
         public void SendInputData(InputData data)
         {
-            Debug.Log(data.ToString());
             BasePlayerController.HandleInput(data);
             MouseLook.HandleInput(data);
         }

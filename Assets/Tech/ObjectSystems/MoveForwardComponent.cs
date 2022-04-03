@@ -1,17 +1,15 @@
-﻿using System;
-using TimeSystem;
+﻿using ECS.Mono;
 using UnityEngine;
 
 namespace ObjectSystems
 {
-    public class MoveForwardComponent : MonoBehaviour
+    public class MoveForwardComponent : MonoProvider
     {
         [SerializeField] private float _speed = 0.1f;
 
         private void Awake()
         {
-            var context = Contexts.sharedInstance;
-            var entity = context.game.CreateEntity();
+            var entity = Contexts.game.CreateEntity();
             entity.AddTransform(transform);
             entity.AddMovingForward(_speed);
         }

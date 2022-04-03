@@ -4,9 +4,9 @@ using TimeSystem;
 
 namespace ECS.Systems.TimeManagement
 {
-    public class TimeVelocitySystem : ReactiveSystem<InputEntity>
+    public class TimeVelocityReactiveSystem : ReactiveSystem<InputEntity>
     {
-        public TimeVelocitySystem(Contexts contexts) : base(contexts.input)
+        public TimeVelocityReactiveSystem(Contexts contexts) : base(contexts.input)
         {
         }
 

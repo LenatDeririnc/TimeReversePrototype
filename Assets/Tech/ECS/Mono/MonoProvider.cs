@@ -4,11 +4,6 @@ namespace ECS.Mono
 {
     public class MonoProvider : MonoBehaviour
     {
-        protected Contexts Contexts;
-
-        protected virtual void Awake()
-        {
-            Contexts = Contexts.sharedInstance;
-        }
+        protected Contexts Contexts => EcsBootstrapper.Contexts;
     }
 }

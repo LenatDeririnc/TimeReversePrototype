@@ -1,44 +1,66 @@
 ﻿using ECS.Systems;
 using ECS.Systems.Input;
+using ECS.Systems.Input.PlayerControllerSystems;
 using ECS.Systems.TimeManagement;
-using TMPro;
+using UnityEngine;
 
 namespace ECS
 {
-    public class EcsBootstrapper
+    public class EcsBootstrapper : MonoBehaviour
     {
-        private Contexts _contexts;
+        public static Contexts Contexts;
         private Entitas.Systems _systems;
+        private Entitas.Systems _fixedSystems;
+        private Entitas.Systems _lateSystems;
 
-        public EcsBootstrapper()
+        private void Awake()
         {
-            _contexts = Contexts.sharedInstance;
+            Contexts = new Contexts();
 
             _systems = new Entitas.Systems();
+            _fixedSystems = new Entitas.Systems();
+            _lateSystems = new Entitas.Systems();
             
             //Input
-            _systems.Add(new InputControllingReactiveSystem(_contexts));
-            _systems.Add(new LookInputSystem(_contexts));
-            _systems.Add(new MovementInputSystem(_contexts));
-            _systems.Add(new InputControlSenderSystem(_contexts));
+            _systems.Add(new InputControllingReactiveSystem(Contexts));
+            _systems.Add(new MouseLookInputSystem(Contexts));
+            _systems.Add(new MovementInputSystem(Contexts));
+            _systems.Add(new InputControlSenderSystem(Contexts));
             
-            //Time
-            _systems.Add(new TimeVelocitySystem(_contexts));
+            //PlayerController
+            _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
+            _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
+            _systems.Add(new UpdatePlayerControllerSystem(Contexts));
 
-            _systems.Add(new MovingObjectSystem(_contexts));
+            //Time
+            _systems.Add(new TimeVelocityReactiveSystem(Contexts));
+
+            //Test
+            _systems.Add(new MovingObjectSystem(Contexts));
+            _systems.Add(new TestSystem(Contexts));
         }
 
-        public void Initialize()
+        public void Start()
         {
             _systems.Initialize();
         }
 
-        public void Execute()
+        public void LateUpdate()
+        {
+            _lateSystems.Execute();
+        }
+        
+        public void FixedUpdate()
+        {
+            _fixedSystems.Execute();
+        }
+
+        public void Update()
         {
             _systems.Execute();
         }
 
-        public void TearDown()
+        public void OnDestroy()
         {
             _systems.TearDown();
         }

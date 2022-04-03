@@ -5,12 +5,10 @@ namespace ECS.Systems
 {
     public class MovingObjectSystem : IExecuteSystem
     {
-        private Contexts _contexts;
         private readonly IGroup<GameEntity> _group;
 
         public MovingObjectSystem(Contexts contexts)
         {
-            _contexts = contexts;
             _group = contexts.game.GetGroup(GameMatcher.AnyOf(GameMatcher.MovingForward, GameMatcher.Transform));
         }
         
