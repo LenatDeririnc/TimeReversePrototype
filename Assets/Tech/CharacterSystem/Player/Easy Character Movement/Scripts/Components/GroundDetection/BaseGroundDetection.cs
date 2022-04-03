@@ -1,23 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using ECM.Fields;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 namespace ECM.Components
 {
-    [RequireComponent(typeof(CapsuleCollider))]
-    public abstract class BaseGroundDetection : MonoBehaviour
+    public abstract class BaseGroundDetection
     {
-        #region EDITOR EXPOSED FIELDS
-        
-        [SerializeField] private LayerMask _groundMask = 1;
-        [SerializeField] private float _groundLimit = 60.0f;
-        [SerializeField] private float _stepOffset = 0.5f;
-        [SerializeField] private float _ledgeOffset;
-        [SerializeField] private float _castDistance = 0.5f;
-        [SerializeField] private QueryTriggerInteraction _triggerInteraction = QueryTriggerInteraction.Ignore;
+        protected readonly PlayerModel _model;
 
-        #endregion
+        public BaseGroundDetection(PlayerModel model)
+        {
+            _model = model;
+            _fields = model.BaseGroundDetectionFields;
+            
+            InitializeOverlapMask();
+            _ignoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
+        }
+
+        private BaseGroundDetectionFields _fields;
 
         #region FIELDS
 
@@ -44,43 +47,43 @@ namespace ECM.Components
 
         public LayerMask groundMask
         {
-            get => _groundMask;
-            set => _groundMask = value;
+            get => _fields._groundMask;
+            set => _fields._groundMask = value;
         }
 
 
         public float groundLimit
         {
-            get => _groundLimit;
-            set => _groundLimit = Mathf.Clamp(value, 0.0f, 89.0f);
+            get => _fields._groundLimit;
+            set => _fields._groundLimit = Mathf.Clamp(value, 0.0f, 89.0f);
         }
 
 
         public float stepOffset
         {
-            get => _stepOffset;
-            set => _stepOffset = Mathf.Clamp(value, kMinStepOffset, capsuleCollider.radius);
+            get => _fields._stepOffset;
+            set => _fields._stepOffset = Mathf.Clamp(value, kMinStepOffset, capsuleCollider.radius);
         }
 
 
         public float ledgeOffset
         {
-            get => _ledgeOffset;
-            set => _ledgeOffset = Mathf.Clamp(value, 0.0f, capsuleCollider.radius);
+            get => _fields._ledgeOffset;
+            set => _fields._ledgeOffset = Mathf.Clamp(value, 0.0f, capsuleCollider.radius);
         }
 
 
         public float castDistance
         {
-            get => _castDistance;
-            set => _castDistance = Mathf.Max(kMinCastDistance, value);
+            get => _fields._castDistance;
+            set => _fields._castDistance = Mathf.Max(kMinCastDistance, value);
         }
 
 
         public QueryTriggerInteraction triggerInteraction
         {
-            get => _triggerInteraction;
-            set => _triggerInteraction = value;
+            get => _fields._triggerInteraction;
+            set => _fields._triggerInteraction = value;
         }
 
 
@@ -89,7 +92,7 @@ namespace ECM.Components
             get
             {
                 if (_capsuleCollider == null)
-                    _capsuleCollider = GetComponent<CapsuleCollider>();
+                    _capsuleCollider = _model.capsuleCollider;
 
                 return _capsuleCollider;
             }
@@ -135,7 +138,7 @@ namespace ECM.Components
         public Rigidbody groundRigidbody => _groundHitInfo.groundRigidbody;
 
 
-        public float groundAngle => !isOnGround ? 0.0f : Vector3.Angle(surfaceNormal, transform.up);
+        public float groundAngle => !isOnGround ? 0.0f : Vector3.Angle(surfaceNormal, _model.transform.up);
 
 
         public Vector3 surfaceNormal => _groundHitInfo.surfaceNormal;
@@ -159,7 +162,7 @@ namespace ECM.Components
 
         protected virtual void InitializeOverlapMask()
         {
-            var layer = gameObject.layer;
+            var layer = _model.gameObject.layer;
 
             _overlapMask = 0;
             for (var i = 0; i < 32; i++)
@@ -260,25 +263,25 @@ namespace ECM.Components
 
         protected virtual void DisableRaycastCollisions()
         {
-            _cachedLayer = gameObject.layer;
-            gameObject.layer = _ignoreRaycastLayer;
+            _cachedLayer = _model.gameObject.layer;
+            _model.gameObject.layer = _ignoreRaycastLayer;
         }
 
 
         protected virtual void EnableRaycastCollisions()
         {
-            gameObject.layer = _cachedLayer;
+            _model.gameObject.layer = _cachedLayer;
         }
 
 
         public virtual void ResetGroundInfo()
         {
-            var up = transform.up;
+            var up = _model.transform.up;
 
             prevGroundHit = new GroundHit(_groundHitInfo);
             _groundHitInfo = new GroundHit
             {
-                groundPoint = transform.position,
+                groundPoint = _model.transform.position,
                 groundNormal = up,
                 surfaceNormal = up
             };
@@ -292,7 +295,7 @@ namespace ECM.Components
         public void DetectGround()
         {
             DisableRaycastCollisions();
-            ComputeGroundHit(transform.position, transform.rotation, ref _groundHitInfo, castDistance);
+            ComputeGroundHit(_model.transform.position, _model.transform.rotation, ref _groundHitInfo, castDistance);
             EnableRaycastCollisions();
         }
 
@@ -333,13 +336,13 @@ namespace ECM.Components
             if (!isOnStep)
                 return;
 
-            var stepPoint = groundPoint - transform.up * stepHeight;
+            var stepPoint = groundPoint - _model.transform.up * stepHeight;
 
             Gizmos.color = Color.black;
             Gizmos.DrawLine(groundPoint, stepPoint);
 
             Handles.color = new Color(0.0f, 0.0f, 0.0f, 0.25f);
-            Handles.DrawSolidDisc(stepPoint, transform.up, 0.1f);
+            Handles.DrawSolidDisc(stepPoint, _model.transform.up, 0.1f);
 
 #endif
         }
@@ -347,24 +350,7 @@ namespace ECM.Components
         #endregion
 
         #region MONOBEHAVIOUR
-
-        protected virtual void OnValidate()
-        {
-            groundLimit = _groundLimit;
-            stepOffset = _stepOffset;
-            ledgeOffset = _ledgeOffset;
-            castDistance = _castDistance;
-        }
-
-
-        protected virtual void Awake()
-        {
-            InitializeOverlapMask();
-
-            _ignoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
-        }
-
-
+        
         public void OnDrawGizmosSelected()
         {
             DrawGizmos();

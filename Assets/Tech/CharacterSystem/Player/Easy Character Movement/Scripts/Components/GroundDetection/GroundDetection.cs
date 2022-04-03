@@ -7,6 +7,10 @@ namespace ECM.Components
 {
     public sealed class GroundDetection : BaseGroundDetection
     {
+        public GroundDetection(PlayerModel model) : base(model)
+        {
+        }
+        
         #region METHODS
 
         private bool BottomSphereCast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
@@ -191,15 +195,15 @@ namespace ECM.Components
             var height = Mathf.Max(0.0f, capsuleCollider.height * 0.5f - radius);
             var center = capsuleCollider.center - Vector3.up * height;
 
-            var origin = transform.TransformPoint(center);
+            var origin = _model.transform.TransformPoint(center);
 
-            var up = transform.up;
+            var up = _model.transform.up;
             if (!SphereCast(origin, radius, direction, out hitInfo, distance, backstepDistance) ||
                 Vector3.Angle(hitInfo.normal, /*Vector3.up*/up) >= 89.0f)
                 return false;
 
-            var p = transform.position - transform.up * hitInfo.distance;
-            var q = transform.rotation;
+            var p = _model.transform.position - _model.transform.up * hitInfo.distance;
+            var q = _model.transform.rotation;
 
             var groundHitInfo = new GroundHit(hitInfo);
             DetectLedgeAndSteps(p, q, ref groundHitInfo, castDistance, hitInfo.point, hitInfo.normal);
@@ -231,7 +235,7 @@ namespace ECM.Components
             if (Application.isPlaying)
                 color = isOnGround ? isValidGround ? Color.green : Color.blue : Color.red;
 
-            Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+            Gizmos.matrix = Matrix4x4.TRS(_model.transform.position, _model.transform.rotation, _model.transform.lossyScale);
 
             Gizmos.color = color;
             Gizmos.DrawWireSphere(center - Vector3.up * offset, radius * 1.01f);
@@ -239,7 +243,7 @@ namespace ECM.Components
             Gizmos.matrix = Matrix4x4.identity;
 
 
-            Handles.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+            Handles.matrix = Matrix4x4.TRS(_model.transform.position, _model.transform.rotation, _model.transform.lossyScale);
 
             var standingOnLedge = isOnLedgeSolidSide || isOnLedgeEmptySide;
             if (standingOnLedge)

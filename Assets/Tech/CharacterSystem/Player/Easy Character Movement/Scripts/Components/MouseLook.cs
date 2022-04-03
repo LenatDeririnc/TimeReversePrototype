@@ -1,40 +1,18 @@
-﻿using Common;
+﻿using ECM.Fields;
 using InputHandler;
 using UnityEngine;
 
 namespace ECM.Components
 {
-    public class MouseLook : MonoBehaviour, IVelocity
+    public class MouseLook
     {
-        #region MONOBEHAVIOUR
-
-        public virtual void OnValidate()
+        private MouseLookFields _fields;
+        public MouseLook(PlayerModel model)
         {
-            lateralSensitivity = _lateralSensitivity;
-            verticalSensitivity = _verticalSensitivity;
-
-            smoothTime = _smoothTime;
-
-            minPitchAngle = _minPitchAngle;
-            maxPitchAngle = _maxPitchAngle;
+            characterTargetRotation = model.transform.localRotation;
+            cameraTargetRotation = model.Camera.transform.localRotation;
+            _fields = model.MouseLookFields;
         }
-
-        #endregion
-
-        public Vector3 Velocity()
-        {
-            return _lookVelocity;
-        }
-
-        [SerializeField] private bool _lockCursor = true;
-        [SerializeField] private KeyCode _unlockCursorKey = KeyCode.Escape;
-        [SerializeField] private float _lateralSensitivity = 2.0f;
-        [SerializeField] private float _verticalSensitivity = 2.0f;
-        [SerializeField] private bool _smooth;
-        [SerializeField] public float _smoothTime = 5.0f;
-        [SerializeField] private bool _clampPitch = true;
-        [SerializeField] private float _minPitchAngle = -90.0f;
-        [SerializeField] private float _maxPitchAngle = 90.0f;
 
         private Vector3 _lookVelocity = new Vector3(0, 0, 0);
 
@@ -49,64 +27,64 @@ namespace ECM.Components
 
         public bool lockCursor
         {
-            get => _lockCursor;
-            set => _lockCursor = value;
+            get => _fields._lockCursor;
+            set => _fields._lockCursor = value;
         }
 
 
         public KeyCode unlockCursorKey
         {
-            get => _unlockCursorKey;
-            set => _unlockCursorKey = value;
+            get => _fields._unlockCursorKey;
+            set => _fields._unlockCursorKey = value;
         }
 
 
         public float lateralSensitivity
         {
-            get => _lateralSensitivity;
-            set => _lateralSensitivity = Mathf.Max(0.0f, value);
+            get => _fields._lateralSensitivity;
+            set => _fields._lateralSensitivity = Mathf.Max(0.0f, value);
         }
 
 
         public float verticalSensitivity
         {
-            get => _verticalSensitivity;
-            set => _verticalSensitivity = Mathf.Max(0.0f, value);
+            get => _fields._verticalSensitivity;
+            set => _fields._verticalSensitivity = Mathf.Max(0.0f, value);
         }
 
 
         public bool smooth
         {
-            get => _smooth;
-            set => _smooth = value;
+            get => _fields._smooth;
+            set => _fields._smooth = value;
         }
 
 
         public float smoothTime
         {
-            get => _smoothTime;
-            set => _smoothTime = Mathf.Max(0.0f, value);
+            get => _fields._smoothTime;
+            set => _fields._smoothTime = Mathf.Max(0.0f, value);
         }
 
 
         public bool clampPitch
         {
-            get => _clampPitch;
-            set => _clampPitch = value;
+            get => _fields._clampPitch;
+            set => _fields._clampPitch = value;
         }
 
 
         public float minPitchAngle
         {
-            get => _minPitchAngle;
-            set => _minPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f);
+            get => _fields._minPitchAngle;
+            set => _fields._minPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f);
         }
 
 
         public float maxPitchAngle
         {
-            get => _maxPitchAngle;
-            set => _maxPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f);
+            get => _fields._maxPitchAngle;
+            set => _fields._maxPitchAngle = Mathf.Clamp(value, -180.0f, 180.0f);
         }
 
         #endregion
@@ -120,7 +98,7 @@ namespace ECM.Components
         }
 
 
-        public virtual void LookRotation(PlayerMovement movement, Transform cameraTransform)
+        public virtual void LookRotation(IPlayerMovementForMouse movement, Transform cameraTransform)
         {
             var yaw = InputHandlerComponent.Instance.mouseX * lateralSensitivity;
             var pitch = InputHandlerComponent.Instance.mouseY * verticalSensitivity;

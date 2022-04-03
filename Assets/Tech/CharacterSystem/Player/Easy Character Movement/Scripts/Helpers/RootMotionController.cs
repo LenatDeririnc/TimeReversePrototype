@@ -1,28 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ECM.Helpers
 {
-    [RequireComponent(typeof(Animator))]
-    public sealed class RootMotionController : MonoBehaviour
+    public sealed class RootMotionController
     {
+        public RootMotionController(Animator animator)
+        {
+            _animator = animator;
+        }
+
         private Animator _animator;
         
         public Vector3 animVelocity { get; private set; }
         public Vector3 animAngularVelocity { get; private set; }
 
         public Quaternion animDeltaRotation { get; private set; }
-
-        public void Awake()
-        {
-            _animator = GetComponent<Animator>();
-
-            if (_animator == null)
-                Debug.LogError(
-                    string.Format(
-                        "RootMotionController: There is no 'Animator' attached to the '{0}' game object.\n" +
-                        "Please attach a 'Animator' to the '{0}' game object",
-                        name));
-        }
 
         public void OnAnimatorMove()
         {

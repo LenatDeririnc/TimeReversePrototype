@@ -1,22 +1,20 @@
 ﻿using Common;
 using DamageSystem;
+using ECM;
 using ECM.Components;
 using ECM.Controllers;
 using SingletonSystem;
 using TimelineSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CharacterSystem.Player
 {
     public class PlayerComponent : Singleton<PlayerComponent>, IDestroyable
     {
-        [FormerlySerializedAs("CharacterController")] public BasePlayerController playerController;
-        [FormerlySerializedAs("CharacterMovement")] public PlayerMovement playerMovement;
+        public PlayerModel Model;
+        public PlayerController Controller; 
         public PlayerRollbackMovement PlayerRollbackMovement;
-        public MouseLook MouseLook;
         private PlayerTimeline _timeline;
-        public Rigidbody _Rigidbody;
 
         public Transform Transform { get; private set; }
 
