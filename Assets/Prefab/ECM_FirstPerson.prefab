@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 6303919232749796089}
   - component: {fileID: 5158566508503921252}
   - component: {fileID: 3960936034342874178}
-  - component: {fileID: 2966849763166064688}
-  - component: {fileID: 8512376941051339230}
-  - component: {fileID: 7355124012551563431}
+  - component: {fileID: 8160800476819635849}
+  - component: {fileID: 680116955054548384}
   - component: {fileID: 7230906146265029416}
   m_Layer: 0
   m_Name: Player
@@ -68,7 +67,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &2966849763166064688
+--- !u!114 &8160800476819635849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,18 +76,72 @@ MonoBehaviour:
   m_GameObject: {fileID: 497698983247570982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad2beb1f5ff1d146b5668716966d9ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 936e26cf71e04c5e95ad0dede092eba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundMask:
-    serializedVersion: 2
-    m_Bits: 1
-  _groundLimit: 60
-  _stepOffset: 0.5
-  _ledgeOffset: 0
-  _castDistance: 0.5
-  _triggerInteraction: 1
---- !u!114 &8512376941051339230
+  transform: {fileID: 6303919232749796089}
+  gameObject: {fileID: 497698983247570982}
+  rigidBody: {fileID: 5158566508503921252}
+  capsuleCollider: {fileID: 3960936034342874178}
+  Animator: {fileID: 0}
+  Camera: {fileID: 4300705970140724746}
+  CameraTransform: {fileID: 8000905664876016209}
+  CameraPivotTransform: {fileID: 7841495058622957830}
+  MouseLookFields:
+    _lockCursor: 1
+    _unlockCursorKey: 27
+    _lateralSensitivity: 2
+    _verticalSensitivity: 2
+    _smooth: 0
+    _smoothTime: 5
+    _clampPitch: 1
+    _minPitchAngle: -90
+    _maxPitchAngle: 90
+  BaseGroundDetectionFields:
+    _groundMask:
+      serializedVersion: 2
+      m_Bits: 1
+    _groundLimit: 60
+    _stepOffset: 0.5
+    _ledgeOffset: 0
+    _castDistance: 0.5
+    _triggerInteraction: 1
+  BasePlayerControllerFields:
+    speed: 5
+    angularSpeed: 540
+    acceleration: 50
+    deceleration: 20
+    groundFriction: 8
+    useBrakingFriction: 0
+    brakingFriction: 8
+    airFriction: 0
+    canCrouch: 1
+    standingHeight: 2
+    crouchingHeight: 1
+    baseJumpHeight: 1.5
+    extraJumpTime: 0.5
+    extraJumpPower: 25
+    jumpPreGroundedToleranceTime: 0.15
+    jumpPostGroundedToleranceTime: 0.15
+    maxMidAirJumps: 1
+    useRootMotion: 0
+    rootMotionRotation: 0
+    maxLateralSpeed: 10
+    maxRiseSpeed: 20
+    maxFallSpeed: 20
+    useGravity: 1
+    gravity: {x: 0, y: -30, z: 0}
+    slideOnSteepSlope: 0
+    slopeLimit: 45
+    slideGravityMultiplier: 2
+    snapToGround: 1
+    snapStrength: 0.5
+  BasePlayerFirstPersonControllerFields:
+    _forwardSpeed: 5
+    _backwardSpeed: 3
+    _strafeSpeed: 4
+    _runSpeedMultiplier: 2
+--- !u!114 &680116955054548384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,54 +150,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 497698983247570982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e4a7b6dca62ece4cb78b603cb08948c, type: 3}
+  m_Script: {fileID: 11500000, guid: 27eefb77e83245c990be32cd4d9e9def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockCursor: 1
-  _unlockCursorKey: 27
-  _lateralSensitivity: 2
-  _verticalSensitivity: 2
-  _smooth: 0
-  _smoothTime: 5
-  _clampPitch: 1
-  _minPitchAngle: -90
-  _maxPitchAngle: 90
---- !u!114 &7355124012551563431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497698983247570982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdd78ad1b02523246af003cc14e20b40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 5
-  _angularSpeed: 540
-  _acceleration: 50
-  _deceleration: 20
-  _groundFriction: 8
-  _useBrakingFriction: 0
-  _brakingFriction: 8
-  _airFriction: 0
-  _airControl: 0.2
-  _canCrouch: 0
-  _standingHeight: 2
-  _crouchingHeight: 1
-  _baseJumpHeight: 1.5
-  _extraJumpTime: 0.5
-  _extraJumpPower: 25
-  _jumpPreGroundedToleranceTime: 0.15
-  _jumpPostGroundedToleranceTime: 0.15
-  _maxMidAirJumps: 1
-  _useRootMotion: 0
-  _rootMotionRotation: 0
-  _forwardSpeed: 5
-  _backwardSpeed: 3
-  _strafeSpeed: 4
-  _runSpeedMultiplier: 2
+  PlayerModel: {fileID: 8160800476819635849}
 --- !u!114 &7230906146265029416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,9 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8407089bdfa042269dfe38820088f454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 7355124012551563431}
-  MouseLook: {fileID: 8512376941051339230}
-  _Rigidbody: {fileID: 5158566508503921252}
+  Model: {fileID: 8160800476819635849}
+  Controller: {fileID: 680116955054548384}
 --- !u!1 &2565097305269317893
 GameObject:
   m_ObjectHideFlags: 0
