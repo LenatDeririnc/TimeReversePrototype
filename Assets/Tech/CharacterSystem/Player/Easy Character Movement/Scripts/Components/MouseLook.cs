@@ -21,7 +21,9 @@ namespace ECM.Components
 
         protected Quaternion characterTargetRotation;
         protected Quaternion cameraTargetRotation;
-        
+        private float _yaw;
+        private float _pitch;
+
 
         #region PROPERTIES
 
@@ -91,22 +93,12 @@ namespace ECM.Components
 
         #region METHODS
 
-        public virtual void Init(Transform characterTransform, Transform cameraTransform)
-        {
-            characterTargetRotation = characterTransform.localRotation;
-            cameraTargetRotation = cameraTransform.localRotation;
-        }
-
-
         public virtual void LookRotation(IPlayerMovementForMouse movement, Transform cameraTransform)
         {
-            var yaw = InputHandlerComponent.Instance.mouseX * lateralSensitivity;
-            var pitch = InputHandlerComponent.Instance.mouseY * verticalSensitivity;
+            _lookVelocity = new Vector3(_pitch, _yaw, 0);
 
-            _lookVelocity = new Vector3(pitch, yaw, 0);
-
-            var yawRotation = Quaternion.Euler(0.0f, yaw, 0.0f);
-            var pitchRotation = Quaternion.Euler(-pitch, 0.0f, 0.0f);
+            var yawRotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
+            var pitchRotation = Quaternion.Euler(-_pitch, 0.0f, 0.0f);
 
             characterTargetRotation *= yawRotation;
             cameraTargetRotation *= pitchRotation;
@@ -191,6 +183,12 @@ namespace ECM.Components
             q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * pitch);
 
             return q;
+        }
+
+        public void HandleInput(InputData data)
+        {
+            _yaw = data.look.x * lateralSensitivity;
+            _pitch = data.look.y * verticalSensitivity;
         }
 
         #endregion

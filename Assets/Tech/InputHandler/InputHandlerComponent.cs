@@ -87,12 +87,12 @@ namespace InputHandler
 
         private void FixedUpdate()
         {
-            Pause();
+            // Pause();
         }
 
         private void Update()
         {
-            HandleInput();
+            // HandleInput();
         }
     }
 }

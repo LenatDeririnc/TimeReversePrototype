@@ -9,10 +9,8 @@ using UnityEngine;
 
 namespace CharacterSystem.Player
 {
-    public class PlayerComponent : Singleton<PlayerComponent>, IDestroyable
+    public class TimeController : Singleton<TimeController>, IDestroyable
     {
-        public PlayerModel Model;
-        public PlayerController Controller; 
         public PlayerRollbackMovement PlayerRollbackMovement;
         private PlayerTimeline _timeline;
 

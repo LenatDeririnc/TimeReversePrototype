@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CharacterSystem;
 using CharacterSystem.Player;
 using Common;
 using TimeSystem;
@@ -8,10 +7,10 @@ namespace TimelineSystem
 {
     public class PlayerTimeline
     {
-        private readonly PlayerComponent _playerComponent;
+        private readonly TimeController _playerComponent;
         private Stack<TransformInfo> _timelineData;
 
-        public PlayerTimeline(PlayerComponent playerComponent)
+        public PlayerTimeline(TimeController playerComponent)
         {
             _timelineData = new Stack<TransformInfo>();
             _playerComponent = playerComponent;

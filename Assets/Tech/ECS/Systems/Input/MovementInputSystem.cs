@@ -3,23 +3,13 @@ using UnityEngine;
 
 namespace ECS.Systems.Input
 {
-    public class MovementInputSystem : IExecuteSystem, IInitializeSystem
+    public class MovementInputSystem : IExecuteSystem
     {
         private readonly IGroup<InputEntity> _group;
 
         public MovementInputSystem(Contexts contexts)
         {
             _group = contexts.input.GetGroup(InputMatcher.Input);
-        }
-
-        public void Initialize()
-        {
-            foreach (var e in _group)
-            {
-                e.ReplaceMoveDirection(Vector3.zero);
-                e.ReplaceForwardMovement(Vector3.zero);
-                e.ReplaceBackMovement(Vector3.zero);
-            }
         }
 
         public void Execute()
@@ -45,6 +35,7 @@ namespace ECS.Systems.Input
                 e.forwardMovement.Value = forward;
                 
                 e.backMovement.Value = e.moveDirection.Value - e.forwardMovement.Value;
+                e.velocityConverter.Value.Set(e.forwardMovement.Value);
             }
         }
     }

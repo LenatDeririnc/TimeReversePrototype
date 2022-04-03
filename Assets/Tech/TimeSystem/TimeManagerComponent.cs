@@ -7,11 +7,6 @@ namespace TimeSystem
     {
         public static TimeManager TimeManager = new TimeManager();
 
-        private void Start()
-        {
-            TimeManager.SetMovingObject(InputHandlerComponent.Instance.moveDirectionVelocity);
-        }
-
         private void Update()
         {
             TimeManager.Update();

@@ -1,6 +1,5 @@
 ﻿using Entitas;
 using TimeSystem;
-using UnityEngine;
 
 namespace ECS.Systems
 {

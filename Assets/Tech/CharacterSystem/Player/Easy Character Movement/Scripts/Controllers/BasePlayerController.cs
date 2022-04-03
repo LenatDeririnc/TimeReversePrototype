@@ -3,7 +3,7 @@ using ECM.Common;
 using ECM.Components;
 using ECM.Fields;
 using ECM.Helpers;
-using InputHandler;
+// using InputHandler;
 using TimeSystem;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace ECM.Controllers
         protected readonly PlayerModel _model;
         protected readonly PlayerController _playerController;
         protected BasePlayerControllerFields _baseFields;
-        
+
         protected BasePlayerController(PlayerModel playerModel, PlayerController playerController)
         {
             _model = playerModel;
@@ -24,7 +24,7 @@ namespace ECM.Controllers
             
             animator = _model.Animator;
             rootMotionController = _playerController.RootMotionController;
-            InputHandlerComponent.OnPauseChanged += SetPause;
+            // InputHandlerComponent.OnPauseChanged += SetPause;
 
             InitPlayerMovement(playerModel, playerController);
         }
@@ -451,24 +451,21 @@ namespace ECM.Controllers
         protected virtual void UpdateRotation()
         {
             if (_baseFields.useRootMotion && applyRootMotion && _baseFields.rootMotionRotation)
-
-
+            {
                 rotation *= animator.deltaRotation;
+            }
             else
-
-
+            {
                 RotateTowardsMoveDirection();
+            }
         }
 
 
-        protected virtual void HandleInput()
+        public virtual void HandleInput(InputData data)
         {
-            var direction = InputHandlerComponent.Instance.ForwardMovement.Velocity();
-            moveDirection = direction * Mathf.Clamp(TimeManagerComponent.TimeManager.timeSpeed, 0, 1);
-
-            jump = InputHandlerComponent.Instance.jump;
-
-            crouch = InputHandlerComponent.Instance.crouch;
+            moveDirection = data.direction * Mathf.Clamp(TimeManagerComponent.TimeManager.timeSpeed, 0, 1);
+            jump = data.jump;
+            crouch = data.crouch;
         }
 
         #endregion
@@ -1230,12 +1227,8 @@ namespace ECM.Controllers
 
         public virtual void Update()
         {
-            HandleInput();
-
-
             if (isPaused)
                 return;
-
 
             UpdateRotation();
         }

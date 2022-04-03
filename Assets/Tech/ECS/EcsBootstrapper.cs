@@ -1,5 +1,6 @@
 ﻿using ECS.Systems;
 using ECS.Systems.Input;
+using ECS.Systems.TimeManagement;
 using TMPro;
 
 namespace ECS
@@ -16,9 +17,13 @@ namespace ECS
             _systems = new Entitas.Systems();
             
             //Input
-            _systems.Add(new InputSystem(_contexts));
+            _systems.Add(new InputControllingReactiveSystem(_contexts));
             _systems.Add(new LookInputSystem(_contexts));
             _systems.Add(new MovementInputSystem(_contexts));
+            _systems.Add(new InputControlSenderSystem(_contexts));
+            
+            //Time
+            _systems.Add(new TimeVelocitySystem(_contexts));
 
             _systems.Add(new MovingObjectSystem(_contexts));
         }

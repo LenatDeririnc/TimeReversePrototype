@@ -3,21 +3,13 @@ using UnityEngine;
 
 namespace ECS.Systems.Input
 {
-    public class LookInputSystem : IExecuteSystem, IInitializeSystem
+    public class LookInputSystem : IExecuteSystem
     {
         private readonly IGroup<InputEntity> _group;
 
         public LookInputSystem(Contexts contexts)
         {
             _group = contexts.input.GetGroup(InputMatcher.Input);
-        }
-
-        public void Initialize()
-        {
-            foreach (var e in _group)
-            {
-                e.ReplaceLook(new Vector2(0, 0));
-            }
         }
 
         public void Execute()
