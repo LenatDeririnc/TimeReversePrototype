@@ -21,6 +21,10 @@ namespace ECS
             _fixedSystems = new Entitas.Systems();
             _lateSystems = new Entitas.Systems();
             
+            //Time
+            _systems.Add(new Systems.TimeManagement.TimeSystem(Contexts));
+            _systems.Add(new TimeVelocityReactiveSystem(Contexts));
+            
             //Input
             _systems.Add(new InputControllingReactiveSystem(Contexts));
             _systems.Add(new MouseLookInputSystem(Contexts));
@@ -32,12 +36,8 @@ namespace ECS
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
 
-            //Time
-            _systems.Add(new TimeVelocityReactiveSystem(Contexts));
-
             //Test
             _systems.Add(new MovingObjectSystem(Contexts));
-            _systems.Add(new TestSystem(Contexts));
         }
 
         public void Start()
