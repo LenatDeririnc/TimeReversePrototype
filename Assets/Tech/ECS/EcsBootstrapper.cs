@@ -21,20 +21,27 @@ namespace ECS
             _fixedSystems = new Entitas.Systems();
             _lateSystems = new Entitas.Systems();
             
+            //TransformData
+            _systems.Add(new TransformDataReactiveSystem(Contexts));
+            
             //Time
             _systems.Add(new Systems.TimeManagement.TimeSystem(Contexts));
             _systems.Add(new TimeVelocityReactiveSystem(Contexts));
+            _systems.Add(new TimelineSystem(Contexts));
             
             //Input
             _systems.Add(new InputControllingReactiveSystem(Contexts));
             _systems.Add(new MouseLookInputSystem(Contexts));
             _systems.Add(new MovementInputSystem(Contexts));
             _systems.Add(new InputControlSenderSystem(Contexts));
+            _systems.Add(new RollbackInputSystem(Contexts));
             
             //PlayerController
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
+            
+            //Rollback
 
             //Test
             _systems.Add(new MovingObjectSystem(Contexts));

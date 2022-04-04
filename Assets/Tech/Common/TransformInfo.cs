@@ -12,5 +12,10 @@ namespace Common
             position = transform.position;
             rotation = transform.rotation;
         }
+
+        public override string ToString()
+        {
+            return $"TransformData: <{position}, {rotation}>";
+        }
     }
 }

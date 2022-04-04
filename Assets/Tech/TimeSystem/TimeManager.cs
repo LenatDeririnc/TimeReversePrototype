@@ -1,12 +1,18 @@
 ﻿using System;
 using Common;
-using InputHandler;
 using UnityEngine;
 
 namespace TimeSystem
 {
     public class TimeManager
     {
+        private readonly Contexts _contexts;
+        
+        public TimeManager(Contexts contexts)
+        {
+            _contexts = contexts;
+        }
+        
         public const float TickRate = 0.1f;
 
         public float TickRateCount => (_time / TickRate);
@@ -53,11 +59,6 @@ namespace TimeSystem
             return _timeSpeed * Time.deltaTime;
         }
 
-        private bool IsRollback()
-        {
-            return RollbackController.Instance.IsRollbackActive() && RollbackController.Instance.IsRollbackAngle();
-        }
-
         private void UpdateTimeSpeed()
         {
             if (_velocityCharacter == null)
@@ -65,8 +66,8 @@ namespace TimeSystem
 
             _timeSpeed = _velocityCharacter.Velocity().magnitude;
 
-            if (IsRollback())
-                _timeSpeed = -InputHandlerComponent.Instance.BackMovement.Velocity().magnitude;
+            if (_contexts.time.isRollback)
+                _timeSpeed = -_contexts.time.rollbackValue.Value;
         }
 
         private void UpdateTime()

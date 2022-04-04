@@ -1,5 +1,4 @@
 ﻿using Entitas;
-using TimeSystem;
 
 namespace ECS.Systems
 {
@@ -11,7 +10,7 @@ namespace ECS.Systems
         public MovingObjectSystem(Contexts contexts)
         {
             _contexts = contexts;
-            _group = contexts.game.GetGroup(GameMatcher.AnyOf(GameMatcher.MovingForward, GameMatcher.Transform));
+            _group = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.MovingForward, GameMatcher.Transform));
         }
         
         public void Execute()

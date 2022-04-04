@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Entitas;
-using TimeSystem;
 
 namespace ECS.Systems.TimeManagement
 {
@@ -28,7 +27,6 @@ namespace ECS.Systems.TimeManagement
             foreach (var e in entities)
             {
                 _contexts.time.timeManagerHandlerEntity.timeManagerHandler.Value.SetMovingObject(e.velocityConverter.Value);
-                TimeManagerComponent.TimeManager.SetMovingObject(e.velocityConverter.Value);            
             }
         }
     }

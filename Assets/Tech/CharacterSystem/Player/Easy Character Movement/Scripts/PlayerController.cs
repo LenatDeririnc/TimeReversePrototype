@@ -1,4 +1,6 @@
-﻿using ECM.Components;
+﻿using Common;
+using DamageSystem;
+using ECM.Components;
 using ECM.Controllers;
 using ECM.Fields;
 using ECM.Helpers;
@@ -7,10 +9,11 @@ using UnityEngine;
 
 namespace ECM
 {
-    public class PlayerController : MonoProvider, IInputControlling
+    public class PlayerController : MonoProvider, IInputControlling, IDestroyable
     {
         private InputEntity _inputEntity;
-        
+        private GameEntity _gameEntity;
+
         public PlayerModel PlayerModel;
         public BasePlayerController BasePlayerController;
         public MouseLook MouseLook;
@@ -38,6 +41,11 @@ namespace ECM
             _inputEntity = Contexts.input.CreateEntity();
             _inputEntity.ReplaceInputControlling(this);
             _inputEntity.ReplaceBasePlayerControllerHolder(BasePlayerController);
+
+            _gameEntity = Contexts.game.CreateEntity();
+            _gameEntity.isPlayer = true;
+            _gameEntity.ReplaceTransform(PlayerModel.transform);
+            _gameEntity.ReplaceTransformInfo(new TransformInfo(PlayerModel.transform));
         }
         
         private void OnDrawGizmosSelected()
@@ -49,6 +57,11 @@ namespace ECM
         {
             BasePlayerController.HandleInput(data);
             MouseLook.HandleInput(data);
+        }
+
+        public void Destroy()
+        {
+            Debug.Log("YOU DEAD");
         }
     }
 }

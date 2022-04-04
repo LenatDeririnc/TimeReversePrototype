@@ -14,8 +14,7 @@ namespace ECS.Systems.TimeManagement
         
         public void Initialize()
         {
-            var handler = new TimeManager();
-            _contexts.time.SetTimeManagerHandler(handler);
+            _contexts.time.SetTimeManagerHandler(new TimeManager(_contexts));
         }
 
         public void Execute()

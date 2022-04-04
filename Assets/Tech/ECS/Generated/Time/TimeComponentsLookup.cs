@@ -8,15 +8,27 @@
 //------------------------------------------------------------------------------
 public static class TimeComponentsLookup {
 
-    public const int TimeManagerHandler = 0;
+    public const int Rollback = 0;
+    public const int RollbackValue = 1;
+    public const int TimelineData = 2;
+    public const int TimelineLastPosition = 3;
+    public const int TimeManagerHandler = 4;
 
-    public const int TotalComponents = 1;
+    public const int TotalComponents = 5;
 
     public static readonly string[] componentNames = {
+        "Rollback",
+        "RollbackValue",
+        "TimelineData",
+        "TimelineLastPosition",
         "TimeManagerHandler"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(RollbackComponent),
+        typeof(RollbackValueComponent),
+        typeof(TimelineDataComponent),
+        typeof(TimelineLastPositionComponent),
         typeof(TimeManagerHandlerComponent)
     };
 }
