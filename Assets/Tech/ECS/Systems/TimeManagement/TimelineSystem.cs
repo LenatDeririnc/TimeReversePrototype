@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Common;
 using Entitas;
-using UnityEngine;
 
 namespace ECS.Systems.TimeManagement
 {
@@ -17,14 +15,11 @@ namespace ECS.Systems.TimeManagement
         
         public void Initialize()
         {
+            var transform = new TransformInfo(_contexts.game.playerEntity.transform.Value);
             _contexts.time.SetTimelineData(new Stack<TransformInfo>());
-            _contexts.time.SetTimelineLastPosition(_contexts.game.playerEntity.transformInfo.Value);
+            _contexts.time.SetTimelineLastPosition(transform);
 
             var timeManager = _contexts.time.timeManagerHandlerEntity.timeManagerHandler;
-
-            if (timeManager == null)
-                throw new Exception("Надо поместить TimelineSystem после инициализации timeManagerHandler");
-            
             timeManager.Value.OnTickAdd += AddPlayerInfo;
             timeManager.Value.OnTickRemove += ExecuteLastPlayerInfo;
         }
@@ -32,9 +27,8 @@ namespace ECS.Systems.TimeManagement
         private void AddPlayerInfo()
         {
             var data = new TransformInfo(_contexts.game.playerEntity.transform.Value);
-            _contexts.time.timelineDataEntity.timelineData.Value.Push(data);
             _contexts.time.ReplaceTimelineLastPosition(data);
-            Debug.Log($"Add: {data.ToString()}");
+            _contexts.time.timelineDataEntity.timelineData.Value.Push(data);
         }
 
         private void ExecuteLastPlayerInfo()
@@ -44,10 +38,9 @@ namespace ECS.Systems.TimeManagement
             if (timelineData.Count <= 0)
                 return;
             
+            _contexts.time.ReplaceTimelineLastPosition(new TransformInfo(_contexts.game.playerEntity.transform.Value));
             TransformInfo transformData = timelineData.Pop();
-            Debug.Log($"Execute: {transformData.ToString()}");
-            _contexts.game.playerEntity.ReplaceTransformInfo(transformData);
-            _contexts.time.ReplaceTimelineLastPosition(transformData);
+            _contexts.time.ReplaceRewindPosition(transformData);
         }
     }
 }

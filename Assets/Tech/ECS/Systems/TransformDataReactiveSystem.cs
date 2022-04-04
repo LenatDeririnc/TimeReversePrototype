@@ -16,7 +16,7 @@ namespace ECS.Systems
 
         protected override bool Filter(GameEntity entity)
         {
-            return entity.hasTransform;
+            return entity.hasTransform && !entity.isPlayer;
         }
 
         protected override void Execute(List<GameEntity> entities)
