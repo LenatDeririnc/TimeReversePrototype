@@ -8,25 +8,31 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int Element = 0;
-    public const int MovingForward = 1;
-    public const int Player = 2;
-    public const int Transform = 3;
-    public const int TransformInfo = 4;
+    public const int CameraPitchAngle = 0;
+    public const int Element = 1;
+    public const int MovingForward = 2;
+    public const int PlayerCamera = 3;
+    public const int Player = 4;
+    public const int Transform = 5;
+    public const int TransformInfo = 6;
 
-    public const int TotalComponents = 5;
+    public const int TotalComponents = 7;
 
     public static readonly string[] componentNames = {
+        "CameraPitchAngle",
         "Element",
         "MovingForward",
+        "PlayerCamera",
         "Player",
         "Transform",
         "TransformInfo"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(CameraPitchAngleComponent),
         typeof(ElementComponent),
         typeof(MovingForwardComponent),
+        typeof(PlayerCameraComponent),
         typeof(PlayerComponent),
         typeof(TransformComponent),
         typeof(TransformInfoComponent)

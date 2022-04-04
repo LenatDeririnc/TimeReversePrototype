@@ -6,10 +6,12 @@ namespace ECM.Controllers
 {
     public class BaseFirstPersonController : BasePlayerController
     {
+        private readonly Contexts _contexts;
         private BasePlayerFirstPersonControllerFields _fields;
         
-        public BaseFirstPersonController(PlayerModel model, PlayerController playerController) : base(model, playerController)
+        public BaseFirstPersonController(Contexts contexts, PlayerModel model, PlayerController playerController) : base(model, playerController)
         {
+            _contexts = contexts;
             _fields = model.BasePlayerFirstPersonControllerFields;
             
             if (cameraPivotTransform == null)
@@ -21,10 +23,6 @@ namespace ECM.Controllers
         #region PROPERTIES
 
         public Transform cameraPivotTransform { get => _model.CameraPivotTransform;}
-
-
-        public Transform cameraTransform { get => _model.CameraTransform; }
-
 
         public MouseLook mouseLook { get => _playerController.MouseLook; }
 
@@ -58,6 +56,9 @@ namespace ECM.Controllers
 
 
         public bool run { get; set; }
+        
+        public GameEntity cameraEntity => 
+            _contexts.game.hasPlayerCamera ? _contexts.game.playerCameraEntity : null;
 
         #endregion
 
@@ -71,18 +72,13 @@ namespace ECM.Controllers
                 new Vector3(1.0f, yScale, 1.0f), 5.0f * Time.deltaTime);
         }
 
-
-        protected virtual void RotateView()
-        {
-            mouseLook.LookRotation(this, cameraTransform);
-        }
-
-
         protected override void UpdateRotation()
         {
-            RotateView();
+            if (cameraEntity == null)
+                return;
+            
+            mouseLook.LookRotation(this, cameraEntity);
         }
-
 
         protected virtual float GetTargetSpeed()
         {

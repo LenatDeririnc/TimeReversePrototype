@@ -12,7 +12,7 @@ public partial class TimeContext {
     public TimelineDataComponent timelineData { get { return timelineDataEntity.timelineData; } }
     public bool hasTimelineData { get { return timelineDataEntity != null; } }
 
-    public TimeEntity SetTimelineData(System.Collections.Generic.Stack<Common.TransformInfo> newValue) {
+    public TimeEntity SetTimelineData(System.Collections.Generic.Stack<Common.TimelineData> newValue) {
         if (hasTimelineData) {
             throw new Entitas.EntitasException("Could not set TimelineData!\n" + this + " already has an entity with TimelineDataComponent!",
                 "You should check if the context already has a timelineDataEntity before setting it or use context.ReplaceTimelineData().");
@@ -22,7 +22,7 @@ public partial class TimeContext {
         return entity;
     }
 
-    public void ReplaceTimelineData(System.Collections.Generic.Stack<Common.TransformInfo> newValue) {
+    public void ReplaceTimelineData(System.Collections.Generic.Stack<Common.TimelineData> newValue) {
         var entity = timelineDataEntity;
         if (entity == null) {
             entity = SetTimelineData(newValue);
@@ -49,14 +49,14 @@ public partial class TimeEntity {
     public TimelineDataComponent timelineData { get { return (TimelineDataComponent)GetComponent(TimeComponentsLookup.TimelineData); } }
     public bool hasTimelineData { get { return HasComponent(TimeComponentsLookup.TimelineData); } }
 
-    public void AddTimelineData(System.Collections.Generic.Stack<Common.TransformInfo> newValue) {
+    public void AddTimelineData(System.Collections.Generic.Stack<Common.TimelineData> newValue) {
         var index = TimeComponentsLookup.TimelineData;
         var component = (TimelineDataComponent)CreateComponent(index, typeof(TimelineDataComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceTimelineData(System.Collections.Generic.Stack<Common.TransformInfo> newValue) {
+    public void ReplaceTimelineData(System.Collections.Generic.Stack<Common.TimelineData> newValue) {
         var index = TimeComponentsLookup.TimelineData;
         var component = (TimelineDataComponent)CreateComponent(index, typeof(TimelineDataComponent));
         component.Value = newValue;

@@ -5,5 +5,5 @@ using Entitas.CodeGeneration.Attributes;
 [Time, Unique]
 public class TimelineLastPositionComponent : IComponent
 {
-    public TransformInfo Value;
+    public TimelineData Value;
 }

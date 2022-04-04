@@ -93,9 +93,10 @@ namespace ECM.Components
 
         #region METHODS
 
-        public virtual void LookRotation(IPlayerMovementForMouse movement, Transform cameraTransform)
+        public virtual void LookRotation(IPlayerMovementForMouse movement, GameEntity cameraEntity)
         {
             _lookVelocity = new Vector3(_pitch, _yaw, 0);
+            cameraEntity.cameraPitchAngle.Value = _pitch;
 
             var yawRotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
             var pitchRotation = Quaternion.Euler(-_pitch, 0.0f, 0.0f);
@@ -116,17 +117,19 @@ namespace ECM.Components
                 movement.rotation = Quaternion.Slerp(movement.rotation, characterTargetRotation,
                     smoothTime * Time);
 
-                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, cameraTargetRotation,
+                cameraEntity.transform.Value.localRotation = Quaternion.Slerp(cameraEntity.transform.Value.localRotation, cameraTargetRotation,
                     smoothTime * Time);
             }
             else
             {
                 movement.rotation *= yawRotation;
-                cameraTransform.localRotation *= pitchRotation;
+                cameraEntity.transform.Value.localRotation *= pitchRotation;
 
                 if (clampPitch)
-                    cameraTransform.localRotation = ClampPitch(cameraTransform.localRotation);
+                    cameraEntity.transform.Value.localRotation = ClampPitch(cameraEntity.transform.Value.localRotation);
             }
+            
+            cameraEntity.cameraPitchAngle.Value = cameraEntity.transform.Value.localRotation.eulerAngles.x;
 
             UpdateCursorLock();
         }

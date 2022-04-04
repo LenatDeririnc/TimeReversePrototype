@@ -783,6 +783,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ECM_FirstPerson
       objectReference: {fileID: 0}
+    - target: {fileID: 8128953649603301181, guid: f92ca3033d2b8e2429f9d3ddf40435e0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8128953649603301188, guid: f92ca3033d2b8e2429f9d3ddf40435e0,
         type: 3}
       propertyPath: m_RootOrder

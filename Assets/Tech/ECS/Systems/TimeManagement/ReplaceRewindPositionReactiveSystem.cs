@@ -19,12 +19,12 @@ namespace ECS.Systems.TimeManagement
 
         protected override bool Filter(TimeEntity entity)
         {
-            return true;
+            return _contexts.time.hasTimelineRewindPosition;
         }
 
         protected override void Execute(List<TimeEntity> entities)
         {
-            _contexts.time.RemoveRewindPosition();
+            _contexts.time.RemoveTimelineRewindPosition();
         }
     }
 }

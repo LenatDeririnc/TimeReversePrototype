@@ -12,7 +12,8 @@ namespace ECM
     public class PlayerController : MonoProvider, IInputControlling, IDestroyable
     {
         private InputEntity _inputEntity;
-        private GameEntity _gameEntity;
+        private GameEntity _playerEntity;
+        private GameEntity _cameraEntity;
 
         public PlayerModel PlayerModel;
         public BasePlayerController BasePlayerController;
@@ -27,25 +28,30 @@ namespace ECM
                 Debug.Log("Set Player Model");
                 return;
             }
-            
-            BaseGroundDetection = new GroundDetection(PlayerModel);
-            MouseLook = new MouseLook(PlayerModel);
-            BasePlayerController = new BaseFirstPersonController(PlayerModel, this);
-
-            if (PlayerModel.Animator != null)
-                RootMotionController = new RootMotionController(PlayerModel.Animator);
         }
 
         protected void Awake()
         {
+            BaseGroundDetection = new GroundDetection(PlayerModel);
+            MouseLook = new MouseLook(PlayerModel);
+            BasePlayerController = new BaseFirstPersonController(Contexts, PlayerModel, this);
+
+            if (PlayerModel.Animator != null)
+                RootMotionController = new RootMotionController(PlayerModel.Animator);
+            
             _inputEntity = Contexts.input.CreateEntity();
             _inputEntity.ReplaceInputControlling(this);
             _inputEntity.ReplaceBasePlayerControllerHolder(BasePlayerController);
 
-            _gameEntity = Contexts.game.CreateEntity();
-            _gameEntity.isPlayer = true;
-            _gameEntity.ReplaceTransform(PlayerModel.transform);
-            _gameEntity.ReplaceTransformInfo(new TransformInfo(PlayerModel.transform));
+            _playerEntity = Contexts.game.CreateEntity();
+            _playerEntity.isPlayer = true;
+            _playerEntity.ReplaceTransform(PlayerModel.transform);
+            _playerEntity.ReplaceTransformInfo(new TransformInfo(PlayerModel.transform));
+
+            _cameraEntity = Contexts.game.CreateEntity();
+            _cameraEntity.ReplacePlayerCamera(PlayerModel.Camera);
+            _cameraEntity.ReplaceTransform(PlayerModel.CameraTransform);
+            _cameraEntity.ReplaceCameraPitchAngle(PlayerModel.CameraTransform.rotation.eulerAngles.x);
         }
         
         private void OnDrawGizmosSelected()

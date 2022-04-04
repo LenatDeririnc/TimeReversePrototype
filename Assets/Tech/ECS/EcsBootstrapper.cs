@@ -1,6 +1,7 @@
 ﻿using ECS.Systems;
 using ECS.Systems.Input;
 using ECS.Systems.Input.PlayerControllerSystems;
+using ECS.Systems.Player;
 using ECS.Systems.TimeManagement;
 using UnityEngine;
 
@@ -38,11 +39,12 @@ namespace ECS
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
-            
+            _systems.Add(new CameraPitchReactiveSystem(Contexts));
+
             //Rewind
             // _systems.Add(new TransformDataReactiveSystem(Contexts));
             // _systems.Add(new RewindReactiveSystem(Contexts));
-            _systems.Add(new RewindRepositionReactiveSystem(Contexts));
+            _systems.Add(new RewindSystem(Contexts));
 
             //Test
             _systems.Add(new MovingObjectSystem(Contexts));

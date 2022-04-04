@@ -3,7 +3,7 @@ using Entitas;
 using Entitas.CodeGeneration.Attributes;
 
 [Time, Unique]
-public class RewindPositionComponent : IComponent
+public class TimelineRewindPositionComponent : IComponent
 {
-    public TransformInfo Value;
+    public TimelineData Value;
 }

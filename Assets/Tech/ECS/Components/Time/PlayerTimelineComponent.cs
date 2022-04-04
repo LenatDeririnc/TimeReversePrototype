@@ -6,5 +6,5 @@ using Entitas.CodeGeneration.Attributes;
 [Unique, Time]
 public class TimelineDataComponent : IComponent
 {
-    public Stack<TransformInfo> Value;
+    public Stack<TimelineData> Value;
 }
