@@ -32,6 +32,7 @@ namespace ECS
             //Input
             _systems.Add(new InputControllingReactiveSystem(Contexts));
             _systems.Add(new MouseLookInputSystem(Contexts));
+            _systems.Add(new GamepadLookInputSystem(Contexts));
             _systems.Add(new MovementInputSystem(Contexts));
             _systems.Add(new InputControlSenderSystem(Contexts));
             _systems.Add(new RollbackInputSystem(Contexts));
