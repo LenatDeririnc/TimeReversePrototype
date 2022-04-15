@@ -8,19 +8,23 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int CameraPitchAngle = 0;
-    public const int Element = 1;
-    public const int MovingForward = 2;
-    public const int PlayerCamera = 3;
-    public const int Player = 4;
-    public const int Transform = 5;
-    public const int TransformInfo = 6;
+    public const int AnimatorReverser = 0;
+    public const int CameraPitchAngle = 1;
+    public const int Element = 2;
+    public const int Enemy = 3;
+    public const int MovingForward = 4;
+    public const int PlayerCamera = 5;
+    public const int Player = 6;
+    public const int Transform = 7;
+    public const int TransformInfo = 8;
 
-    public const int TotalComponents = 7;
+    public const int TotalComponents = 9;
 
     public static readonly string[] componentNames = {
+        "AnimatorReverser",
         "CameraPitchAngle",
         "Element",
+        "Enemy",
         "MovingForward",
         "PlayerCamera",
         "Player",
@@ -29,8 +33,10 @@ public static class GameComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(AnimatorReverserComponent),
         typeof(CameraPitchAngleComponent),
         typeof(ElementComponent),
+        typeof(EnemyComponent),
         typeof(MovingForwardComponent),
         typeof(PlayerCameraComponent),
         typeof(PlayerComponent),

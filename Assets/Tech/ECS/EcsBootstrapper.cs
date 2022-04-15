@@ -1,7 +1,8 @@
 ﻿using ECS.Systems;
+using ECS.Systems.Characters.Enemy;
+using ECS.Systems.Characters.Player;
 using ECS.Systems.Input;
 using ECS.Systems.Input.PlayerControllerSystems;
-using ECS.Systems.Player;
 using ECS.Systems.TimeManagement;
 using UnityEngine;
 
@@ -45,6 +46,9 @@ namespace ECS
             // _systems.Add(new TransformDataReactiveSystem(Contexts));
             // _systems.Add(new RewindReactiveSystem(Contexts));
             _systems.Add(new RewindSystem(Contexts));
+            
+            //Enemies
+            _systems.Add(new EnemyTimeReverseSystem(Contexts));
 
             //Test
             _systems.Add(new MovingObjectSystem(Contexts));

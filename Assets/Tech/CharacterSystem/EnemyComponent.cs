@@ -1,17 +1,17 @@
-using ECS;
+using ECS.Mono;
 using UnityEngine;
 
 namespace CharacterSystem
 {
-    public class EnemyComponent : MonoBehaviour
+    public class EnemyComponent : MonoProvider
     {
         [SerializeField] private Animator _animator;
-        private static readonly int Direction = Animator.StringToHash("Direction");
 
-        void Update()
+        private void Start()
         {
-            //TODO: entity
-            _animator.SetFloat(Direction, EcsBootstrapper.Contexts.time.timeManagerHandler.Value.timeSpeed);
+            var entity = Contexts.game.CreateEntity();
+            entity.isEnemy = true;
+            entity.ReplaceAnimatorReverser(_animator);
         }
     }
 }

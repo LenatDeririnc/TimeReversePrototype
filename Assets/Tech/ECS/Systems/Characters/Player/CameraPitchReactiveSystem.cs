@@ -2,7 +2,7 @@
 using Entitas;
 using UnityEngine;
 
-namespace ECS.Systems.Player
+namespace ECS.Systems.Characters.Player
 {
     public class CameraPitchReactiveSystem : ReactiveSystem<GameEntity>
     {

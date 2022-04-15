@@ -6,16 +6,13 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-
-using ECS.Systems.TimeManagement;
-
 public partial class TimeContext {
 
     public TimeEntity timeManagerHandlerEntity { get { return GetGroup(TimeMatcher.TimeManagerHandler).GetSingleEntity(); } }
     public TimeManagerHandlerComponent timeManagerHandler { get { return timeManagerHandlerEntity.timeManagerHandler; } }
     public bool hasTimeManagerHandler { get { return timeManagerHandlerEntity != null; } }
 
-    public TimeEntity SetTimeManagerHandler(TimeManager newValue) {
+    public TimeEntity SetTimeManagerHandler(ECS.Systems.TimeManagement.TimeManager newValue) {
         if (hasTimeManagerHandler) {
             throw new Entitas.EntitasException("Could not set TimeManagerHandler!\n" + this + " already has an entity with TimeManagerHandlerComponent!",
                 "You should check if the context already has a timeManagerHandlerEntity before setting it or use context.ReplaceTimeManagerHandler().");
@@ -25,7 +22,7 @@ public partial class TimeContext {
         return entity;
     }
 
-    public void ReplaceTimeManagerHandler(TimeManager newValue) {
+    public void ReplaceTimeManagerHandler(ECS.Systems.TimeManagement.TimeManager newValue) {
         var entity = timeManagerHandlerEntity;
         if (entity == null) {
             entity = SetTimeManagerHandler(newValue);
@@ -52,14 +49,14 @@ public partial class TimeEntity {
     public TimeManagerHandlerComponent timeManagerHandler { get { return (TimeManagerHandlerComponent)GetComponent(TimeComponentsLookup.TimeManagerHandler); } }
     public bool hasTimeManagerHandler { get { return HasComponent(TimeComponentsLookup.TimeManagerHandler); } }
 
-    public void AddTimeManagerHandler(TimeManager newValue) {
+    public void AddTimeManagerHandler(ECS.Systems.TimeManagement.TimeManager newValue) {
         var index = TimeComponentsLookup.TimeManagerHandler;
         var component = (TimeManagerHandlerComponent)CreateComponent(index, typeof(TimeManagerHandlerComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceTimeManagerHandler(TimeManager newValue) {
+    public void ReplaceTimeManagerHandler(ECS.Systems.TimeManagement.TimeManager newValue) {
         var index = TimeComponentsLookup.TimeManagerHandler;
         var component = (TimeManagerHandlerComponent)CreateComponent(index, typeof(TimeManagerHandlerComponent));
         component.Value = newValue;
