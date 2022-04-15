@@ -3,8 +3,8 @@ using ECM.Common;
 using ECM.Components;
 using ECM.Fields;
 using ECM.Helpers;
+using ECS;
 // using InputHandler;
-using TimeSystem;
 using UnityEngine;
 
 namespace ECM.Controllers
@@ -463,7 +463,7 @@ namespace ECM.Controllers
 
         public virtual void HandleInput(InputData data)
         {
-            moveDirection = data.direction * Mathf.Clamp(TimeManagerComponent.TimeManager.timeSpeed, 0, 1);
+            moveDirection = data.direction * Mathf.Clamp(EcsBootstrapper.Contexts.time.timeManagerHandler.Value.timeSpeed, 0, 1);
             jump = data.jump;
             crouch = data.crouch;
         }

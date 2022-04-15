@@ -1,4 +1,4 @@
-using TimeSystem;
+using ECS;
 using UnityEngine;
 
 namespace CharacterSystem
@@ -10,7 +10,8 @@ namespace CharacterSystem
 
         void Update()
         {
-            _animator.SetFloat(Direction, TimeManagerComponent.TimeManager.timeSpeed);
+            //TODO: entity
+            _animator.SetFloat(Direction, EcsBootstrapper.Contexts.time.timeManagerHandler.Value.timeSpeed);
         }
     }
 }

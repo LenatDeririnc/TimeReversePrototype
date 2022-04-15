@@ -2,7 +2,7 @@
 using Entitas;
 using UnityEngine;
 
-namespace ECS.Systems
+namespace ECS.Systems.TimeManagement
 {
     public class RewindSystem : IExecuteSystem
     {

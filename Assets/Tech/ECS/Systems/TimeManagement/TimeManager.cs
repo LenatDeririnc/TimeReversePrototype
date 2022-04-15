@@ -1,8 +1,7 @@
 ﻿using System;
 using Common;
-using UnityEngine;
 
-namespace TimeSystem
+namespace ECS.Systems.TimeManagement
 {
     public class TimeManager
     {
@@ -56,7 +55,7 @@ namespace TimeSystem
 
         public float ScaledTimeSpeed()
         {
-            return _timeSpeed * Time.deltaTime;
+            return _timeSpeed * UnityEngine.Time.deltaTime;
         }
 
         private void UpdateTimeSpeed()
