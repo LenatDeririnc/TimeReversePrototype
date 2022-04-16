@@ -8,39 +8,51 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int AnimatorReverser = 0;
-    public const int CameraPitchAngle = 1;
-    public const int Element = 2;
-    public const int Enemy = 3;
-    public const int MovingForward = 4;
-    public const int PlayerCamera = 5;
-    public const int Player = 6;
-    public const int Transform = 7;
-    public const int TransformInfo = 8;
+    public const int AddColliderDataSignal = 0;
+    public const int AnimatorReverser = 1;
+    public const int CameraPitchAngle = 2;
+    public const int ColliderData = 3;
+    public const int Element = 4;
+    public const int Enemy = 5;
+    public const int MovingForward = 6;
+    public const int PlayerCamera = 7;
+    public const int Player = 8;
+    public const int Shot = 9;
+    public const int Transform = 10;
+    public const int TransformInfo = 11;
+    public const int TriggerSignal = 12;
 
-    public const int TotalComponents = 9;
+    public const int TotalComponents = 13;
 
     public static readonly string[] componentNames = {
+        "AddColliderDataSignal",
         "AnimatorReverser",
         "CameraPitchAngle",
+        "ColliderData",
         "Element",
         "Enemy",
         "MovingForward",
         "PlayerCamera",
         "Player",
+        "Shot",
         "Transform",
-        "TransformInfo"
+        "TransformInfo",
+        "TriggerSignal"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(AddColliderDataSignalComponent),
         typeof(AnimatorReverserComponent),
         typeof(CameraPitchAngleComponent),
+        typeof(ColliderDataComponent),
         typeof(ElementComponent),
         typeof(EnemyComponent),
         typeof(MovingForwardComponent),
         typeof(PlayerCameraComponent),
         typeof(PlayerComponent),
+        typeof(ShotComponent),
         typeof(TransformComponent),
-        typeof(TransformInfoComponent)
+        typeof(TransformInfoComponent),
+        typeof(TriggerSignalComponent)
     };
 }

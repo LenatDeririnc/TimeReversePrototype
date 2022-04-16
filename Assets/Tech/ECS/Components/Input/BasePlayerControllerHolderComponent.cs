@@ -1,4 +1,4 @@
-﻿using ECM.Controllers;
+﻿using CharacterSystem.Player.ECM.Scripts.Controllers;
 using Entitas;
 
 [Input]

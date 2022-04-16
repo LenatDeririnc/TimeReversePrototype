@@ -11,14 +11,14 @@ public partial class InputEntity {
     public InputControllingComponent inputControlling { get { return (InputControllingComponent)GetComponent(InputComponentsLookup.InputControlling); } }
     public bool hasInputControlling { get { return HasComponent(InputComponentsLookup.InputControlling); } }
 
-    public void AddInputControlling(ECM.IInputControlling newValue) {
+    public void AddInputControlling(CharacterSystem.Player.IInputControlling newValue) {
         var index = InputComponentsLookup.InputControlling;
         var component = (InputControllingComponent)CreateComponent(index, typeof(InputControllingComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceInputControlling(ECM.IInputControlling newValue) {
+    public void ReplaceInputControlling(CharacterSystem.Player.IInputControlling newValue) {
         var index = InputComponentsLookup.InputControlling;
         var component = (InputControllingComponent)CreateComponent(index, typeof(InputControllingComponent));
         component.Value = newValue;

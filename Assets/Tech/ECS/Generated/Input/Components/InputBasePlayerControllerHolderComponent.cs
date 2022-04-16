@@ -11,14 +11,14 @@ public partial class InputEntity {
     public BasePlayerControllerHolderComponent basePlayerControllerHolder { get { return (BasePlayerControllerHolderComponent)GetComponent(InputComponentsLookup.BasePlayerControllerHolder); } }
     public bool hasBasePlayerControllerHolder { get { return HasComponent(InputComponentsLookup.BasePlayerControllerHolder); } }
 
-    public void AddBasePlayerControllerHolder(ECM.Controllers.BasePlayerController newValue) {
+    public void AddBasePlayerControllerHolder(CharacterSystem.Player.ECM.Scripts.Controllers.BasePlayerController newValue) {
         var index = InputComponentsLookup.BasePlayerControllerHolder;
         var component = (BasePlayerControllerHolderComponent)CreateComponent(index, typeof(BasePlayerControllerHolderComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceBasePlayerControllerHolder(ECM.Controllers.BasePlayerController newValue) {
+    public void ReplaceBasePlayerControllerHolder(CharacterSystem.Player.ECM.Scripts.Controllers.BasePlayerController newValue) {
         var index = InputComponentsLookup.BasePlayerControllerHolder;
         var component = (BasePlayerControllerHolderComponent)CreateComponent(index, typeof(BasePlayerControllerHolderComponent));
         component.Value = newValue;

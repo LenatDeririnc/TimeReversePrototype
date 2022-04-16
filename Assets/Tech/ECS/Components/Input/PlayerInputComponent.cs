@@ -1,5 +1,4 @@
-﻿using ECM;
-using ECM.Fields;
+﻿using CharacterSystem.Player;
 using Entitas;
 
 [Input]

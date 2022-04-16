@@ -1,4 +1,4 @@
-﻿using ECM.Fields;
+﻿using CharacterSystem.Player.ECM.Scripts.Fields;
 using Entitas;
 
 namespace ECS.Systems.Input

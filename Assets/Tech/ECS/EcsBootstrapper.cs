@@ -22,6 +22,9 @@ namespace ECS
             _systems = new Entitas.Systems();
             _fixedSystems = new Entitas.Systems();
             _lateSystems = new Entitas.Systems();
+            
+            //Data
+            _systems.Add(new ColliderDataSystem(Contexts));
 
             //Time
             _systems.Add(new Systems.TimeManagement.TimeSystem(Contexts));
@@ -44,12 +47,14 @@ namespace ECS
             _systems.Add(new CameraPitchReactiveSystem(Contexts));
 
             //Rewind
-            // _systems.Add(new TransformDataReactiveSystem(Contexts));
-            // _systems.Add(new RewindReactiveSystem(Contexts));
             _systems.Add(new RewindSystem(Contexts));
             
             //Enemies
             _systems.Add(new EnemyTimeReverseSystem(Contexts));
+            
+            //Signals
+            _systems.Add(new TriggerSignalReactiveSystem(Contexts));
+            _systems.Add(new ColliderDataSignalReactiveSystem(Contexts));
 
             //Test
             _systems.Add(new MovingObjectSystem(Contexts));
