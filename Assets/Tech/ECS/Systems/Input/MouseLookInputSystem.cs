@@ -14,12 +14,14 @@ namespace ECS.Systems.Input
 
         public void Execute()
         {
+            var mouseX = UnityEngine.Input.GetAxis("Mouse X");
+            var mouseY = UnityEngine.Input.GetAxis("Mouse Y");
+        
+            var lookValue = new Vector2(mouseX, mouseY);
+        
             foreach (var e in _group)
             {
-                var mouseX = UnityEngine.Input.GetAxis("Mouse X");
-                var mouseY = UnityEngine.Input.GetAxis("Mouse Y");
-
-                e.look.Value = new Vector2(mouseX, mouseY);
+                e.look.Value = lookValue;
             }
         }
     }

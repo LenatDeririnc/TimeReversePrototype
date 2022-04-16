@@ -14,12 +14,17 @@ namespace ECS.Systems.Input
     
         public void Execute()
         {
+            var mouseX = UnityEngine.Input.GetAxis("HorizontalLook");
+            var mouseY = UnityEngine.Input.GetAxis("VerticalLook");
+            
+            var lookValue = new Vector2(mouseX, mouseY);
+            
+            if (lookValue.magnitude < 0.1f)
+                return;
+        
             foreach (var e in _group)
             {
-                var mouseX = UnityEngine.Input.GetAxis("HorizontalLook");
-                var mouseY = UnityEngine.Input.GetAxis("VerticalLook");
-                
-                e.look.Value = new Vector2(mouseX, mouseY);
+                e.look.Value = lookValue;
             }
         }
     }
