@@ -63,7 +63,14 @@ namespace ECS.Systems.TimeManagement
             if (_velocityCharacter == null)
                 return;
 
-            _timeSpeed = _velocityCharacter.Velocity().magnitude;
+            if (!_contexts.game.playerEntity.isShot)
+            {
+                _timeSpeed = _velocityCharacter.Velocity().magnitude;
+            }
+            else
+            {
+                _timeSpeed = 0;
+            }
 
             if (_contexts.time.isRollback)
                 _timeSpeed = -_contexts.time.rollbackValue.Value;
