@@ -26,7 +26,7 @@ namespace ECS.Systems.TimeManagement
         {
             foreach (var e in entities)
             {
-                _contexts.time.timeManagerHandlerEntity.timeManagerHandler.Value.SetMovingObject(e.velocityConverter.Value);
+                _contexts.time.SetTimeChanger(e.velocityConverter.Value);
             }
         }
     }

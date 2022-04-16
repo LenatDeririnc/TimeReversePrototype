@@ -20,7 +20,7 @@ namespace ECS.Systems.Characters.Enemy
         {
             foreach (var e in _enemiesFilter)
             {
-                e.animatorReverser.Animator.SetFloat(Direction, _contexts.time.timeManagerHandler.Value.timeSpeed);
+                e.animatorReverser.Animator.SetFloat(Direction, _contexts.time.timeSpeed.Value);
             }
         }
     }

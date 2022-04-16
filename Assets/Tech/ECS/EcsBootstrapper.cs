@@ -27,9 +27,14 @@ namespace ECS
             _systems.Add(new ColliderDataSystem(Contexts));
 
             //Time
-            _systems.Add(new Systems.TimeManagement.TimeSystem(Contexts));
+            _systems.Add(new TimeSpeedSystem(Contexts));
+            _systems.Add(new TimeSystem(Contexts));
+            _systems.Add(new TickRateSystem(Contexts));
+            _systems.Add(new TickRateReactiveSystem(Contexts));
             _systems.Add(new TimeVelocityReactiveSystem(Contexts));
-            _systems.Add(new TimelineSystem(Contexts));
+            _systems.Add(new TimeLineSystem(Contexts));
+            _systems.Add(new UndoPlayerInfoSystem(Contexts));
+            _systems.Add(new WritePlayerInfoSystem(Contexts));
             _systems.Add(new ReplaceRewindPositionReactiveSystem(Contexts));
 
             //Input

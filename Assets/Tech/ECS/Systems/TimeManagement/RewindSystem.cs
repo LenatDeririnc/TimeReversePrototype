@@ -1,4 +1,5 @@
 ﻿using Common;
+using ECS.Extensions;
 using Entitas;
 using UnityEngine;
 
@@ -6,36 +7,37 @@ namespace ECS.Systems.TimeManagement
 {
     public class RewindSystem : IExecuteSystem
     {
-        private readonly Contexts _contexts;
+        private readonly TimeContext _timeContext;
+        private readonly GameContext _gameContext;
 
         public RewindSystem(Contexts contexts)
         {
-            _contexts = contexts;
+            _gameContext = contexts.game;
+            _timeContext = contexts.time;
         }
 
         public void Execute()
         {
-            if (!_contexts.time.isRollback)
+            if (!_timeContext.isRollback)
                 return;
             
-            if (!_contexts.time.hasTimelineRewindPosition)
+            if (!_timeContext.hasTimelineRewindPosition)
                 return;
-            
-            var playerTransform = _contexts.game.playerEntity.transform.Value;
-            var playerTransformInfo = _contexts.game.playerEntity.transformInfo;
-            var camera = _contexts.game.playerCameraEntity;
-            
-            var tm = _contexts.time.timeManagerHandler.Value;
-            
-            var newPosition = _contexts.time.timelineRewindPosition.Value;
-            var lastPosition = _contexts.time.timelineLastPosition.Value;
 
-            playerTransform.position = Vector3.Lerp(lastPosition.playerPosition, newPosition.playerPosition, 1 - tm.TickRateDivideRatio);
-            playerTransform.rotation = Quaternion.Lerp(lastPosition.playerRotation, newPosition.playerRotation, 1 - tm.TickRateDivideRatio);
+            var playerTransform = _gameContext.playerEntity.transform.Value;
+            var playerTransformInfo = _gameContext.playerEntity.transformInfo;
+            var camera = _gameContext.playerCameraEntity;
+
+            var newPosition = _timeContext.timelineRewindPosition.Value;
+            var lastPosition = _timeContext.timelineLastPosition.Value;
+            var divideRatio = _timeContext.TickRateDivideRatio();
+
+            playerTransform.position = Vector3.Lerp(lastPosition.playerPosition, newPosition.playerPosition, 1 - divideRatio);
+            playerTransform.rotation = Quaternion.Lerp(lastPosition.playerRotation, newPosition.playerRotation, 1 - divideRatio);
             camera.transform.Value.localRotation = Quaternion.Lerp(
                     Quaternion.Euler(lastPosition.cameraAngle, 0, 0), 
                     Quaternion.Euler(newPosition.cameraAngle, 0, 0), 
-                    1 - tm.TickRateDivideRatio);
+                    1 - divideRatio);
 
             playerTransformInfo.Value = new TransformInfo(playerTransform.transform);
         }

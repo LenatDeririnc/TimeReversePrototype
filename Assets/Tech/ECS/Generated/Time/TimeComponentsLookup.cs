@@ -8,30 +8,51 @@
 //------------------------------------------------------------------------------
 public static class TimeComponentsLookup {
 
-    public const int Rollback = 0;
-    public const int RollbackValue = 1;
-    public const int TimelineData = 2;
-    public const int TimelineLastPosition = 3;
-    public const int TimelineRewindPosition = 4;
-    public const int TimeManagerHandler = 5;
+    public const int PreviousTickCount = 0;
+    public const int Rollback = 1;
+    public const int RollbackValue = 2;
+    public const int TickCount = 3;
+    public const int TickRate = 4;
+    public const int TickRateDecreased = 5;
+    public const int TickRateIncreased = 6;
+    public const int TimeChanger = 7;
+    public const int Time = 8;
+    public const int TimelineData = 9;
+    public const int TimelineLastPosition = 10;
+    public const int TimelineRewindPosition = 11;
+    public const int TimeSpeed = 12;
 
-    public const int TotalComponents = 6;
+    public const int TotalComponents = 13;
 
     public static readonly string[] componentNames = {
+        "PreviousTickCount",
         "Rollback",
         "RollbackValue",
+        "TickCount",
+        "TickRate",
+        "TickRateDecreased",
+        "TickRateIncreased",
+        "TimeChanger",
+        "Time",
         "TimelineData",
         "TimelineLastPosition",
         "TimelineRewindPosition",
-        "TimeManagerHandler"
+        "TimeSpeed"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(PreviousTickCountComponent),
         typeof(RollbackComponent),
         typeof(RollbackValueComponent),
+        typeof(TickCountComponent),
+        typeof(TickRateComponent),
+        typeof(TickRateDecreasedComponent),
+        typeof(TickRateIncreasedComponent),
+        typeof(TimeChangerComponent),
+        typeof(TimeComponent),
         typeof(TimelineDataComponent),
         typeof(TimelineLastPositionComponent),
         typeof(TimelineRewindPositionComponent),
-        typeof(TimeManagerHandlerComponent)
+        typeof(TimeSpeedComponent)
     };
 }

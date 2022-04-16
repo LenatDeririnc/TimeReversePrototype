@@ -1,4 +1,5 @@
-﻿using Entitas;
+﻿using ECS.Extensions;
+using Entitas;
 
 namespace ECS.Systems
 {
@@ -12,7 +13,7 @@ namespace ECS.Systems
             _contexts = contexts;
             _group = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.MovingForward, GameMatcher.Transform));
         }
-        
+
         public void Execute()
         {
             foreach (var e in _group)
@@ -23,7 +24,7 @@ namespace ECS.Systems
                 transform.Value.position += 
                     transform.Value.forward * 
                     movingForward.Speed * 
-                    _contexts.time.timeManagerHandlerEntity.timeManagerHandler.Value.ScaledTimeSpeed();
+                    _contexts.time.ScaledTimeSpeed();
             }
         }
     }

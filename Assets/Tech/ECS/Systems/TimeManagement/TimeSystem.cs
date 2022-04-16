@@ -1,24 +1,31 @@
-﻿using Entitas;
+﻿using ECS.Extensions;
+using Entitas;
 
 namespace ECS.Systems.TimeManagement
 {
     public class TimeSystem : IInitializeSystem, IExecuteSystem
     {
-        private readonly Contexts _contexts;
+        private readonly TimeContext _timeContext;
     
         public TimeSystem(Contexts contexts)
         {
-            _contexts = contexts;
+            _timeContext = contexts.time;
         }
         
         public void Initialize()
         {
-            _contexts.time.SetTimeManagerHandler(new TimeManager(_contexts));
+            _timeContext.SetTime(0);
         }
 
         public void Execute()
         {
-            _contexts.time.timeManagerHandlerEntity.timeManagerHandler.Value.Update();
+            var time = _timeContext.time;
+            var timeSpeed = _timeContext.timeSpeed;
+            
+            if (time.Value + _timeContext.ScaledTimeSpeed() < 0)
+                timeSpeed.Value = 0;
+
+            time.Value += _timeContext.ScaledTimeSpeed();
         }
     }
 }
