@@ -35,7 +35,6 @@ namespace ECS.Systems.Input
                 e.forwardMovement.Value = forward;
                 
                 e.backMovement.Value = e.moveDirection.Value - e.forwardMovement.Value;
-                e.velocityConverter.Value.Set(e.forwardMovement.Value);
             }
         }
     }

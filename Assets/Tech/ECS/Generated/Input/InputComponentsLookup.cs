@@ -16,9 +16,8 @@ public static class InputComponentsLookup {
     public const int Jump = 5;
     public const int Look = 6;
     public const int MoveDirection = 7;
-    public const int VelocityConverter = 8;
 
-    public const int TotalComponents = 9;
+    public const int TotalComponents = 8;
 
     public static readonly string[] componentNames = {
         "BackMovement",
@@ -28,8 +27,7 @@ public static class InputComponentsLookup {
         "InputControlling",
         "Jump",
         "Look",
-        "MoveDirection",
-        "VelocityConverter"
+        "MoveDirection"
     };
 
     public static readonly System.Type[] componentTypes = {
@@ -40,7 +38,6 @@ public static class InputComponentsLookup {
         typeof(InputControllingComponent),
         typeof(JumpComponent),
         typeof(LookComponent),
-        typeof(MoveDirectionComponent),
-        typeof(VelocityConverterComponent)
+        typeof(MoveDirectionComponent)
     };
 }

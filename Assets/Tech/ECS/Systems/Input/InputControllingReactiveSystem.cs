@@ -30,7 +30,6 @@ namespace ECS.Systems.Input
                 e.ReplaceMoveDirection(Vector3.zero);
                 e.ReplaceForwardMovement(Vector3.zero);
                 e.ReplaceBackMovement(Vector3.zero);
-                e.ReplaceVelocityConverter(new VelocityConverter(Vector3.zero));
             }
         }
     }

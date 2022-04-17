@@ -18,13 +18,12 @@ public static class TimeComponentsLookup {
     public const int TickRate = 7;
     public const int TickRateDecreased = 8;
     public const int TickRateIncreased = 9;
-    public const int TimeChanger = 10;
-    public const int Time = 11;
-    public const int TimelineLastPosition = 12;
-    public const int TimelineRewindPosition = 13;
-    public const int TimeSpeed = 14;
+    public const int Time = 10;
+    public const int TimelineLastPosition = 11;
+    public const int TimelineRewindPosition = 12;
+    public const int TimeSpeed = 13;
 
-    public const int TotalComponents = 15;
+    public const int TotalComponents = 14;
 
     public static readonly string[] componentNames = {
         "PlayerTimelineData",
@@ -37,7 +36,6 @@ public static class TimeComponentsLookup {
         "TickRate",
         "TickRateDecreased",
         "TickRateIncreased",
-        "TimeChanger",
         "Time",
         "TimelineLastPosition",
         "TimelineRewindPosition",
@@ -55,7 +53,6 @@ public static class TimeComponentsLookup {
         typeof(TickRateComponent),
         typeof(TickRateDecreasedComponent),
         typeof(TickRateIncreasedComponent),
-        typeof(TimeChangerComponent),
         typeof(TimeComponent),
         typeof(TimelineLastPositionComponent),
         typeof(TimelineRewindPositionComponent),

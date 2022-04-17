@@ -5,10 +5,12 @@ namespace ECS.Systems.TimeManagement
     public class TimeSpeedSystem : IInitializeSystem, IExecuteSystem
     {
         private readonly TimeContext _timeContext;
+        private readonly InputContext _inputContext;
 
         public TimeSpeedSystem(Contexts contexts)
         {
             _timeContext = contexts.time;
+            _inputContext = contexts.input;
         }
     
         public void Initialize()
@@ -18,15 +20,15 @@ namespace ECS.Systems.TimeManagement
 
         public void Execute()
         {
-            if (!_timeContext.hasTimeChanger)
+            if (!_inputContext.hasInputControlling)
                 return;
             
-            var timeChanger = _timeContext.timeChanger;
+            var timeChanger = _inputContext.inputControllingEntity.forwardMovement.Value;
             var timeSpeed = _timeContext.timeSpeed;
             var rollbackValue = _timeContext.rollbackValue;
             var isRollback = _timeContext.isRollback;
-                
-            timeSpeed.Value = timeChanger.Value.Velocity().magnitude;
+            
+            timeSpeed.Value = timeChanger.magnitude;
             
             if (isRollback)
                 timeSpeed.Value = -rollbackValue.Value;

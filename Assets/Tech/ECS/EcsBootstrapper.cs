@@ -43,7 +43,6 @@ namespace ECS
             //Time
             _systems.Add(new TimeSpeedSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));
-            _systems.Add(new TimeVelocityReactiveSystem(Contexts));
             _systems.Add(new TimeLineSystem(Contexts));
 
             //PlayerTimeline
