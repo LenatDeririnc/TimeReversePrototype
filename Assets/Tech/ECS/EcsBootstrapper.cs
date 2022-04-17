@@ -32,7 +32,6 @@ namespace ECS
             _systems.Add(new GamepadLookInputSystem(Contexts));
             _systems.Add(new MovementInputSystem(Contexts));
             _systems.Add(new InputControlSenderSystem(Contexts));
-            _systems.Add(new RollbackInputSystem(Contexts));
 
             //PlayerController
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
@@ -41,6 +40,7 @@ namespace ECS
             _systems.Add(new CameraPitchReactiveSystem(Contexts));
             
             //Time
+            _systems.Add(new RewindInputSystem(Contexts));
             _systems.Add(new TimeSpeedSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));
             _systems.Add(new TimeLineSystem(Contexts));
@@ -48,8 +48,8 @@ namespace ECS
             //PlayerTimeline
             _systems.Add(new UndoPlayerTimelineSystem(Contexts));
             _systems.Add(new WritePlayerTimelineSystem(Contexts));
-            _systems.Add(new ReplaceRewindPositionReactiveSystem(Contexts));
             _systems.Add(new RewindPlayerTimelineSystem(Contexts));
+            _systems.Add(new OnRewindPlayerTimelineEndReactiveSystem(Contexts));
 
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));

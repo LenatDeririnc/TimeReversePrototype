@@ -2,12 +2,12 @@
 
 namespace ECS.Systems.Input
 {
-    public class RollbackInputSystem : IExecuteSystem, IInitializeSystem
+    public class RewindInputSystem : IExecuteSystem, IInitializeSystem
     {
         private readonly IGroup<InputEntity> _group;
         private readonly Contexts _contexts;
 
-        public RollbackInputSystem(Contexts contexts)
+        public RewindInputSystem(Contexts contexts)
         {
             _contexts = contexts;
             _group = contexts.input.GetGroup(InputMatcher.Input);
