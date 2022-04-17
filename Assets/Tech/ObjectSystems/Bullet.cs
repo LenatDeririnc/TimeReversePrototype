@@ -1,5 +1,4 @@
-﻿using DamageSystem;
-using ECS.Mono;
+﻿using ECS.Mono;
 using UnityEngine;
 
 namespace ObjectSystems
