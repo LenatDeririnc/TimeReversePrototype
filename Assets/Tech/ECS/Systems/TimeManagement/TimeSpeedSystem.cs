@@ -1,5 +1,4 @@
-﻿using ECS.Extensions;
-using Entitas;
+﻿using Entitas;
 
 namespace ECS.Systems.TimeManagement
 {

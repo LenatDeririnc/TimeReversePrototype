@@ -1,9 +1,9 @@
-﻿using Common;
-using Entitas;
+﻿using Entitas;
 using Entitas.CodeGeneration.Attributes;
+using TimelineData;
 
 [Time, Unique]
 public class TimelineRewindPositionComponent : IComponent
 {
-    public TimelineData Value;
+    public PlayerTimelineData Value;
 }

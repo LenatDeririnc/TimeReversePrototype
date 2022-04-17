@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Common;
-using Entitas;
+﻿using Entitas;
+using TimelineData;
+using Tools.TimeLineStackTool;
 
 namespace ECS.Systems.TimeManagement
 {
@@ -15,12 +15,12 @@ namespace ECS.Systems.TimeManagement
     
         public void Initialize()
         {
-            _contexts.time.SetTimelineData(new Stack<TimelineData>());
+            _contexts.time.SetPlayerTimelineData(new TimeLineStack());
 
             var player = _contexts.game.playerEntity;
             var camera = _contexts.game.playerCameraEntity;
             
-            var timelineData = new TimelineData()
+            var timelineData = new PlayerTimelineData(0)
             {
                 playerPosition = player.transform.Value.position,
                 playerRotation = player.transform.Value.rotation,

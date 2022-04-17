@@ -12,7 +12,7 @@ public partial class TimeContext {
     public TimelineRewindPositionComponent timelineRewindPosition { get { return timelineRewindPositionEntity.timelineRewindPosition; } }
     public bool hasTimelineRewindPosition { get { return timelineRewindPositionEntity != null; } }
 
-    public TimeEntity SetTimelineRewindPosition(Common.TimelineData newValue) {
+    public TimeEntity SetTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
         if (hasTimelineRewindPosition) {
             throw new Entitas.EntitasException("Could not set TimelineRewindPosition!\n" + this + " already has an entity with TimelineRewindPositionComponent!",
                 "You should check if the context already has a timelineRewindPositionEntity before setting it or use context.ReplaceTimelineRewindPosition().");
@@ -22,7 +22,7 @@ public partial class TimeContext {
         return entity;
     }
 
-    public void ReplaceTimelineRewindPosition(Common.TimelineData newValue) {
+    public void ReplaceTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
         var entity = timelineRewindPositionEntity;
         if (entity == null) {
             entity = SetTimelineRewindPosition(newValue);
@@ -49,14 +49,14 @@ public partial class TimeEntity {
     public TimelineRewindPositionComponent timelineRewindPosition { get { return (TimelineRewindPositionComponent)GetComponent(TimeComponentsLookup.TimelineRewindPosition); } }
     public bool hasTimelineRewindPosition { get { return HasComponent(TimeComponentsLookup.TimelineRewindPosition); } }
 
-    public void AddTimelineRewindPosition(Common.TimelineData newValue) {
+    public void AddTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
         var index = TimeComponentsLookup.TimelineRewindPosition;
         var component = (TimelineRewindPositionComponent)CreateComponent(index, typeof(TimelineRewindPositionComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceTimelineRewindPosition(Common.TimelineData newValue) {
+    public void ReplaceTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
         var index = TimeComponentsLookup.TimelineRewindPosition;
         var component = (TimelineRewindPositionComponent)CreateComponent(index, typeof(TimelineRewindPositionComponent));
         component.Value = newValue;

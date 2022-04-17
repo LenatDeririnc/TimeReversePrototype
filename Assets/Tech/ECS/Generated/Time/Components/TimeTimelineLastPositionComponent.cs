@@ -12,7 +12,7 @@ public partial class TimeContext {
     public TimelineLastPositionComponent timelineLastPosition { get { return timelineLastPositionEntity.timelineLastPosition; } }
     public bool hasTimelineLastPosition { get { return timelineLastPositionEntity != null; } }
 
-    public TimeEntity SetTimelineLastPosition(Common.TimelineData newValue) {
+    public TimeEntity SetTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
         if (hasTimelineLastPosition) {
             throw new Entitas.EntitasException("Could not set TimelineLastPosition!\n" + this + " already has an entity with TimelineLastPositionComponent!",
                 "You should check if the context already has a timelineLastPositionEntity before setting it or use context.ReplaceTimelineLastPosition().");
@@ -22,7 +22,7 @@ public partial class TimeContext {
         return entity;
     }
 
-    public void ReplaceTimelineLastPosition(Common.TimelineData newValue) {
+    public void ReplaceTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
         var entity = timelineLastPositionEntity;
         if (entity == null) {
             entity = SetTimelineLastPosition(newValue);
@@ -49,14 +49,14 @@ public partial class TimeEntity {
     public TimelineLastPositionComponent timelineLastPosition { get { return (TimelineLastPositionComponent)GetComponent(TimeComponentsLookup.TimelineLastPosition); } }
     public bool hasTimelineLastPosition { get { return HasComponent(TimeComponentsLookup.TimelineLastPosition); } }
 
-    public void AddTimelineLastPosition(Common.TimelineData newValue) {
+    public void AddTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
         var index = TimeComponentsLookup.TimelineLastPosition;
         var component = (TimelineLastPositionComponent)CreateComponent(index, typeof(TimelineLastPositionComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceTimelineLastPosition(Common.TimelineData newValue) {
+    public void ReplaceTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
         var index = TimeComponentsLookup.TimelineLastPosition;
         var component = (TimelineLastPositionComponent)CreateComponent(index, typeof(TimelineLastPositionComponent));
         component.Value = newValue;

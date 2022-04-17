@@ -26,17 +26,6 @@ namespace ECS
             //Data
             _systems.Add(new ColliderDataSystem(Contexts));
 
-            //Time
-            _systems.Add(new TimeSpeedSystem(Contexts));
-            _systems.Add(new TimeSystem(Contexts));
-            _systems.Add(new TickRateSystem(Contexts));
-            _systems.Add(new TickRateReactiveSystem(Contexts));
-            _systems.Add(new TimeVelocityReactiveSystem(Contexts));
-            _systems.Add(new TimeLineSystem(Contexts));
-            _systems.Add(new UndoPlayerInfoSystem(Contexts));
-            _systems.Add(new WritePlayerInfoSystem(Contexts));
-            _systems.Add(new ReplaceRewindPositionReactiveSystem(Contexts));
-
             //Input
             _systems.Add(new InputControllingReactiveSystem(Contexts));
             _systems.Add(new MouseLookInputSystem(Contexts));
@@ -50,12 +39,21 @@ namespace ECS
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
             _systems.Add(new CameraPitchReactiveSystem(Contexts));
-
-            //Rewind
-            _systems.Add(new RewindSystem(Contexts));
             
+            //Time
+            _systems.Add(new TimeSpeedSystem(Contexts));
+            _systems.Add(new TimeSystem(Contexts));
+            _systems.Add(new TimeVelocityReactiveSystem(Contexts));
+            _systems.Add(new TimeLineSystem(Contexts));
+
+            //PlayerTimeline
+            _systems.Add(new UndoPlayerTimelineSystem(Contexts));
+            _systems.Add(new WritePlayerTimelineSystem(Contexts));
+            _systems.Add(new ReplaceRewindPositionReactiveSystem(Contexts));
+            _systems.Add(new RewindPlayerTimelineSystem(Contexts));
+
             //Enemies
-            _systems.Add(new EnemyTimeReverseSystem(Contexts));
+            _systems.Add(new EnemyAnimationRewindSystem(Contexts));
             
             //Signals
             _systems.Add(new TriggerSignalReactiveSystem(Contexts));
