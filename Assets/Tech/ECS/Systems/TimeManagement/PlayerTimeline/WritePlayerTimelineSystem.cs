@@ -20,10 +20,12 @@ namespace ECS.Systems.TimeManagement
             
             var time = _contexts.time.time;
             var playerTransform = _contexts.game.playerEntity.transform.Value;
+            var isDead = _contexts.game.playerEntity.isDead;
             var cameraPitch = _contexts.game.playerCameraEntity.cameraPitchAngle.Value;
 
             var saveData = new PlayerTimelineData(time.Value)
             {
+                isDead = isDead,
                 playerPosition = playerTransform.position,
                 playerRotation = playerTransform.rotation,
                 cameraAngle = cameraPitch, 

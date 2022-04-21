@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Entitas;
 
-namespace ECS.Systems.TimeManagement
+namespace ECS.Systems.TimeManagement.PlayerTimeline
 {
-    public class OnRewindPlayerTimelineEndReactiveSystem : ReactiveSystem<TimeEntity>
+    public class RewindEndPlayerTimelineReactiveSystem : ReactiveSystem<TimeEntity>
     {
         private readonly Contexts _contexts;
 
-        public OnRewindPlayerTimelineEndReactiveSystem(Contexts contexts) : base(contexts.time)
+        public RewindEndPlayerTimelineReactiveSystem(Contexts contexts) : base(contexts.time)
         {
             _contexts = contexts;
         }

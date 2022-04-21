@@ -9,6 +9,7 @@ namespace TimelineData
         {
         }
         
+        public bool isDead;
         public Vector3 playerPosition;
         public Quaternion playerRotation;
         public float cameraAngle;

@@ -4,6 +4,8 @@ using ECS.Systems.Characters.Player;
 using ECS.Systems.Input;
 using ECS.Systems.Input.PlayerControllerSystems;
 using ECS.Systems.TimeManagement;
+using ECS.Systems.TimeManagement.PlayerTimeline;
+using ECS.Systems.Triggers;
 using UnityEngine;
 
 namespace ECS
@@ -48,8 +50,8 @@ namespace ECS
             //PlayerTimeline
             _systems.Add(new UndoPlayerTimelineSystem(Contexts));
             _systems.Add(new WritePlayerTimelineSystem(Contexts));
-            _systems.Add(new RewindPlayerTimelineSystem(Contexts));
-            _systems.Add(new OnRewindPlayerTimelineEndReactiveSystem(Contexts));
+            _systems.Add(new RewindStartPlayerTimelineSystem(Contexts));
+            _systems.Add(new RewindEndPlayerTimelineReactiveSystem(Contexts));
 
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));
@@ -57,6 +59,9 @@ namespace ECS
             //Signals
             _systems.Add(new TriggerSignalReactiveSystem(Contexts));
             _systems.Add(new ColliderDataSignalReactiveSystem(Contexts));
+            
+            //Triggers
+            _systems.Add(new BulletTriggerSystem(Contexts));
 
             //Test
             _systems.Add(new MovingObjectSystem(Contexts));

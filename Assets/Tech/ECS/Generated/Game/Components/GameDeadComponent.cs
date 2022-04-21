@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly ShotComponent shotComponent = new ShotComponent();
+    static readonly DeadComponent deadComponent = new DeadComponent();
 
-    public bool isShot {
-        get { return HasComponent(GameComponentsLookup.Shot); }
+    public bool isDead {
+        get { return HasComponent(GameComponentsLookup.Dead); }
         set {
-            if (value != isShot) {
-                var index = GameComponentsLookup.Shot;
+            if (value != isDead) {
+                var index = GameComponentsLookup.Dead;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : shotComponent;
+                            : deadComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherShot;
+    static Entitas.IMatcher<GameEntity> _matcherDead;
 
-    public static Entitas.IMatcher<GameEntity> Shot {
+    public static Entitas.IMatcher<GameEntity> Dead {
         get {
-            if (_matcherShot == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Shot);
+            if (_matcherDead == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Dead);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherShot = matcher;
+                _matcherDead = matcher;
             }
 
-            return _matcherShot;
+            return _matcherDead;
         }
     }
 }

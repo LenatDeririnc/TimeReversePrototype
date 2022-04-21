@@ -10,49 +10,55 @@ public static class GameComponentsLookup {
 
     public const int AddColliderDataSignal = 0;
     public const int AnimatorReverser = 1;
-    public const int CameraPitchAngle = 2;
-    public const int ColliderData = 3;
-    public const int Element = 4;
-    public const int Enemy = 5;
-    public const int MovingForward = 6;
-    public const int PlayerCamera = 7;
-    public const int Player = 8;
-    public const int Shot = 9;
-    public const int Transform = 10;
-    public const int TransformInfo = 11;
-    public const int TriggerSignal = 12;
+    public const int Bullet = 2;
+    public const int CameraPitchAngle = 3;
+    public const int ColliderData = 4;
+    public const int Dead = 5;
+    public const int Element = 6;
+    public const int Enemy = 7;
+    public const int MovingForward = 8;
+    public const int PlayerCamera = 9;
+    public const int Player = 10;
+    public const int Transform = 11;
+    public const int TransformInfo = 12;
+    public const int TriggeredBy = 13;
+    public const int TriggerSignal = 14;
 
-    public const int TotalComponents = 13;
+    public const int TotalComponents = 15;
 
     public static readonly string[] componentNames = {
         "AddColliderDataSignal",
         "AnimatorReverser",
+        "Bullet",
         "CameraPitchAngle",
         "ColliderData",
+        "Dead",
         "Element",
         "Enemy",
         "MovingForward",
         "PlayerCamera",
         "Player",
-        "Shot",
         "Transform",
         "TransformInfo",
+        "TriggeredBy",
         "TriggerSignal"
     };
 
     public static readonly System.Type[] componentTypes = {
         typeof(AddColliderDataSignalComponent),
         typeof(AnimatorReverserComponent),
+        typeof(BulletComponent),
         typeof(CameraPitchAngleComponent),
         typeof(ColliderDataComponent),
+        typeof(DeadComponent),
         typeof(ElementComponent),
         typeof(EnemyComponent),
         typeof(MovingForwardComponent),
         typeof(PlayerCameraComponent),
         typeof(PlayerComponent),
-        typeof(ShotComponent),
         typeof(TransformComponent),
         typeof(TransformInfoComponent),
+        typeof(TriggeredByComponent),
         typeof(TriggerSignalComponent)
     };
 }

@@ -3,13 +3,17 @@ using UnityEngine;
 
 namespace ObjectSystems
 {
-    public class Bullet : MonoProvider
+    public class Bullet : MonoGameEntity
     {
+        protected override void Awake()
+        {
+            base.Awake();
+            Entity.isBullet = true;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            var signal = Contexts.game.CreateEntity();
-            signal.isShot = true;
-            signal.ReplaceTriggerSignal(other);
+            Contexts.game.CreateEntity().ReplaceTriggerSignal(Entity, other);
         }
     }
 }

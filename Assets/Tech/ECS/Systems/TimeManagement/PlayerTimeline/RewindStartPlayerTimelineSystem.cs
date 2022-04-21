@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace ECS.Systems.TimeManagement
 {
-    public class RewindPlayerTimelineSystem : IExecuteSystem, IInitializeSystem
+    public class RewindStartPlayerTimelineSystem : IExecuteSystem, IInitializeSystem
     {
         private readonly TimeContext _timeContext;
         private readonly GameContext _gameContext;
 
-        public RewindPlayerTimelineSystem(Contexts contexts)
+        public RewindStartPlayerTimelineSystem(Contexts contexts)
         {
             _gameContext = contexts.game;
             _timeContext = contexts.time;
@@ -54,7 +54,8 @@ namespace ECS.Systems.TimeManagement
                     Quaternion.Euler(lastPosition.cameraAngle, 0, 0), 
                     Quaternion.Euler(newPosition.cameraAngle, 0, 0), 
                     1 - divideRatio), deltaTime);
-
+            
+            _gameContext.playerEntity.isDead = newPosition.isDead;
             playerTransformInfo.Value = new TransformInfo(playerTransform.transform);
         }
     }

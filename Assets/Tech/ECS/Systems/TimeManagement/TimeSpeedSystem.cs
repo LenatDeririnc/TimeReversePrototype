@@ -1,4 +1,5 @@
 ﻿using Entitas;
+using UnityEngine;
 
 namespace ECS.Systems.TimeManagement
 {
@@ -6,11 +7,13 @@ namespace ECS.Systems.TimeManagement
     {
         private readonly TimeContext _timeContext;
         private readonly InputContext _inputContext;
+        private readonly GameContext _gameContext;
 
         public TimeSpeedSystem(Contexts contexts)
         {
             _timeContext = contexts.time;
             _inputContext = contexts.input;
+            _gameContext = contexts.game;
         }
     
         public void Initialize()
@@ -29,6 +32,9 @@ namespace ECS.Systems.TimeManagement
             var isRollback = _timeContext.isRollback;
             
             timeSpeed.Value = timeChanger.magnitude;
+            
+            if (_gameContext.playerEntity.isDead)
+                timeSpeed.Value = Mathf.Clamp(timeSpeed.Value, -1f, 0f);
             
             if (isRollback)
                 timeSpeed.Value = -rollbackValue.Value;

@@ -46,7 +46,6 @@ namespace CharacterSystem.Player
 
             _playerEntity = Contexts.game.CreateEntity();
             _playerEntity.isPlayer = true;
-            _playerEntity.isShot = false;
             _playerEntity.ReplaceTransform(PlayerModel.transform);
             _playerEntity.ReplaceTransformInfo(new TransformInfo(PlayerModel.transform));
 
@@ -68,7 +67,7 @@ namespace CharacterSystem.Player
 
         public void SendInputData(InputData data)
         {
-            if (_playerEntity.isShot)
+            if (_playerEntity.isDead)
                 data = new InputData();
                 
             BasePlayerController.HandleInput(data);

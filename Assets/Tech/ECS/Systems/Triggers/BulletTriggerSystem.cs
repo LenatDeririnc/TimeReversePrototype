@@ -1,35 +1,32 @@
 ﻿using System.Collections.Generic;
 using Entitas;
 
-namespace ECS.Systems
+namespace ECS.Systems.Triggers
 {
-    public class TriggerSignalReactiveSystem : ReactiveSystem<GameEntity>
+    public class BulletTriggerSystem : ReactiveSystem<GameEntity>
     {
         private readonly Contexts _contexts;
 
-        public TriggerSignalReactiveSystem(Contexts contexts) : base(contexts.game)
+        public BulletTriggerSystem(Contexts contexts) : base(contexts.game)
         {
             _contexts = contexts;
         }
     
         protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
         {
-            return context.CreateCollector(GameMatcher.TriggerSignal.Added());
+            return context.CreateCollector(GameMatcher.TriggeredBy.Added());
         }
 
         protected override bool Filter(GameEntity entity)
         {
-            return true;
+            return !_contexts.time.isRollback & entity.triggeredBy.Entity.isBullet & entity.isDead == false;
         }
 
         protected override void Execute(List<GameEntity> entities)
         {
             foreach (var e in entities)
             {
-                var entity = _contexts.game.colliderData.Values[e.triggerSignal.Collider];
-                entity.ReplaceTriggeredBy(e.triggerSignal.Entity);
-                
-                e.RemoveTriggerSignal();
+                e.isDead = true;
             }
         }
     }
