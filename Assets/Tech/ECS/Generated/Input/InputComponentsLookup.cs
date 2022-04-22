@@ -11,18 +11,20 @@ public static class InputComponentsLookup {
     public const int BackMovement = 0;
     public const int BasePlayerControllerHolder = 1;
     public const int ForwardMovement = 2;
-    public const int Input = 3;
-    public const int InputControlling = 4;
-    public const int Jump = 5;
-    public const int Look = 6;
-    public const int MoveDirection = 7;
+    public const int Gamepad = 3;
+    public const int Input = 4;
+    public const int InputControlling = 5;
+    public const int Jump = 6;
+    public const int Look = 7;
+    public const int MoveDirection = 8;
 
-    public const int TotalComponents = 8;
+    public const int TotalComponents = 9;
 
     public static readonly string[] componentNames = {
         "BackMovement",
         "BasePlayerControllerHolder",
         "ForwardMovement",
+        "Gamepad",
         "Input",
         "InputControlling",
         "Jump",
@@ -34,6 +36,7 @@ public static class InputComponentsLookup {
         typeof(BackMovementComponent),
         typeof(BasePlayerControllerHolderComponent),
         typeof(ForwardMovementComponent),
+        typeof(GamepadComponent),
         typeof(InputComponent),
         typeof(InputControllingComponent),
         typeof(JumpComponent),

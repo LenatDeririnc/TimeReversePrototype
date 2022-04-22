@@ -1,4 +1,5 @@
-﻿using Entitas;
+﻿using Common;
+using Entitas;
 using UnityEngine;
 
 namespace ECS.Systems.Input
@@ -14,8 +15,8 @@ namespace ECS.Systems.Input
 
         public void Execute()
         {
-            var mouseX = UnityEngine.Input.GetAxis("Mouse X");
-            var mouseY = UnityEngine.Input.GetAxis("Mouse Y");
+            var mouseX = InputContainer.MouseX;
+            var mouseY = InputContainer.MouseY;
         
             var lookValue = new Vector2(mouseX, mouseY);
         

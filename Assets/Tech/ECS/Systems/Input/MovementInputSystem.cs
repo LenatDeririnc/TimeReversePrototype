@@ -1,4 +1,5 @@
-﻿using Entitas;
+﻿using Common;
+using Entitas;
 using UnityEngine;
 
 namespace ECS.Systems.Input
@@ -16,9 +17,9 @@ namespace ECS.Systems.Input
         {
             foreach (var e in _group)
             {
-                var horizontal = UnityEngine.Input.GetAxisRaw("Horizontal");
-                var vertical = UnityEngine.Input.GetAxisRaw("Vertical");
-                e.isJump = UnityEngine.Input.GetButtonDown("Jump");
+                var horizontal = InputContainer.HorizontalMove;
+                var vertical = InputContainer.VerticalMove;
+                e.isJump = InputContainer.Jump;
 
                 var move = new Vector3()
                 {
