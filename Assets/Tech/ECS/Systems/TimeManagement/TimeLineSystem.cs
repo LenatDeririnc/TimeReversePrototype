@@ -15,7 +15,7 @@ namespace ECS.Systems.TimeManagement
     
         public void Initialize()
         {
-            _contexts.time.SetPlayerTimelineData(new TimeLineStack());
+            _contexts.time.SetTimeLineStack(new TimeLineStack());
 
             var player = _contexts.game.playerEntity;
             var camera = _contexts.game.playerCameraEntity;
@@ -27,7 +27,8 @@ namespace ECS.Systems.TimeManagement
                 cameraAngle = camera.cameraPitchAngle.Value,
             };
             
-            _contexts.time.SetTimelineLastPosition(timelineData);
+            _contexts.time.isTimelineLastPosition = true;
+            _contexts.time.timelineLastPositionEntity.ReplacePlayerTimelineData(timelineData);
         }
     }
 }

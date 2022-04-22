@@ -1,7 +1,6 @@
 ﻿using Entitas;
-using Entitas.CodeGeneration.Attributes;
 
-[Unique, Time]
+[Time]
 public class TimeSpeedComponent : IComponent
 {
     public float Value;

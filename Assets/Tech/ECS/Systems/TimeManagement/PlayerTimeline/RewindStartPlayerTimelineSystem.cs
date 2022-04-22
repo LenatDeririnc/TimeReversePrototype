@@ -25,37 +25,37 @@ namespace ECS.Systems.TimeManagement
             if (!_timeContext.isRollback)
                 return;
             
-            if (!_timeContext.hasTimelineRewindPosition)
+            if (!_timeContext.isTimelineRewindPosition)
                 return;
 
             var playerTransform = _gameContext.playerEntity.transform.Value;
             var playerTransformInfo = _gameContext.playerEntity.transformInfo;
             var camera = _gameContext.playerCameraEntity;
 
-            var newPosition = _timeContext.timelineRewindPosition.Value;
-            var lastPosition = _timeContext.timelineLastPosition.Value;
-            var divideRatio = (_timeContext.time.Value - newPosition.pushTime) / (lastPosition.pushTime - newPosition.pushTime);
+            var newData = _timeContext.timelineRewindPositionEntity.playerTimelineData.Value;
+            var lastData = _timeContext.timelineLastPositionEntity.playerTimelineData.Value;
+            var divideRatio = (_timeContext.time.Value - newData.pushTime) / (lastData.pushTime - newData.pushTime);
             
             var deltaTime = Time.deltaTime * _timeContext.smoothRewindSpeed.value;
 
             playerTransform.position =
                 Vector3.Lerp(playerTransform.position,  
-                Vector3.Lerp(lastPosition.playerPosition, newPosition.playerPosition, 1 - divideRatio),
+                Vector3.Lerp(lastData.playerPosition, newData.playerPosition, 1 - divideRatio),
                 deltaTime);
             
             playerTransform.rotation =
                 Quaternion.Lerp(playerTransform.rotation, 
-                Quaternion.Lerp(lastPosition.playerRotation, newPosition.playerRotation, 1 - divideRatio),
+                Quaternion.Lerp(lastData.playerRotation, newData.playerRotation, 1 - divideRatio),
                 deltaTime);
                 
             camera.transform.Value.localRotation =
                 Quaternion.Lerp(camera.transform.Value.localRotation,  
                     Quaternion.Lerp(
-                    Quaternion.Euler(lastPosition.cameraAngle, 0, 0), 
-                    Quaternion.Euler(newPosition.cameraAngle, 0, 0), 
+                    Quaternion.Euler(lastData.cameraAngle, 0, 0), 
+                    Quaternion.Euler(newData.cameraAngle, 0, 0), 
                     1 - divideRatio), deltaTime);
             
-            _gameContext.playerEntity.isDead = newPosition.isDead;
+            _gameContext.playerEntity.isDead = newData.isDead;
             playerTransformInfo.Value = new TransformInfo(playerTransform.transform);
         }
     }

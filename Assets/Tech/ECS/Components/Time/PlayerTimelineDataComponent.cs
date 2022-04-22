@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using Common;
-using Entitas;
-using Entitas.CodeGeneration.Attributes;
+﻿using Entitas;
 using TimelineData;
-using Tools.TimeLineStackTool;
 
-[Unique, Time]
+[Time]
 public class PlayerTimelineDataComponent : IComponent
 {
-    public TimeLineStack Value;
+    public PlayerTimelineData Value;
 }

@@ -9,30 +9,19 @@
 public partial class TimeContext {
 
     public TimeEntity timelineLastPositionEntity { get { return GetGroup(TimeMatcher.TimelineLastPosition).GetSingleEntity(); } }
-    public TimelineLastPositionComponent timelineLastPosition { get { return timelineLastPositionEntity.timelineLastPosition; } }
-    public bool hasTimelineLastPosition { get { return timelineLastPositionEntity != null; } }
 
-    public TimeEntity SetTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
-        if (hasTimelineLastPosition) {
-            throw new Entitas.EntitasException("Could not set TimelineLastPosition!\n" + this + " already has an entity with TimelineLastPositionComponent!",
-                "You should check if the context already has a timelineLastPositionEntity before setting it or use context.ReplaceTimelineLastPosition().");
+    public bool isTimelineLastPosition {
+        get { return timelineLastPositionEntity != null; }
+        set {
+            var entity = timelineLastPositionEntity;
+            if (value != (entity != null)) {
+                if (value) {
+                    CreateEntity().isTimelineLastPosition = true;
+                } else {
+                    entity.Destroy();
+                }
+            }
         }
-        var entity = CreateEntity();
-        entity.AddTimelineLastPosition(newValue);
-        return entity;
-    }
-
-    public void ReplaceTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
-        var entity = timelineLastPositionEntity;
-        if (entity == null) {
-            entity = SetTimelineLastPosition(newValue);
-        } else {
-            entity.ReplaceTimelineLastPosition(newValue);
-        }
-    }
-
-    public void RemoveTimelineLastPosition() {
-        timelineLastPositionEntity.Destroy();
     }
 }
 
@@ -46,25 +35,25 @@ public partial class TimeContext {
 //------------------------------------------------------------------------------
 public partial class TimeEntity {
 
-    public TimelineLastPositionComponent timelineLastPosition { get { return (TimelineLastPositionComponent)GetComponent(TimeComponentsLookup.TimelineLastPosition); } }
-    public bool hasTimelineLastPosition { get { return HasComponent(TimeComponentsLookup.TimelineLastPosition); } }
+    static readonly TimelineLastPositionComponent timelineLastPositionComponent = new TimelineLastPositionComponent();
 
-    public void AddTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
-        var index = TimeComponentsLookup.TimelineLastPosition;
-        var component = (TimelineLastPositionComponent)CreateComponent(index, typeof(TimelineLastPositionComponent));
-        component.Value = newValue;
-        AddComponent(index, component);
-    }
+    public bool isTimelineLastPosition {
+        get { return HasComponent(TimeComponentsLookup.TimelineLastPosition); }
+        set {
+            if (value != isTimelineLastPosition) {
+                var index = TimeComponentsLookup.TimelineLastPosition;
+                if (value) {
+                    var componentPool = GetComponentPool(index);
+                    var component = componentPool.Count > 0
+                            ? componentPool.Pop()
+                            : timelineLastPositionComponent;
 
-    public void ReplaceTimelineLastPosition(TimelineData.PlayerTimelineData newValue) {
-        var index = TimeComponentsLookup.TimelineLastPosition;
-        var component = (TimelineLastPositionComponent)CreateComponent(index, typeof(TimelineLastPositionComponent));
-        component.Value = newValue;
-        ReplaceComponent(index, component);
-    }
-
-    public void RemoveTimelineLastPosition() {
-        RemoveComponent(TimeComponentsLookup.TimelineLastPosition);
+                    AddComponent(index, component);
+                } else {
+                    RemoveComponent(index);
+                }
+            }
+        }
     }
 }
 

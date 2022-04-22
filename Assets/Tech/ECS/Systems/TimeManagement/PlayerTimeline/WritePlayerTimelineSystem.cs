@@ -1,5 +1,4 @@
-﻿using Common;
-using Entitas;
+﻿using Entitas;
 using TimelineData;
 
 namespace ECS.Systems.TimeManagement
@@ -31,8 +30,9 @@ namespace ECS.Systems.TimeManagement
                 cameraAngle = cameraPitch, 
             };
             
-            _contexts.time.ReplaceTimelineLastPosition(saveData);
-            _contexts.time.playerTimelineData.Value.Push(saveData);
+            _contexts.time.isTimelineLastPosition = true;
+            _contexts.time.timelineLastPositionEntity.ReplacePlayerTimelineData(saveData);
+            _contexts.time.timeLineStack.Value.Push(saveData);
         }
     }
 }

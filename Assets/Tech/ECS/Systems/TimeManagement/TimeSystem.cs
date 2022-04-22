@@ -1,7 +1,6 @@
 ﻿using System;
 using ECS.Extensions;
 using Entitas;
-using UnityEngine;
 
 namespace ECS.Systems.TimeManagement
 {
@@ -25,7 +24,7 @@ namespace ECS.Systems.TimeManagement
         {
             var time = _timeContext.time;
             var previousTime = _timeContext.previousTime;
-            var timeSpeed = _timeContext.timeSpeed;
+            var timeSpeed = _timeContext.globalTimeSpeed;
             var tickRate = _timeContext.tickRate;
             
             if (time.Value + _timeContext.ScaledTimeSpeed() < 0)
@@ -40,14 +39,8 @@ namespace ECS.Systems.TimeManagement
             }
             else
             {
-                if (previousTime.Value > time.Value)
-                {
-                    _timeContext.timeEntity.isTickRateDecreased = true;
-                }
-                else if (previousTime.Value < time.Value)
-                {
-                    _timeContext.timeEntity.isTickRateIncreased = true;
-                }
+                _timeContext.timeEntity.isTickRateIncreased = previousTime.Value < time.Value;
+                _timeContext.timeEntity.isTickRateDecreased = previousTime.Value > time.Value;
                 previousTime.Value = time.Value;
             }
         }

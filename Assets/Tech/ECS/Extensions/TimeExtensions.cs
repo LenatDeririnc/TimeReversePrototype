@@ -4,7 +4,7 @@
     {
         public static float ScaledTimeSpeed(this TimeContext context)
         {
-            return context.timeSpeed.Value * UnityEngine.Time.deltaTime;
+            return context.globalTimeSpeed.Value * UnityEngine.Time.deltaTime;
         }
     }
 }

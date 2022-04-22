@@ -8,7 +8,5 @@
         }
     
         public float pushTime { get; }
-        public TimeLineElement Prev;
-        public TimeLineElement Next;
     }
 }

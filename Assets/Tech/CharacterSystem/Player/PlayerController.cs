@@ -67,9 +67,6 @@ namespace CharacterSystem.Player
 
         public void SendInputData(InputData data)
         {
-            if (_playerEntity.isDead)
-                data = new InputData();
-                
             BasePlayerController.HandleInput(data);
             MouseLook.HandleInput(data);
         }

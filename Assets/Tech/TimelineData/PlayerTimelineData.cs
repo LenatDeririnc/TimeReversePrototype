@@ -1,4 +1,5 @@
-﻿using Tools.TimeLineStackTool;
+﻿using System;
+using Tools.TimeLineStackTool;
 using UnityEngine;
 
 namespace TimelineData

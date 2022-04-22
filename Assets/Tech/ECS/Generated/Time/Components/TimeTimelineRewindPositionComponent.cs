@@ -9,30 +9,19 @@
 public partial class TimeContext {
 
     public TimeEntity timelineRewindPositionEntity { get { return GetGroup(TimeMatcher.TimelineRewindPosition).GetSingleEntity(); } }
-    public TimelineRewindPositionComponent timelineRewindPosition { get { return timelineRewindPositionEntity.timelineRewindPosition; } }
-    public bool hasTimelineRewindPosition { get { return timelineRewindPositionEntity != null; } }
 
-    public TimeEntity SetTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
-        if (hasTimelineRewindPosition) {
-            throw new Entitas.EntitasException("Could not set TimelineRewindPosition!\n" + this + " already has an entity with TimelineRewindPositionComponent!",
-                "You should check if the context already has a timelineRewindPositionEntity before setting it or use context.ReplaceTimelineRewindPosition().");
+    public bool isTimelineRewindPosition {
+        get { return timelineRewindPositionEntity != null; }
+        set {
+            var entity = timelineRewindPositionEntity;
+            if (value != (entity != null)) {
+                if (value) {
+                    CreateEntity().isTimelineRewindPosition = true;
+                } else {
+                    entity.Destroy();
+                }
+            }
         }
-        var entity = CreateEntity();
-        entity.AddTimelineRewindPosition(newValue);
-        return entity;
-    }
-
-    public void ReplaceTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
-        var entity = timelineRewindPositionEntity;
-        if (entity == null) {
-            entity = SetTimelineRewindPosition(newValue);
-        } else {
-            entity.ReplaceTimelineRewindPosition(newValue);
-        }
-    }
-
-    public void RemoveTimelineRewindPosition() {
-        timelineRewindPositionEntity.Destroy();
     }
 }
 
@@ -46,25 +35,25 @@ public partial class TimeContext {
 //------------------------------------------------------------------------------
 public partial class TimeEntity {
 
-    public TimelineRewindPositionComponent timelineRewindPosition { get { return (TimelineRewindPositionComponent)GetComponent(TimeComponentsLookup.TimelineRewindPosition); } }
-    public bool hasTimelineRewindPosition { get { return HasComponent(TimeComponentsLookup.TimelineRewindPosition); } }
+    static readonly TimelineRewindPositionComponent timelineRewindPositionComponent = new TimelineRewindPositionComponent();
 
-    public void AddTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
-        var index = TimeComponentsLookup.TimelineRewindPosition;
-        var component = (TimelineRewindPositionComponent)CreateComponent(index, typeof(TimelineRewindPositionComponent));
-        component.Value = newValue;
-        AddComponent(index, component);
-    }
+    public bool isTimelineRewindPosition {
+        get { return HasComponent(TimeComponentsLookup.TimelineRewindPosition); }
+        set {
+            if (value != isTimelineRewindPosition) {
+                var index = TimeComponentsLookup.TimelineRewindPosition;
+                if (value) {
+                    var componentPool = GetComponentPool(index);
+                    var component = componentPool.Count > 0
+                            ? componentPool.Pop()
+                            : timelineRewindPositionComponent;
 
-    public void ReplaceTimelineRewindPosition(TimelineData.PlayerTimelineData newValue) {
-        var index = TimeComponentsLookup.TimelineRewindPosition;
-        var component = (TimelineRewindPositionComponent)CreateComponent(index, typeof(TimelineRewindPositionComponent));
-        component.Value = newValue;
-        ReplaceComponent(index, component);
-    }
-
-    public void RemoveTimelineRewindPosition() {
-        RemoveComponent(TimeComponentsLookup.TimelineRewindPosition);
+                    AddComponent(index, component);
+                } else {
+                    RemoveComponent(index);
+                }
+            }
+        }
     }
 }
 

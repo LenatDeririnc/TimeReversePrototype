@@ -43,7 +43,7 @@ namespace ECS
             
             //Time
             _systems.Add(new RewindInputSystem(Contexts));
-            _systems.Add(new TimeSpeedSystem(Contexts));
+            _systems.Add(new TimeSpeedInputSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));
             _systems.Add(new TimeLineSystem(Contexts));
 

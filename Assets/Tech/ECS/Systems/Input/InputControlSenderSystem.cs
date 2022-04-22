@@ -6,9 +6,11 @@ namespace ECS.Systems.Input
     public class InputControlSenderSystem : IExecuteSystem
     {
         private readonly IGroup<InputEntity> _group;
+        private readonly GameContext _gameContext;
 
         public InputControlSenderSystem(Contexts contexts)
         {
+            _gameContext = contexts.game;
             _group = contexts.input.GetGroup(InputMatcher.InputControlling);
         }
         
@@ -16,6 +18,12 @@ namespace ECS.Systems.Input
         {
             foreach (var e in _group)
             {
+                if (_gameContext.playerEntity.isDead)
+                {
+                    e.inputControlling.Value.SendInputData(new InputData());
+                    return;
+                }
+            
                 var data = new InputData()
                 {
                     look = e.look.Value,
@@ -23,7 +31,7 @@ namespace ECS.Systems.Input
                     crouch = false,
                     jump = e.isJump,
                 };
-                
+
                 e.inputControlling.Value.SendInputData(data);
             }
         }

@@ -2,44 +2,45 @@
 {
     public class TimeLineStack
     {
-        private TimeLineElement _tail;
+        private TimeLineChain _tail;
 
         public void Push(TimeLineElement element)
         {
             if (_tail == null)
             {
-                _tail = element;
+                _tail = new TimeLineChain(element);
                 return;
             }
-        
-            _tail.Next = element;
-            element.Prev = _tail;
             
-            _tail = element;
+            var newChain = new TimeLineChain(element);
+            newChain.Prev = _tail;
+            _tail.Next = newChain;
+
+            _tail = newChain;
         }
 
         public TimeLineElement Pop(float time)
         {
-            var element = _tail;
+            var chain = _tail;
             
-            if (element is null)
+            if (chain is null)
                 return null;
-                
-            if (time >= element.pushTime)
-                return element;
 
-            while (time < element.pushTime && element.Prev != null)
+            if (time >= chain.Element.pushTime)
+                return chain.Element;
+
+            while (time < chain.Element.pushTime && chain.Prev != null)
             {
-                element = element.Prev;
+                chain = chain.Prev;
             }
             
-            _tail = element.Prev;
-            return element;
+            _tail = chain.Prev;
+            return chain.Element;
         }
 
         public TimeLineElement Peek()
         {
-            return _tail;
+            return _tail?.Element;
         }
     }
 }
