@@ -12,23 +12,31 @@ public static class InputComponentsLookup {
     public const int BasePlayerControllerHolder = 1;
     public const int ForwardMovement = 2;
     public const int Gamepad = 3;
-    public const int Input = 4;
-    public const int InputControlling = 5;
-    public const int Jump = 6;
-    public const int Look = 7;
-    public const int MoveDirection = 8;
+    public const int GamepadLookSensitivity = 4;
+    public const int InputActionLook = 5;
+    public const int Input = 6;
+    public const int InputControlling = 7;
+    public const int InputSettings = 8;
+    public const int Jump = 9;
+    public const int Look = 10;
+    public const int MouseLookSensitivity = 11;
+    public const int MoveDirection = 12;
 
-    public const int TotalComponents = 9;
+    public const int TotalComponents = 13;
 
     public static readonly string[] componentNames = {
         "BackMovement",
         "BasePlayerControllerHolder",
         "ForwardMovement",
         "Gamepad",
+        "GamepadLookSensitivity",
+        "InputActionLook",
         "Input",
         "InputControlling",
+        "InputSettings",
         "Jump",
         "Look",
+        "MouseLookSensitivity",
         "MoveDirection"
     };
 
@@ -37,10 +45,14 @@ public static class InputComponentsLookup {
         typeof(BasePlayerControllerHolderComponent),
         typeof(ForwardMovementComponent),
         typeof(GamepadComponent),
+        typeof(GamepadLookSensitivity),
+        typeof(InputActionLookComponent),
         typeof(InputComponent),
         typeof(InputControllingComponent),
+        typeof(InputSettingsComponent),
         typeof(JumpComponent),
         typeof(LookComponent),
+        typeof(MouseLookSensitivity),
         typeof(MoveDirectionComponent)
     };
 }

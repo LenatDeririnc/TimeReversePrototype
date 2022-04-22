@@ -7,7 +7,6 @@ namespace CharacterSystem.Player.ECM.Scripts.Fields
     public class MouseLookFields
     {
         public bool _lockCursor = true;
-        public  KeyCode _unlockCursorKey = KeyCode.Escape;
         public  float _lateralSensitivity = 2.0f;
         public  float _verticalSensitivity = 2.0f;
         public  bool _smooth;

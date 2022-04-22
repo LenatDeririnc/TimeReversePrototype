@@ -1,7 +1,7 @@
 ﻿using ECS.Mono;
 using UnityEngine;
 
-namespace ObjectSystems
+namespace MonoBehsProviders
 {
     public class MoveForwardComponent : MonoProvider
     {

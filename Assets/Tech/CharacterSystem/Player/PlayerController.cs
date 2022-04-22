@@ -1,12 +1,11 @@
-﻿using System;
-using CharacterSystem.Player.ECM.Scripts.Components;
-using CharacterSystem.Player.ECM.Scripts.Components.GroundDetection;
+﻿using CharacterSystem.Player.ECM.Scripts.Components.GroundDetection;
 using CharacterSystem.Player.ECM.Scripts.Controllers;
 using CharacterSystem.Player.ECM.Scripts.Fields;
 using CharacterSystem.Player.ECM.Scripts.Helpers;
 using Common;
 using ECS.Mono;
 using UnityEngine;
+using MouseLook = CharacterSystem.Player.ECM.Scripts.Components.MouseLook;
 
 namespace CharacterSystem.Player
 {

@@ -29,9 +29,11 @@ namespace ECS
             _systems.Add(new ColliderDataSystem(Contexts));
 
             //Input
+            _systems.Add(new InputSettingsInitSystem(Contexts));
+            _systems.Add(new GamepadSwitcherSystem(Contexts));
+            _systems.Add(new LookActionSwitcherSystem(Contexts));
             _systems.Add(new InputControllingReactiveSystem(Contexts));
-            _systems.Add(new MouseLookInputSystem(Contexts));
-            _systems.Add(new GamepadLookInputSystem(Contexts));
+            _systems.Add(new LookInputSystem(Contexts));
             _systems.Add(new MovementInputSystem(Contexts));
             _systems.Add(new InputControlSenderSystem(Contexts));
 

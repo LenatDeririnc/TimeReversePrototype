@@ -7,9 +7,10 @@ namespace ECS.Systems.Input
     public class MovementInputSystem : IExecuteSystem
     {
         private readonly IGroup<InputEntity> _group;
-
+        private readonly InputContext _inputContext;
         public MovementInputSystem(Contexts contexts)
         {
+            _inputContext = contexts.input;
             _group = contexts.input.GetGroup(InputMatcher.Input);
         }
 
@@ -17,15 +18,14 @@ namespace ECS.Systems.Input
         {
             foreach (var e in _group)
             {
-                var horizontal = InputContainer.HorizontalMove;
-                var vertical = InputContainer.VerticalMove;
-                e.isJump = InputContainer.Jump;
-
+                var movementValue = _inputContext.inputSettings.Value.Game.Movement.ReadValue<Vector2>();
+                e.isJump = _inputContext.inputSettings.Value.Game.Jump.ReadValue<bool>();
+            
                 var move = new Vector3()
                 {
-                    x = horizontal,
+                    x = movementValue.x,
                     y = 0.0f,
-                    z = vertical
+                    z = movementValue.y
                 };
                 
                 Vector3.ClampMagnitude(move, 1);

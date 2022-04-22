@@ -33,14 +33,6 @@ namespace CharacterSystem.Player.ECM.Scripts.Components
             set => _fields._lockCursor = value;
         }
 
-
-        public KeyCode unlockCursorKey
-        {
-            get => _fields._unlockCursorKey;
-            set => _fields._unlockCursorKey = value;
-        }
-
-
         public float lateralSensitivity
         {
             get => _fields._lateralSensitivity;
@@ -155,11 +147,6 @@ namespace CharacterSystem.Player.ECM.Scripts.Components
 
         protected virtual void InternalLockUpdate()
         {
-            if (Input.GetKeyUp(unlockCursorKey))
-                _isCursorLocked = false;
-            else if (Input.GetMouseButtonUp(0))
-                _isCursorLocked = true;
-
             if (_isCursorLocked)
             {
                 Cursor.lockState = CursorLockMode.Locked;
