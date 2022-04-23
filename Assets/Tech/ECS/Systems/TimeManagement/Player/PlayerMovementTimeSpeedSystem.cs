@@ -18,15 +18,15 @@ namespace ECS.Systems.TimeManagement.Player
                 
             var model = _contexts.game.playerModel;
         
-            var forwardMovementValue = model.Value.inputEntity.forwardMovement.Value.magnitude;
-            var backMovementValue = model.Value.inputEntity.backMovement.Value.magnitude;
+            var forwardMovementValue = _contexts.input.inputEntity.forwardMovement.Value.magnitude;
+            var backMovementValue = _contexts.input.inputEntity.backMovement.Value.magnitude;
 
             var resultValue = forwardMovementValue - backMovementValue;
             
             if (model.Value.playerEntity.isDead)
                 resultValue = -backMovementValue;
             
-            model.Value.timeEntity.timeSpeed.Value = resultValue;
+            model.Value.timeMovementEntity.timeSpeed.Value = resultValue;
         }
     }
 }

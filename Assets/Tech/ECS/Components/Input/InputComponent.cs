@@ -1,6 +1,7 @@
 using Entitas;
+using Entitas.CodeGeneration.Attributes;
 
-[Input]
+[Input, Unique]
 public class InputComponent : IComponent
 {
 }

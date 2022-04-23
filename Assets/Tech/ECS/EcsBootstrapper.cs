@@ -50,6 +50,7 @@ namespace ECS
 
             //PlayerTimeline
             _systems.Add(new PlayerMovementTimeSpeedSystem(Contexts));
+            _systems.Add(new PlayerFireTimeSpeedSystem(Contexts));
             _systems.Add(new UndoPlayerTimelineSystem(Contexts));
             _systems.Add(new WritePlayerTimelineSystem(Contexts));
             _systems.Add(new RewindStartPlayerTimelineSystem(Contexts));

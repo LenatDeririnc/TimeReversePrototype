@@ -16,19 +16,10 @@ namespace ECS.Systems.Characters.Player
         public void Initialize()
         {
             var playerModel = _contexts.game.playerModel.Value;
-        
-            //TODO: Перенести в отдельную систему, и сделать input уникальным
-            // {
+            
             playerModel.inputEntity = _contexts.input.CreateEntity();
-            playerModel.inputEntity.isInput = true;
-            playerModel.inputEntity.ReplaceLook(new Vector2(0, 0));
-            playerModel.inputEntity.ReplaceMoveDirection(Vector3.zero);
-            playerModel.inputEntity.ReplaceForwardMovement(Vector3.zero);
-            playerModel.inputEntity.ReplaceBackMovement(Vector3.zero);
             playerModel.inputEntity.ReplaceInputControlling(playerModel.Controller);
-            playerModel.inputEntity.ReplaceFireInput(0);
             playerModel.inputEntity.ReplaceBasePlayerControllerHolder(playerModel.Controller.BasePlayerController);
-            // }
 
             playerModel.playerEntity = _contexts.game.CreateEntity();
             playerModel.playerEntity.isPlayer = true;
@@ -40,8 +31,10 @@ namespace ECS.Systems.Characters.Player
             playerModel.cameraEntity.ReplaceTransform(playerModel.CameraTransform);
             playerModel.cameraEntity.ReplaceCameraPitchAngle(playerModel.CameraTransform.rotation.eulerAngles.x);
             
-            playerModel.timeEntity = _contexts.time.CreateEntity();
-            playerModel.timeEntity.ReplaceTimeSpeed(0);
+            playerModel.timeMovementEntity = _contexts.time.CreateEntity();
+            playerModel.timeMovementEntity.ReplaceTimeSpeed(0);
+            playerModel.timeFireEntity = _contexts.time.CreateEntity();
+            playerModel.timeFireEntity.ReplaceTimeSpeed(0);
             
             _contexts.game.CreateEntity().ReplaceAddColliderDataSignal(playerModel.capsuleCollider, playerModel.playerEntity);
         }

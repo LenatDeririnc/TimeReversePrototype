@@ -6,31 +6,31 @@ namespace ECS.Systems.Input
     public class PlayerControllerSenderSystem : IExecuteSystem
     {
         private readonly IGroup<InputEntity> _group;
-        private readonly GameContext _gameContext;
+        private readonly Contexts _contexts;
 
         public PlayerControllerSenderSystem(Contexts contexts)
         {
-            _gameContext = contexts.game;
+            _contexts = contexts;
             _group = contexts.input.GetGroup(InputMatcher.InputControlling);
         }
         
         public void Execute()
         {
+            var data = new InputData()
+            {
+                look =  _contexts.input.inputEntity.look.Value,
+                direction = _contexts.input.inputEntity.forwardMovement.Value,
+                crouch = false,
+                jump = _contexts.input.inputEntity.isJump,
+            };
+        
             foreach (var e in _group)
             {
-                if (_gameContext.playerEntity.isDead)
+                if (_contexts.game.playerEntity.isDead)
                 {
                     e.inputControlling.Value.SendInputData(new InputData());
                     return;
                 }
-            
-                var data = new InputData()
-                {
-                    look = e.look.Value,
-                    direction = e.forwardMovement.Value,
-                    crouch = false,
-                    jump = e.isJump,
-                };
 
                 e.inputControlling.Value.SendInputData(data);
             }

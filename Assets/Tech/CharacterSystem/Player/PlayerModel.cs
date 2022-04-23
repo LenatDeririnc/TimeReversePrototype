@@ -9,7 +9,8 @@ namespace CharacterSystem.Player
         public InputEntity inputEntity;
         public GameEntity playerEntity;
         public GameEntity cameraEntity;
-        public TimeEntity timeEntity;
+        public TimeEntity timeMovementEntity;
+        public TimeEntity timeFireEntity;
     
         public Transform transform;
         public GameObject gameObject;

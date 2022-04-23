@@ -1,4 +1,5 @@
 ﻿using Entitas;
+using UnityEngine;
 
 namespace ECS.Systems.Input
 {
@@ -13,11 +14,18 @@ namespace ECS.Systems.Input
     
         public void Initialize()
         {
-            _inputContext.SetInputSettings(new InputSettings());
-            _inputContext.inputSettings.Value.Enable();
+            _inputContext.isInput = true;
+        
+            _inputContext.inputEntity.ReplaceInputSettings(new InputSettings());
+            _inputContext.inputEntity.inputSettings.Value.Enable();
             
-            _inputContext.SetMouseLookSensitivity(0.05f);
-            _inputContext.SetGamepadLookSensitivity(1f);
+            _inputContext.inputEntity.ReplaceLook(new Vector2(0, 0));
+            _inputContext.inputEntity.ReplaceMoveDirection(Vector3.zero);
+            _inputContext.inputEntity.ReplaceForwardMovement(Vector3.zero);
+            _inputContext.inputEntity.ReplaceBackMovement(Vector3.zero);
+            _inputContext.inputEntity.ReplaceFireInput(0);
+            _inputContext.inputEntity.ReplaceMouseLookSensitivity(0.05f);
+            _inputContext.inputEntity.ReplaceGamepadLookSensitivity(1f);
         }
     }
 }
