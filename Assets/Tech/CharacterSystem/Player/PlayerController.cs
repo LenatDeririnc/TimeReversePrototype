@@ -11,10 +11,6 @@ namespace CharacterSystem.Player
 {
     public class PlayerController : MonoProvider, IInputControlling
     {
-        private InputEntity _inputEntity;
-        private GameEntity _playerEntity;
-        private GameEntity _cameraEntity;
-
         public PlayerModel PlayerModel;
         public BasePlayerController BasePlayerController;
         public MouseLook MouseLook;
@@ -38,25 +34,30 @@ namespace CharacterSystem.Player
 
             if (PlayerModel.Animator != null)
                 RootMotionController = new RootMotionController(PlayerModel.Animator);
+                
+            Contexts.game.SetPlayerModel(PlayerModel);
             
-            _inputEntity = Contexts.input.CreateEntity();
-            _inputEntity.ReplaceInputControlling(this);
-            _inputEntity.ReplaceBasePlayerControllerHolder(BasePlayerController);
+            PlayerModel.inputEntity = Contexts.input.CreateEntity();
+            PlayerModel.inputEntity.ReplaceInputControlling(this);
+            PlayerModel.inputEntity.ReplaceBasePlayerControllerHolder(BasePlayerController);
 
-            _playerEntity = Contexts.game.CreateEntity();
-            _playerEntity.isPlayer = true;
-            _playerEntity.ReplaceTransform(PlayerModel.transform);
-            _playerEntity.ReplaceTransformInfo(new TransformInfo(PlayerModel.transform));
+            PlayerModel.playerEntity = Contexts.game.CreateEntity();
+            PlayerModel.playerEntity.isPlayer = true;
+            PlayerModel.playerEntity.ReplaceTransform(PlayerModel.transform);
+            PlayerModel.playerEntity.ReplaceTransformInfo(new TransformInfo(PlayerModel.transform));
 
-            _cameraEntity = Contexts.game.CreateEntity();
-            _cameraEntity.ReplacePlayerCamera(PlayerModel.Camera);
-            _cameraEntity.ReplaceTransform(PlayerModel.CameraTransform);
-            _cameraEntity.ReplaceCameraPitchAngle(PlayerModel.CameraTransform.rotation.eulerAngles.x);
+            PlayerModel.cameraEntity = Contexts.game.CreateEntity();
+            PlayerModel.cameraEntity.ReplacePlayerCamera(PlayerModel.Camera);
+            PlayerModel.cameraEntity.ReplaceTransform(PlayerModel.CameraTransform);
+            PlayerModel.cameraEntity.ReplaceCameraPitchAngle(PlayerModel.CameraTransform.rotation.eulerAngles.x);
+            
+            PlayerModel.timeEntity = Contexts.time.CreateEntity();
+            PlayerModel.timeEntity.ReplaceTimeSpeed(0);
         }
 
         private void Start()
         {
-            Contexts.game.CreateEntity().ReplaceAddColliderDataSignal(PlayerModel.capsuleCollider, _playerEntity);
+            Contexts.game.CreateEntity().ReplaceAddColliderDataSignal(PlayerModel.capsuleCollider, PlayerModel.playerEntity);
         }
 
         private void OnDrawGizmosSelected()

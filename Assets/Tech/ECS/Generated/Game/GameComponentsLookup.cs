@@ -19,12 +19,13 @@ public static class GameComponentsLookup {
     public const int MovingForward = 8;
     public const int PlayerCamera = 9;
     public const int Player = 10;
-    public const int Transform = 11;
-    public const int TransformInfo = 12;
-    public const int TriggeredBy = 13;
-    public const int TriggerSignal = 14;
+    public const int PlayerModel = 11;
+    public const int Transform = 12;
+    public const int TransformInfo = 13;
+    public const int TriggeredBy = 14;
+    public const int TriggerSignal = 15;
 
-    public const int TotalComponents = 15;
+    public const int TotalComponents = 16;
 
     public static readonly string[] componentNames = {
         "AddColliderDataSignal",
@@ -38,6 +39,7 @@ public static class GameComponentsLookup {
         "MovingForward",
         "PlayerCamera",
         "Player",
+        "PlayerModel",
         "Transform",
         "TransformInfo",
         "TriggeredBy",
@@ -56,6 +58,7 @@ public static class GameComponentsLookup {
         typeof(MovingForwardComponent),
         typeof(PlayerCameraComponent),
         typeof(PlayerComponent),
+        typeof(PlayerModelComponent),
         typeof(TransformComponent),
         typeof(TransformInfoComponent),
         typeof(TriggeredByComponent),

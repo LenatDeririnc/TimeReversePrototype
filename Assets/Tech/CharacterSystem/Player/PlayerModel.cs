@@ -5,6 +5,11 @@ namespace CharacterSystem.Player
 {
     public class PlayerModel : MonoBehaviour
     {
+        public InputEntity inputEntity;
+        public GameEntity playerEntity;
+        public GameEntity cameraEntity;
+        public TimeEntity timeEntity;
+    
         public Transform transform;
         public GameObject gameObject;
         public Rigidbody rigidBody;

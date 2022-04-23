@@ -6,14 +6,12 @@ namespace ECS.Systems.TimeManagement
     public class TimeSpeedInputSystem : IExecuteSystem, IInitializeSystem
     {
         private readonly TimeContext _timeContext;
-        private readonly InputContext _inputContext;
-        private readonly GameContext _gameContext;
+        private readonly IGroup<TimeEntity> _timeSpeedGroup;
 
         public TimeSpeedInputSystem(Contexts contexts)
         {
             _timeContext = contexts.time;
-            _inputContext = contexts.input;
-            _gameContext = contexts.game;
+            _timeSpeedGroup = contexts.time.GetGroup(TimeMatcher.TimeSpeed);
         }
 
         public void Initialize()
@@ -23,21 +21,27 @@ namespace ECS.Systems.TimeManagement
 
         public void Execute()
         {
-            if (!_inputContext.hasInputControlling)
+            if (_timeSpeedGroup.count <= 0)
                 return;
+                
+            float min = 0;
+            float max = 0;
             
-            var timeChanger = _inputContext.inputControllingEntity.forwardMovement.Value;
-            var timeSpeed = _timeContext.globalTimeSpeed;
-            var rollbackValue = _timeContext.rollbackValue;
-            var isRollback = _timeContext.isRollback;
+            var globalTimeSpeed = _timeContext.globalTimeSpeed;
+
+            foreach (var e in _timeSpeedGroup)
+            {
+                var timeSpeed = e.timeSpeed.Value;
             
-            timeSpeed.Value = timeChanger.magnitude;
-            
-            if (_gameContext.playerEntity.isDead)
-                timeSpeed.Value = Mathf.Clamp(timeSpeed.Value, -1f, 0f);
-            
-            if (isRollback)
-                timeSpeed.Value = -rollbackValue.Value;
+                if (timeSpeed > 0 && max < timeSpeed)
+                    max = timeSpeed;
+                
+                if (timeSpeed < 0 && min > timeSpeed)
+                    min = timeSpeed;
+            }
+
+            globalTimeSpeed.Value = max + min; // min < 0, поэтому +
+            _timeContext.isRollback = globalTimeSpeed.Value < 0;
         }
     }
 }
