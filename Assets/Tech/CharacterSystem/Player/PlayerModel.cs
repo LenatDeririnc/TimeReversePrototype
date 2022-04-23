@@ -1,4 +1,5 @@
-﻿using CharacterSystem.Player.ECM.Scripts.Fields;
+﻿using System;
+using CharacterSystem.Player.ECM.Scripts.Fields;
 using UnityEngine;
 
 namespace CharacterSystem.Player
@@ -23,5 +24,6 @@ namespace CharacterSystem.Player
         public BaseGroundDetectionFields BaseGroundDetectionFields;
         public BasePlayerControllerFields BasePlayerControllerFields;
         public BasePlayerFirstPersonControllerFields BasePlayerFirstPersonControllerFields;
+        public PlayerController Controller;
     }
 }

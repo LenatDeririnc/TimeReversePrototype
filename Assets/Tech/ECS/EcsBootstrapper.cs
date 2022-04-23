@@ -38,11 +38,11 @@ namespace ECS
             _systems.Add(new InputControlSenderSystem(Contexts));
 
             //PlayerController
+            _systems.Add(new InitPlayerReactiveSystem(Contexts));
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
-            _systems.Add(new CameraPitchReactiveSystem(Contexts));
-            
+
             //Time
             _systems.Add(new TimeSpeedInputSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));

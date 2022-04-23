@@ -88,7 +88,6 @@ namespace CharacterSystem.Player.ECM.Scripts.Components
         public virtual void LookRotation(IPlayerMovementForMouse movement, GameEntity cameraEntity)
         {
             _lookVelocity = new Vector3(_pitch, _yaw, 0);
-            cameraEntity.cameraPitchAngle.Value = _pitch;
 
             var yawRotation = Quaternion.Euler(0.0f, _yaw, 0.0f);
             var pitchRotation = Quaternion.Euler(-_pitch, 0.0f, 0.0f);

@@ -28,6 +28,7 @@ namespace ECS.Systems
             foreach (var e in entities)
             {
                 _contexts.game.colliderData.Values[e.addColliderDataSignal.Collider] = e.addColliderDataSignal.GameEntity;
+                e.RemoveAddColliderDataSignal();
             }
         }
     }

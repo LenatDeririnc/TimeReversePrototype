@@ -88,7 +88,6 @@ MonoBehaviour:
   CameraPivotTransform: {fileID: 7841495058622957830}
   MouseLookFields:
     _lockCursor: 1
-    _unlockCursorKey: 27
     _lateralSensitivity: 2
     _verticalSensitivity: 2
     _smooth: 0
@@ -140,6 +139,7 @@ MonoBehaviour:
     _backwardSpeed: 3
     _strafeSpeed: 4
     _runSpeedMultiplier: 2
+  Controller: {fileID: 680116955054548384}
 --- !u!114 &680116955054548384
 MonoBehaviour:
   m_ObjectHideFlags: 0
