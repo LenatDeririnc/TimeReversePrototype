@@ -1,5 +1,6 @@
 ﻿using Common;
 using Entitas;
+using UnityEngine;
 
 namespace ECS.Systems.Characters.Player
 {
@@ -16,9 +17,18 @@ namespace ECS.Systems.Characters.Player
         {
             var playerModel = _contexts.game.playerModel.Value;
         
+            //TODO: Перенести в отдельную систему, и сделать input уникальным
+            // {
             playerModel.inputEntity = _contexts.input.CreateEntity();
+            playerModel.inputEntity.isInput = true;
+            playerModel.inputEntity.ReplaceLook(new Vector2(0, 0));
+            playerModel.inputEntity.ReplaceMoveDirection(Vector3.zero);
+            playerModel.inputEntity.ReplaceForwardMovement(Vector3.zero);
+            playerModel.inputEntity.ReplaceBackMovement(Vector3.zero);
             playerModel.inputEntity.ReplaceInputControlling(playerModel.Controller);
+            playerModel.inputEntity.ReplaceFireInput(0);
             playerModel.inputEntity.ReplaceBasePlayerControllerHolder(playerModel.Controller.BasePlayerController);
+            // }
 
             playerModel.playerEntity = _contexts.game.CreateEntity();
             playerModel.playerEntity.isPlayer = true;

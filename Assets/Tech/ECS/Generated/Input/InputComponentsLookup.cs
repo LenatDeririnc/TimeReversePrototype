@@ -10,23 +10,25 @@ public static class InputComponentsLookup {
 
     public const int BackMovement = 0;
     public const int BasePlayerControllerHolder = 1;
-    public const int ForwardMovement = 2;
-    public const int Gamepad = 3;
-    public const int GamepadLookSensitivity = 4;
-    public const int InputActionLook = 5;
-    public const int Input = 6;
-    public const int InputControlling = 7;
-    public const int InputSettings = 8;
-    public const int Jump = 9;
-    public const int Look = 10;
-    public const int MouseLookSensitivity = 11;
-    public const int MoveDirection = 12;
+    public const int FireInput = 2;
+    public const int ForwardMovement = 3;
+    public const int Gamepad = 4;
+    public const int GamepadLookSensitivity = 5;
+    public const int InputActionLook = 6;
+    public const int Input = 7;
+    public const int InputControlling = 8;
+    public const int InputSettings = 9;
+    public const int Jump = 10;
+    public const int Look = 11;
+    public const int MouseLookSensitivity = 12;
+    public const int MoveDirection = 13;
 
-    public const int TotalComponents = 13;
+    public const int TotalComponents = 14;
 
     public static readonly string[] componentNames = {
         "BackMovement",
         "BasePlayerControllerHolder",
+        "FireInput",
         "ForwardMovement",
         "Gamepad",
         "GamepadLookSensitivity",
@@ -43,6 +45,7 @@ public static class InputComponentsLookup {
     public static readonly System.Type[] componentTypes = {
         typeof(BackMovementComponent),
         typeof(BasePlayerControllerHolderComponent),
+        typeof(FireInputComponent),
         typeof(ForwardMovementComponent),
         typeof(GamepadComponent),
         typeof(GamepadLookSensitivity),

@@ -3,12 +3,12 @@ using Entitas;
 
 namespace ECS.Systems.Input
 {
-    public class InputControlSenderSystem : IExecuteSystem
+    public class PlayerControllerSenderSystem : IExecuteSystem
     {
         private readonly IGroup<InputEntity> _group;
         private readonly GameContext _gameContext;
 
-        public InputControlSenderSystem(Contexts contexts)
+        public PlayerControllerSenderSystem(Contexts contexts)
         {
             _gameContext = contexts.game;
             _group = contexts.input.GetGroup(InputMatcher.InputControlling);

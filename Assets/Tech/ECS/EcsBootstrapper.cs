@@ -32,12 +32,12 @@ namespace ECS
             _systems.Add(new InputSettingsInitSystem(Contexts));
             _systems.Add(new GamepadSwitcherSystem(Contexts));
             _systems.Add(new LookActionSwitcherSystem(Contexts));
-            _systems.Add(new InputControllingReactiveSystem(Contexts));
             _systems.Add(new LookInputSystem(Contexts));
             _systems.Add(new MovementInputSystem(Contexts));
-            _systems.Add(new InputControlSenderSystem(Contexts));
+            _systems.Add(new FireInputSystem(Contexts));
 
             //PlayerController
+            _systems.Add(new PlayerControllerSenderSystem(Contexts));
             _systems.Add(new InitPlayerReactiveSystem(Contexts));
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
