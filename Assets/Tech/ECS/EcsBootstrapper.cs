@@ -1,8 +1,8 @@
 ﻿using ECS.Systems;
 using ECS.Systems.Characters.Enemy;
 using ECS.Systems.Characters.Player;
+using ECS.Systems.Characters.Player.PlayerControllerSystems;
 using ECS.Systems.Input;
-using ECS.Systems.Input.PlayerControllerSystems;
 using ECS.Systems.TimeManagement;
 using ECS.Systems.TimeManagement.PlayerTimeline;
 using ECS.Systems.Triggers;

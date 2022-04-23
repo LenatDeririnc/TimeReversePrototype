@@ -1,6 +1,6 @@
 ﻿using Entitas;
 
-namespace ECS.Systems.Input.PlayerControllerSystems
+namespace ECS.Systems.Characters.Player.PlayerControllerSystems
 {
     public class UpdatePlayerControllerSystem : IExecuteSystem
     {
