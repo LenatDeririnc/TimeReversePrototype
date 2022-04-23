@@ -4,7 +4,7 @@ using ECS.Systems.Characters.Player;
 using ECS.Systems.Characters.Player.PlayerControllerSystems;
 using ECS.Systems.Input;
 using ECS.Systems.TimeManagement;
-using ECS.Systems.TimeManagement.PlayerTimeline;
+using ECS.Systems.TimeManagement.Player;
 using ECS.Systems.Triggers;
 using UnityEngine;
 

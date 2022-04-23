@@ -1,7 +1,7 @@
 ﻿using Entitas;
 using TimelineData;
 
-namespace ECS.Systems.TimeManagement
+namespace ECS.Systems.TimeManagement.Player
 {
     public class WritePlayerTimelineSystem : IExecuteSystem
     {

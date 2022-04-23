@@ -2,7 +2,7 @@
 using Entitas;
 using UnityEngine;
 
-namespace ECS.Systems.TimeManagement
+namespace ECS.Systems.TimeManagement.Player
 {
     public class RewindStartPlayerTimelineSystem : IExecuteSystem, IInitializeSystem
     {
