@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MonoBehsProviders
 {
-    public class Bullet : MonoGameEntity
+    public class Bullet : MonoGameObjectEntity
     {
         protected override void Awake()
         {
@@ -11,9 +11,16 @@ namespace MonoBehsProviders
             Entity.isBullet = true;
         }
 
+        public override void Destroy()
+        {
+            var timelineStack = Contexts.time.timeLineStack.Value;
+            timelineStack.Clear(Entity.entityID.Value);
+            base.Destroy();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            Contexts.game.CreateEntity().ReplaceTriggerSignal(Entity, other);
+            Entity.ReplaceTriggerSignal(other);
         }
     }
 }

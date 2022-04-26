@@ -10,38 +10,54 @@ public static class GameComponentsLookup {
 
     public const int AddColliderDataSignal = 0;
     public const int AddressablesAssetLoader = 1;
-    public const int AnimatorReverser = 2;
-    public const int Bullet = 3;
-    public const int CameraPitchAngle = 4;
-    public const int ColliderData = 5;
-    public const int Dead = 6;
-    public const int Element = 7;
-    public const int Enemy = 8;
-    public const int MovingForward = 9;
-    public const int PlayerCamera = 10;
-    public const int Player = 11;
-    public const int PlayerModel = 12;
-    public const int Transform = 13;
-    public const int TransformInfo = 14;
-    public const int TriggeredBy = 15;
-    public const int TriggerSignal = 16;
+    public const int AddUniqueEntityIDSignal = 2;
+    public const int AnimatorReverser = 3;
+    public const int Bullet = 4;
+    public const int CameraPitchAngle = 5;
+    public const int ColliderData = 6;
+    public const int Dead = 7;
+    public const int DestroyEntitySignal = 8;
+    public const int Element = 9;
+    public const int Enabled = 10;
+    public const int Enemy = 11;
+    public const int EntityID = 12;
+    public const int GameObject = 13;
+    public const int MaxEntityID = 14;
+    public const int MonoGameObjectEntity = 15;
+    public const int MovingForward = 16;
+    public const int PlayerCamera = 17;
+    public const int Player = 18;
+    public const int PlayerModel = 19;
+    public const int SetFlagSignal = 20;
+    public const int Transform = 21;
+    public const int TransformInfo = 22;
+    public const int TriggeredBy = 23;
+    public const int TriggerSignal = 24;
 
-    public const int TotalComponents = 17;
+    public const int TotalComponents = 25;
 
     public static readonly string[] componentNames = {
         "AddColliderDataSignal",
         "AddressablesAssetLoader",
+        "AddUniqueEntityIDSignal",
         "AnimatorReverser",
         "Bullet",
         "CameraPitchAngle",
         "ColliderData",
         "Dead",
+        "DestroyEntitySignal",
         "Element",
+        "Enabled",
         "Enemy",
+        "EntityID",
+        "GameObject",
+        "MaxEntityID",
+        "MonoGameObjectEntity",
         "MovingForward",
         "PlayerCamera",
         "Player",
         "PlayerModel",
+        "SetFlagSignal",
         "Transform",
         "TransformInfo",
         "TriggeredBy",
@@ -51,17 +67,25 @@ public static class GameComponentsLookup {
     public static readonly System.Type[] componentTypes = {
         typeof(AddColliderDataSignalComponent),
         typeof(AddressablesAssetLoaderComponent),
+        typeof(AddUniqueEntityIDSignal),
         typeof(AnimatorReverserComponent),
         typeof(BulletComponent),
         typeof(CameraPitchAngleComponent),
         typeof(ColliderDataComponent),
         typeof(DeadComponent),
+        typeof(DestroyEntitySignalComponent),
         typeof(ElementComponent),
+        typeof(EnabledComponent),
         typeof(EnemyComponent),
+        typeof(EntityIDComponent),
+        typeof(GameObjectComponent),
+        typeof(MaxEntityIDComponent),
+        typeof(MonoGameObjectEntityComponent),
         typeof(MovingForwardComponent),
         typeof(PlayerCameraComponent),
         typeof(PlayerComponent),
         typeof(PlayerModelComponent),
+        typeof(SetFlagSignal),
         typeof(TransformComponent),
         typeof(TransformInfoComponent),
         typeof(TriggeredByComponent),

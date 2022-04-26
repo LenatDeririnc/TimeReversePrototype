@@ -3,20 +3,26 @@ using ECS.Systems.Characters.Enemy;
 using ECS.Systems.Characters.Player;
 using ECS.Systems.Characters.Player.PlayerControllerSystems;
 using ECS.Systems.Input;
+using ECS.Systems.Signals;
 using ECS.Systems.TimeManagement;
+using ECS.Systems.TimeManagement.Bullet;
 using ECS.Systems.TimeManagement.Player;
 using ECS.Systems.Triggers;
 using ECS.Systems.Weapon;
+using ECS.Tools;
 using UnityEngine;
 
 namespace ECS
 {
-    public class EcsBootstrapper : MonoBehaviour
+    public class EcsManager : MonoBehaviour
     {
         public static Contexts Contexts;
+        public static GameObjectEntityTools GameObjectEntityTools;
+        
         private Entitas.Systems _systems;
         private Entitas.Systems _fixedSystems;
         private Entitas.Systems _lateSystems;
+
 
         private void Awake()
         {
@@ -26,6 +32,8 @@ namespace ECS
             _fixedSystems = new Entitas.Systems();
             _lateSystems = new Entitas.Systems();
             
+            GameObjectEntityTools = new GameObjectEntityTools(Contexts);
+
             //Data
             _systems.Add(new ColliderDataSystem(Contexts));
 
@@ -59,19 +67,26 @@ namespace ECS
             _systems.Add(new WritePlayerTimelineSystem(Contexts));
             _systems.Add(new RewindStartPlayerTimelineSystem(Contexts));
             _systems.Add(new RewindEndPlayerTimelineReactiveSystem(Contexts));
+            
+            //BulletTimeline
+            _systems.Add(new OnBulletInitReactiveSystem(Contexts));
+            _systems.Add(new UndoBulletTimeLineSystem(Contexts));
+            _systems.Add(new WriteBulletTimeLineSystem(Contexts));
 
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));
-            
-            //Signals
-            _systems.Add(new TriggerSignalReactiveSystem(Contexts));
-            _systems.Add(new ColliderDataSignalReactiveSystem(Contexts));
 
             //Triggers
             _systems.Add(new BulletTriggerSystem(Contexts));
 
-            //Test
+            //Objects
             _systems.Add(new MovingObjectSystem(Contexts));
+            
+            //Signals
+            _systems.Add(new TriggerSignalReactiveSystem(Contexts));
+            _systems.Add(new ColliderDataSignalReactiveSystem(Contexts));
+            _systems.Add(new DestroyEntitySystem(Contexts));
+            _systems.Add(new SetFlagSystem(Contexts));
         }
 
         public void Start()

@@ -27,7 +27,7 @@ namespace ECS.Systems
             foreach (var e in entities)
             {
                 var entity = _contexts.game.colliderData.Values[e.triggerSignal.Collider];
-                entity.ReplaceTriggeredBy(e.triggerSignal.Entity);
+                entity.ReplaceTriggeredBy(e);
                 
                 e.RemoveTriggerSignal();
             }

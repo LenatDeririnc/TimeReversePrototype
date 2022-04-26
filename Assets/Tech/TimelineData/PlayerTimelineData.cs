@@ -6,7 +6,7 @@ namespace TimelineData
 {
     public class PlayerTimelineData : TimeLineElement
     {
-        public PlayerTimelineData(float time) : base(time)
+        public PlayerTimelineData(int entityId, float time) : base(entityId, time)
         {
         }
         

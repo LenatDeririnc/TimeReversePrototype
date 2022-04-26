@@ -2,6 +2,7 @@
 using Addressables;
 using Entitas;
 using MonoBehsProviders;
+using TimelineData;
 using UnityEngine.InputSystem;
 
 namespace ECS.Systems.Weapon

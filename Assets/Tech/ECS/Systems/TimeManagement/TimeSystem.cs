@@ -1,20 +1,24 @@
 ﻿using System;
 using ECS.Extensions;
 using Entitas;
+using Tools.TimeLineStackTool;
 
 namespace ECS.Systems.TimeManagement
 {
     public class TimeSystem : IInitializeSystem, IExecuteSystem
     {
+        private readonly Contexts _contexts;
         private readonly TimeContext _timeContext;
-    
+
         public TimeSystem(Contexts contexts)
         {
+            _contexts = contexts;
             _timeContext = contexts.time;
         }
         
         public void Initialize()
         {
+            _timeContext.SetTimeLineStack(new TimeLineStack(_contexts));
             _timeContext.SetTime(0);
             _timeContext.SetPreviousTime(0);
             _timeContext.SetTickRate(0.001f);

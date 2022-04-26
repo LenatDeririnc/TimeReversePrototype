@@ -11,18 +11,16 @@ public partial class GameEntity {
     public TriggerSignalComponent triggerSignal { get { return (TriggerSignalComponent)GetComponent(GameComponentsLookup.TriggerSignal); } }
     public bool hasTriggerSignal { get { return HasComponent(GameComponentsLookup.TriggerSignal); } }
 
-    public void AddTriggerSignal(GameEntity newEntity, UnityEngine.Collider newCollider) {
+    public void AddTriggerSignal(UnityEngine.Collider newCollider) {
         var index = GameComponentsLookup.TriggerSignal;
         var component = (TriggerSignalComponent)CreateComponent(index, typeof(TriggerSignalComponent));
-        component.Entity = newEntity;
         component.Collider = newCollider;
         AddComponent(index, component);
     }
 
-    public void ReplaceTriggerSignal(GameEntity newEntity, UnityEngine.Collider newCollider) {
+    public void ReplaceTriggerSignal(UnityEngine.Collider newCollider) {
         var index = GameComponentsLookup.TriggerSignal;
         var component = (TriggerSignalComponent)CreateComponent(index, typeof(TriggerSignalComponent));
-        component.Entity = newEntity;
         component.Collider = newCollider;
         ReplaceComponent(index, component);
     }

@@ -22,11 +22,14 @@ namespace ECS.Systems.Characters.Player
             playerModel.inputEntity.ReplaceBasePlayerControllerHolder(playerModel.Controller.BasePlayerController);
 
             playerModel.playerEntity = _contexts.game.CreateEntity();
+            EcsManager.GameObjectEntityTools.SetEntityUniqueId(playerModel.playerEntity);
             playerModel.playerEntity.isPlayer = true;
             playerModel.playerEntity.ReplaceTransform(playerModel.transform);
             playerModel.playerEntity.ReplaceTransformInfo(new TransformInfo(playerModel.transform));
+            playerModel.playerEntity.ReplaceAddColliderDataSignal(playerModel.capsuleCollider, playerModel.playerEntity);
 
             playerModel.cameraEntity = _contexts.game.CreateEntity();
+            EcsManager.GameObjectEntityTools.SetEntityUniqueId(playerModel.cameraEntity);
             playerModel.cameraEntity.ReplacePlayerCamera(playerModel.Camera);
             playerModel.cameraEntity.ReplaceTransform(playerModel.CameraTransform);
             playerModel.cameraEntity.ReplaceCameraPitchAngle(playerModel.CameraTransform.rotation.eulerAngles.x);
@@ -35,8 +38,6 @@ namespace ECS.Systems.Characters.Player
             playerModel.timeMovementEntity.ReplaceTimeSpeed(0);
             playerModel.timeFireEntity = _contexts.time.CreateEntity();
             playerModel.timeFireEntity.ReplaceTimeSpeed(0);
-            
-            _contexts.game.CreateEntity().ReplaceAddColliderDataSignal(playerModel.capsuleCollider, playerModel.playerEntity);
         }
     }
 }

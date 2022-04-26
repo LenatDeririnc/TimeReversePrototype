@@ -15,12 +15,10 @@ namespace ECS.Systems.TimeManagement
     
         public void Initialize()
         {
-            _contexts.time.SetTimeLineStack(new TimeLineStack());
-
             var player = _contexts.game.playerEntity;
             var camera = _contexts.game.playerCameraEntity;
             
-            var timelineData = new PlayerTimelineData(0)
+            var timelineData = new PlayerTimelineData(player.entityID.Value, -100)
             {
                 playerPosition = player.transform.Value.position,
                 playerRotation = player.transform.Value.rotation,
@@ -29,6 +27,7 @@ namespace ECS.Systems.TimeManagement
             
             _contexts.time.isTimelineLastPosition = true;
             _contexts.time.timelineLastPositionEntity.ReplacePlayerTimelineData(timelineData);
+            _contexts.time.timeLineStack.Value.Push(timelineData);
         }
     }
 }

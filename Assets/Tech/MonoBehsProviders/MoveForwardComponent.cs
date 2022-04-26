@@ -3,15 +3,14 @@ using UnityEngine;
 
 namespace MonoBehsProviders
 {
-    public class MoveForwardComponent : MonoProvider
+    public class MoveForwardComponent : MonoGameObjectEntity
     {
         [SerializeField] private float _speed = 0.1f;
 
-        private void Awake()
+        protected override void Awake()
         {
-            var entity = Contexts.game.CreateEntity();
-            entity.AddTransform(transform);
-            entity.AddMovingForward(_speed);
+            base.Awake();
+            Entity.ReplaceMovingForward(_speed);
         }
     }
 }

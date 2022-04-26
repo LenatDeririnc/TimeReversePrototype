@@ -461,7 +461,7 @@ namespace CharacterSystem.Player.ECM.Scripts.Controllers
 
         public virtual void HandleInput(InputData data)
         {
-            moveDirection = data.direction * Mathf.Clamp(EcsBootstrapper.Contexts.time.globalTimeSpeed.Value, 0, 1);
+            moveDirection = data.direction * Mathf.Clamp(EcsManager.Contexts.time.globalTimeSpeed.Value, 0, 1);
             jump = data.jump;
             crouch = data.crouch;
         }
