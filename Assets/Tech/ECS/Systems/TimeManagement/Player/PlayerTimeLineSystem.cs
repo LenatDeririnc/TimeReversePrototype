@@ -1,8 +1,7 @@
 ﻿using Entitas;
 using TimelineData;
-using Tools.TimeLineStackTool;
 
-namespace ECS.Systems.TimeManagement
+namespace ECS.Systems.TimeManagement.Player
 {
     public class PlayerTimeLineSystem : IInitializeSystem
     {
