@@ -6,6 +6,7 @@ using ECS.Systems.Input;
 using ECS.Systems.TimeManagement;
 using ECS.Systems.TimeManagement.Player;
 using ECS.Systems.Triggers;
+using ECS.Systems.Weapon;
 using UnityEngine;
 
 namespace ECS
@@ -42,6 +43,9 @@ namespace ECS
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
+            
+            //Weapon
+            _systems.Add(new ShootSystem(Contexts));
 
             //Time
             _systems.Add(new TimeSpeedInputSystem(Contexts));
@@ -62,7 +66,7 @@ namespace ECS
             //Signals
             _systems.Add(new TriggerSignalReactiveSystem(Contexts));
             _systems.Add(new ColliderDataSignalReactiveSystem(Contexts));
-            
+
             //Triggers
             _systems.Add(new BulletTriggerSystem(Contexts));
 

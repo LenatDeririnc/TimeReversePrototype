@@ -1,4 +1,6 @@
 ﻿using Entitas;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ECS.Systems.TimeManagement.Player
 {
@@ -19,7 +21,7 @@ namespace ECS.Systems.TimeManagement.Player
             var model = _contexts.game.playerModel;
 
             var resultValue = _contexts.input.inputEntity.fireInput.Value;
-            
+
             if (model.Value.playerEntity.isDead)
                 resultValue = 0;
             
