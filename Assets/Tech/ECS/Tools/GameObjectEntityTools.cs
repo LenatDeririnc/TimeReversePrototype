@@ -13,7 +13,7 @@ namespace ECS.Tools
             _contexts = contexts;
         }
 
-        public void WriteEntity(GameEntity entity)
+        public void WriteEntityGameObject(GameEntity entity)
         {
             _gameEntityContainer[entity.gameObject.Value] = entity;
         }
@@ -30,6 +30,16 @@ namespace ECS.Tools
         
             _contexts.game.maxEntityID.Value += 1;
             entity.ReplaceEntityID(_contexts.game.maxEntityID.Value);
+        }
+
+        public void AddColliderData(Collider collider, GameEntity entity)
+        {
+            _contexts.game.colliderData.Values[collider] = entity;
+        }
+
+        public GameEntity GetEntityByCollider(Collider other)
+        {
+            return !_contexts.game.colliderData.Values.ContainsKey(other) ? null : _contexts.game.colliderData.Values[other];
         }
     }
 }

@@ -3,7 +3,6 @@ using ECS.Systems.Characters.Enemy;
 using ECS.Systems.Characters.Player;
 using ECS.Systems.Characters.Player.PlayerControllerSystems;
 using ECS.Systems.Input;
-using ECS.Systems.Signals;
 using ECS.Systems.TimeManagement;
 using ECS.Systems.TimeManagement.Bullet;
 using ECS.Systems.TimeManagement.Player;
@@ -54,6 +53,8 @@ namespace ECS
             
             //Weapon
             _systems.Add(new ShootSystem(Contexts));
+            _systems.Add(new DeathFromBulletSystem(Contexts));
+            _systems.Add(new MovingObjectSystem(Contexts));
 
             //Time
             _systems.Add(new TimeSpeedInputSystem(Contexts));
@@ -76,15 +77,8 @@ namespace ECS
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));
 
-            //Triggers
-            _systems.Add(new BulletTriggerSystem(Contexts));
-
-            //Objects
-            _systems.Add(new MovingObjectSystem(Contexts));
-            
             //Signals
             _systems.Add(new TriggerSignalReactiveSystem(Contexts));
-            _systems.Add(new ColliderDataSignalReactiveSystem(Contexts));
             _systems.Add(new DestroyEntitySystem(Contexts));
             _systems.Add(new SetFlagSystem(Contexts));
         }

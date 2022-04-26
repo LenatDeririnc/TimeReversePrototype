@@ -7,5 +7,7 @@ namespace TimelineData
         public BulletTimelineData(int entityId, float time) : base(entityId, time)
         {
         }
+        
+        public bool Enabled;
     }
 }

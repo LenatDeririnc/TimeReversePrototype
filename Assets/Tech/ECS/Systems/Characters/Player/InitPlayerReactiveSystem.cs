@@ -26,7 +26,7 @@ namespace ECS.Systems.Characters.Player
             playerModel.playerEntity.isPlayer = true;
             playerModel.playerEntity.ReplaceTransform(playerModel.transform);
             playerModel.playerEntity.ReplaceTransformInfo(new TransformInfo(playerModel.transform));
-            playerModel.playerEntity.ReplaceAddColliderDataSignal(playerModel.capsuleCollider, playerModel.playerEntity);
+            EcsManager.GameObjectEntityTools.AddColliderData(playerModel.capsuleCollider, playerModel.playerEntity);
 
             playerModel.cameraEntity = _contexts.game.CreateEntity();
             EcsManager.GameObjectEntityTools.SetEntityUniqueId(playerModel.cameraEntity);

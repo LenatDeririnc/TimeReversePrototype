@@ -3,11 +3,11 @@ using Entitas;
 
 namespace ECS.Systems.Triggers
 {
-    public class BulletTriggerSystem : ReactiveSystem<GameEntity>
+    public class DeathFromBulletSystem : ReactiveSystem<GameEntity>
     {
         private readonly Contexts _contexts;
 
-        public BulletTriggerSystem(Contexts contexts) : base(contexts.game)
+        public DeathFromBulletSystem(Contexts contexts) : base(contexts.game)
         {
             _contexts = contexts;
         }

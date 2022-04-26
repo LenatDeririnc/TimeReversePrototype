@@ -17,13 +17,14 @@ namespace ECS.Mono
             Entity.ReplaceGameObject(gameObject);
             Entity.ReplaceMonoGameObjectEntity(this);
             EcsManager.GameObjectEntityTools.SetEntityUniqueId(Entity);
-            EcsManager.GameObjectEntityTools.WriteEntity(Entity);
+            EcsManager.GameObjectEntityTools.WriteEntityGameObject(Entity);
         }
 
         public virtual void Destroy()
         {
             Entity.isDestroyEntitySignal = true;
             MonoBehaviour.Destroy(Entity.gameObject.Value);
+            // Entity.gameObject.Value.SetActive(false);
         }
     }
 }

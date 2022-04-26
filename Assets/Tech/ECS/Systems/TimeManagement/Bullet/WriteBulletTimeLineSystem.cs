@@ -1,4 +1,5 @@
-﻿using Entitas;
+﻿using DesperateDevs.Utils;
+using Entitas;
 using TimelineData;
 
 namespace ECS.Systems.TimeManagement.Bullet
@@ -24,7 +25,10 @@ namespace ECS.Systems.TimeManagement.Bullet
         
             foreach (var bullet in _bullets)
             {
-                var saveData = new BulletTimelineData(bullet.entityID.Value, time);
+                var saveData = new BulletTimelineData(bullet.entityID.Value, time)
+                {
+                    Enabled = bullet.gameObject.Value.activeSelf,
+                };
                 timelineStack.Push(saveData);
             }
         }

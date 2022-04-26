@@ -25,8 +25,11 @@ namespace ECS.Systems.TimeManagement.Bullet
         
             foreach (var bullet in _bullets)
             {
-                if (timelineStack.Pop(bullet.entityID.Value, time) is BulletTimelineData element) 
+                if (timelineStack.Pop(bullet.entityID.Value, time) is BulletTimelineData element)
+                {
+                    bullet.gameObject.Value.SetActive(element.Enabled);
                     continue;
+                }
                 
                 bullet.monoGameObjectEntity.Value.Destroy();
             }

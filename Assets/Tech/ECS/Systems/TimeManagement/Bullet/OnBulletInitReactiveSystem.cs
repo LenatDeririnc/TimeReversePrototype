@@ -32,7 +32,10 @@ namespace ECS.Systems.TimeManagement.Bullet
         
             foreach (var bullet in entities)
             {
-                var saveData = new BulletTimelineData(bullet.entityID.Value, time);
+                var saveData = new BulletTimelineData(bullet.entityID.Value, time)
+                {
+                    Enabled = true,
+                };
                 timelineStack.Push(saveData);
             }
         }
@@ -43,7 +46,10 @@ namespace ECS.Systems.TimeManagement.Bullet
         
             foreach (var bullet in _bullets)
             {
-                var saveData = new BulletTimelineData(bullet.entityID.Value, -100);
+                var saveData = new BulletTimelineData(bullet.entityID.Value, -100)
+                {
+                    Enabled = true,
+                };
                 timelineStack.Push(saveData);
             }
         }
