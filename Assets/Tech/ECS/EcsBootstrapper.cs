@@ -50,9 +50,9 @@ namespace ECS
             //Time
             _systems.Add(new TimeSpeedInputSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));
-            _systems.Add(new TimeLineSystem(Contexts));
 
             //PlayerTimeline
+            _systems.Add(new PlayerTimeLineSystem(Contexts));
             _systems.Add(new PlayerMovementTimeSpeedSystem(Contexts));
             _systems.Add(new PlayerFireTimeSpeedSystem(Contexts));
             _systems.Add(new UndoPlayerTimelineSystem(Contexts));

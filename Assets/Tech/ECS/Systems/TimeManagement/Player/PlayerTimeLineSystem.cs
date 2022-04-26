@@ -4,11 +4,11 @@ using Tools.TimeLineStackTool;
 
 namespace ECS.Systems.TimeManagement
 {
-    public class TimeLineSystem : IInitializeSystem
+    public class PlayerTimeLineSystem : IInitializeSystem
     {
         private readonly Contexts _contexts;
 
-        public TimeLineSystem(Contexts contexts)
+        public PlayerTimeLineSystem(Contexts contexts)
         {
             _contexts = contexts;
         }
