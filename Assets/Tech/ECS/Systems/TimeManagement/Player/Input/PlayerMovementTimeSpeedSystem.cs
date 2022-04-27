@@ -1,6 +1,6 @@
 ﻿using Entitas;
 
-namespace ECS.Systems.TimeManagement.Player
+namespace ECS.Systems.TimeManagement.Player.Input
 {
     public class PlayerMovementTimeSpeedSystem : IExecuteSystem
     {

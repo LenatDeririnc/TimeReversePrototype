@@ -8,37 +8,33 @@
 //------------------------------------------------------------------------------
 public static class TimeComponentsLookup {
 
-    public const int GlobalTimeSpeed = 0;
-    public const int PlayerTimelineData = 1;
-    public const int PreviousTickCount = 2;
-    public const int PreviousTime = 3;
-    public const int Rollback = 4;
+    public const int GlobalResultTimeScale = 0;
+    public const int GlobalTimeSpeed = 1;
+    public const int PlayerTimelineData = 2;
+    public const int PreviousTickCount = 3;
+    public const int PreviousTime = 4;
     public const int RollbackValue = 5;
     public const int SmoothRewindSpeed = 6;
     public const int TickCount = 7;
     public const int TickRate = 8;
-    public const int TickRateDecreased = 9;
-    public const int TickRateIncreased = 10;
-    public const int Time = 11;
-    public const int TimelineLastPosition = 12;
-    public const int TimelineRewindPosition = 13;
-    public const int TimeLineStack = 14;
-    public const int TimeSpeed = 15;
+    public const int Time = 9;
+    public const int TimelineLastPosition = 10;
+    public const int TimelineRewindPosition = 11;
+    public const int TimeLineStack = 12;
+    public const int TimeSpeed = 13;
 
-    public const int TotalComponents = 16;
+    public const int TotalComponents = 14;
 
     public static readonly string[] componentNames = {
+        "GlobalResultTimeScale",
         "GlobalTimeSpeed",
         "PlayerTimelineData",
         "PreviousTickCount",
         "PreviousTime",
-        "Rollback",
         "RollbackValue",
         "SmoothRewindSpeed",
         "TickCount",
         "TickRate",
-        "TickRateDecreased",
-        "TickRateIncreased",
         "Time",
         "TimelineLastPosition",
         "TimelineRewindPosition",
@@ -47,17 +43,15 @@ public static class TimeComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(GlobalResultTimeScaleComponent),
         typeof(GlobalTimeSpeedComponent),
         typeof(PlayerTimelineDataComponent),
         typeof(PreviousTickCountComponent),
         typeof(PreviousTimeComponent),
-        typeof(RollbackComponent),
         typeof(RollbackValueComponent),
         typeof(SmoothRewindSpeedComponent),
         typeof(TickCountComponent),
         typeof(TickRateComponent),
-        typeof(TickRateDecreasedComponent),
-        typeof(TickRateIncreasedComponent),
         typeof(TimeComponent),
         typeof(TimelineLastPositionComponent),
         typeof(TimelineRewindPositionComponent),

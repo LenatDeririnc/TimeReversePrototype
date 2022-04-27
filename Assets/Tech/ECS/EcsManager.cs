@@ -6,7 +6,8 @@ using ECS.Systems.Input;
 using ECS.Systems.TimeManagement;
 using ECS.Systems.TimeManagement.Bullet;
 using ECS.Systems.TimeManagement.Player;
-using ECS.Systems.Triggers;
+using ECS.Systems.TimeManagement.Player.Input;
+using ECS.Systems.TimeManagement.Rigidbody;
 using ECS.Systems.Weapon;
 using ECS.Tools;
 using UnityEngine;
@@ -50,15 +51,14 @@ namespace ECS
             _fixedSystems.Add(new FixedUpdatePlayerControllerSystem(Contexts));
             _lateSystems.Add(new LateUpdatePlayerControllerSystem(Contexts));
             _systems.Add(new UpdatePlayerControllerSystem(Contexts));
-            
-            //Weapon
             _systems.Add(new ShootSystem(Contexts));
-            _systems.Add(new DeathFromBulletSystem(Contexts));
-            _systems.Add(new MovingObjectSystem(Contexts));
 
             //Time
-            _systems.Add(new TimeSpeedInputSystem(Contexts));
+            _systems.Add(new TimeSpeedSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));
+            
+            //MovingObjects
+            _systems.Add(new MovingObjectSystem(Contexts));
 
             //PlayerTimeline
             _systems.Add(new PlayerTimeLineSystem(Contexts));
@@ -66,13 +66,15 @@ namespace ECS
             _systems.Add(new PlayerFireTimeSpeedSystem(Contexts));
             _systems.Add(new UndoPlayerTimelineSystem(Contexts));
             _systems.Add(new WritePlayerTimelineSystem(Contexts));
-            _systems.Add(new RewindStartPlayerTimelineSystem(Contexts));
-            _systems.Add(new RewindEndPlayerTimelineReactiveSystem(Contexts));
-            
+
             //BulletTimeline
             _systems.Add(new OnBulletInitReactiveSystem(Contexts));
             _systems.Add(new UndoBulletTimeLineSystem(Contexts));
             _systems.Add(new WriteBulletTimeLineSystem(Contexts));
+            
+            //RigidbodyTimeline
+            _systems.Add(new UndoRigidbodyImpulseTimelineSystem(Contexts));
+            _systems.Add(new WriteRigidbodyImpulseTimelineSystem(Contexts));
 
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));

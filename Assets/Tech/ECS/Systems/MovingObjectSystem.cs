@@ -1,5 +1,5 @@
-﻿using ECS.Extensions;
-using Entitas;
+﻿using Entitas;
+using UnityEngine;
 
 namespace ECS.Systems
 {
@@ -18,13 +18,11 @@ namespace ECS.Systems
         {
             foreach (var e in _group)
             {
-                var transform = e.transform;
-                var movingForward = e.movingForward;
+                var transform = e.transform.Value;
+                var movingForwardSpeed = e.movingForward.Speed;
+                var globalTimeSpeed = _contexts.time.globalTimeSpeed.Value;
 
-                transform.Value.position += 
-                    transform.Value.forward * 
-                    movingForward.Speed * 
-                    _contexts.time.ScaledTimeSpeed();
+                transform.position += transform.forward * movingForwardSpeed * globalTimeSpeed * Time.deltaTime;
             }
         }
     }

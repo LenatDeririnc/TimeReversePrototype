@@ -14,7 +14,7 @@ namespace ECS.Systems.TimeManagement.Player
 
         public void Execute()
         {
-            if (!_contexts.time.timeEntity.isTickRateIncreased)
+            if (_contexts.time.globalTimeSpeed.Value <= 0)
                 return;
             
             var player = _contexts.game.playerEntity;

@@ -1,8 +1,6 @@
 ﻿using Entitas;
-using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace ECS.Systems.TimeManagement.Player
+namespace ECS.Systems.TimeManagement.Player.Input
 {
     public class PlayerFireTimeSpeedSystem : IExecuteSystem
     {

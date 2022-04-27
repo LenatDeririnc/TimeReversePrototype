@@ -1,5 +1,7 @@
-﻿using Entitas;
+﻿using Common;
+using Entitas;
 using TimelineData;
+using UnityEngine;
 
 namespace ECS.Systems.TimeManagement.Player
 {
@@ -14,22 +16,27 @@ namespace ECS.Systems.TimeManagement.Player
 
         public void Execute()
         {
-            if (!_contexts.time.timeEntity.isTickRateDecreased)
+            if (_contexts.time.globalTimeSpeed.Value >= 0)
                 return;
-        
-            var player = _contexts.game.playerEntity.entityID.Value;
+
+            var playerEntity = _contexts.game.playerEntity;
+            var cameraEntity = _contexts.game.playerCameraEntity;
+            
+            var playerId = playerEntity.entityID.Value;
+            var playerTransform = playerEntity.transform.Value;
+            var playerTransformInfo = playerEntity.transformInfo;
+
             var time = _contexts.time.time.Value;
             var timelineStack = _contexts.time.timeLineStack.Value;
 
-            if (!(timelineStack.Peek(player) is PlayerTimelineData lastElement))
+            if (!(timelineStack.Pop(playerId, time) is PlayerTimelineData transformData))
                 return;
-
-            _contexts.time.isTimelineLastPosition = true;
-            _contexts.time.timelineLastPositionEntity.ReplacePlayerTimelineData(lastElement);
-            var transformData = timelineStack.Pop(player, time) as PlayerTimelineData;
             
-            _contexts.time.isTimelineRewindPosition = true;
-            _contexts.time.timelineRewindPositionEntity.ReplacePlayerTimelineData(transformData);
+            playerTransform.position = transformData.playerPosition;
+            playerTransform.rotation = transformData.playerRotation;
+            cameraEntity.transform.Value.localRotation = Quaternion.Euler(transformData.cameraAngle, 0, 0);
+            playerEntity.isDead = transformData.isDead;
+            playerTransformInfo.Value = new TransformInfo(playerTransform.transform);
         }
     }
 }

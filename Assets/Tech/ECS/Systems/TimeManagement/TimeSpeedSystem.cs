@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace ECS.Systems.TimeManagement
 {
-    public class TimeSpeedInputSystem : IExecuteSystem, IInitializeSystem
+    public class TimeSpeedSystem : IExecuteSystem, IInitializeSystem
     {
         private readonly TimeContext _timeContext;
         private readonly IGroup<TimeEntity> _timeSpeedGroup;
 
-        public TimeSpeedInputSystem(Contexts contexts)
+        public TimeSpeedSystem(Contexts contexts)
         {
             _timeContext = contexts.time;
             _timeSpeedGroup = contexts.time.GetGroup(TimeMatcher.TimeSpeed);
@@ -17,6 +17,7 @@ namespace ECS.Systems.TimeManagement
         public void Initialize()
         {
             _timeContext.SetGlobalTimeSpeed(0);
+            _timeContext.SetGlobalResultTimeScale(0);
         }
 
         public void Execute()
@@ -28,6 +29,7 @@ namespace ECS.Systems.TimeManagement
             float max = 0;
             
             var globalTimeSpeed = _timeContext.globalTimeSpeed;
+            var time = _timeContext.time;
 
             foreach (var e in _timeSpeedGroup)
             {
@@ -39,9 +41,16 @@ namespace ECS.Systems.TimeManagement
                 if (timeSpeed < 0 && min > timeSpeed)
                     min = timeSpeed;
             }
+            
+            var resultValue = max + min; // min < 0, поэтому +
+            
+            if (time.Value + resultValue * Time.deltaTime < 0)
+                resultValue = 0;
 
-            globalTimeSpeed.Value = max + min; // min < 0, поэтому +
-            _timeContext.isRollback = globalTimeSpeed.Value < 0;
+            globalTimeSpeed.Value = resultValue;
+            
+            var resultTimeScale = Mathf.Abs(_timeContext.globalTimeSpeed.Value);
+            Time.timeScale = resultTimeScale;
         }
     }
 }

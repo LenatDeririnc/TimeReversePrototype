@@ -15,24 +15,25 @@ public static class GameComponentsLookup {
     public const int ColliderData = 4;
     public const int Dead = 5;
     public const int DestroyEntitySignal = 6;
-    public const int Element = 7;
-    public const int Enabled = 8;
-    public const int Enemy = 9;
-    public const int EntityID = 10;
-    public const int GameObject = 11;
-    public const int MaxEntityID = 12;
-    public const int MonoGameObjectEntity = 13;
-    public const int MovingForward = 14;
-    public const int PlayerCamera = 15;
-    public const int Player = 16;
-    public const int PlayerModel = 17;
-    public const int SetFlagSignal = 18;
-    public const int Transform = 19;
-    public const int TransformInfo = 20;
-    public const int TriggeredBy = 21;
-    public const int TriggerSignal = 22;
+    public const int DynamicRigidbody = 7;
+    public const int Element = 8;
+    public const int Enabled = 9;
+    public const int Enemy = 10;
+    public const int EntityID = 11;
+    public const int GameObject = 12;
+    public const int MaxEntityID = 13;
+    public const int MonoGameObjectEntity = 14;
+    public const int MovingForward = 15;
+    public const int PlayerCamera = 16;
+    public const int Player = 17;
+    public const int PlayerModel = 18;
+    public const int SetFlagSignal = 19;
+    public const int Transform = 20;
+    public const int TransformInfo = 21;
+    public const int TriggeredBy = 22;
+    public const int TriggerSignal = 23;
 
-    public const int TotalComponents = 23;
+    public const int TotalComponents = 24;
 
     public static readonly string[] componentNames = {
         "AddressablesAssetLoader",
@@ -42,6 +43,7 @@ public static class GameComponentsLookup {
         "ColliderData",
         "Dead",
         "DestroyEntitySignal",
+        "DynamicRigidbody",
         "Element",
         "Enabled",
         "Enemy",
@@ -68,6 +70,7 @@ public static class GameComponentsLookup {
         typeof(ColliderDataComponent),
         typeof(DeadComponent),
         typeof(DestroyEntitySignalComponent),
+        typeof(DynamicRigidbodyComponent),
         typeof(ElementComponent),
         typeof(EnabledComponent),
         typeof(EnemyComponent),

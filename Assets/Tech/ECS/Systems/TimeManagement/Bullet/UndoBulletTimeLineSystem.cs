@@ -17,7 +17,7 @@ namespace ECS.Systems.TimeManagement.Bullet
     
         public void Execute()
         {
-            if (!_contexts.time.timeEntity.isTickRateDecreased)
+            if (_contexts.time.globalTimeSpeed.Value > 0)
                 return;
                 
             var time = _contexts.time.time.Value;

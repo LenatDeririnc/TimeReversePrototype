@@ -1,7 +1,6 @@
-﻿using System;
-using ECS.Extensions;
-using Entitas;
+﻿using Entitas;
 using Tools.TimeLineStackTool;
+using UnityEngine;
 
 namespace ECS.Systems.TimeManagement
 {
@@ -27,26 +26,15 @@ namespace ECS.Systems.TimeManagement
         public void Execute()
         {
             var time = _timeContext.time;
-            var previousTime = _timeContext.previousTime;
-            var timeSpeed = _timeContext.globalTimeSpeed;
-            var tickRate = _timeContext.tickRate;
-            
-            if (time.Value + _timeContext.ScaledTimeSpeed() < 0)
-                timeSpeed.Value = 0;
 
-            time.Value += _timeContext.ScaledTimeSpeed();
+            var resultTime = time.Value + _timeContext.globalTimeSpeed.Value * Time.deltaTime;
 
-            if (Math.Abs(previousTime.Value - time.Value) < tickRate.Value)
+            if (resultTime < 0)
             {
-                _timeContext.timeEntity.isTickRateIncreased = false;
-                _timeContext.timeEntity.isTickRateDecreased = false;
+                resultTime = 0;
             }
-            else
-            {
-                _timeContext.timeEntity.isTickRateIncreased = previousTime.Value < time.Value;
-                _timeContext.timeEntity.isTickRateDecreased = previousTime.Value > time.Value;
-                previousTime.Value = time.Value;
-            }
+
+            time.Value = resultTime;
         }
     }
 }
