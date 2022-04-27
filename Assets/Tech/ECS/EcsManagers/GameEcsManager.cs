@@ -7,9 +7,8 @@ using ECS.Systems.Input;
 using ECS.Systems.Signals;
 using ECS.Systems.TimeManagement;
 using ECS.Systems.Weapon;
-using ECS.Tools;
 
-namespace ECS
+namespace ECS.EcsManagers
 {
     public class GameEcsManager : BaseEcsManager
     {

@@ -8,6 +8,7 @@ namespace CharacterSystem.Player.ECM.Scripts.Fields
         public Vector3 direction;
         public bool jump;
         public bool crouch;
+        public float timeSpeed;
 
         public override string ToString()
         {
