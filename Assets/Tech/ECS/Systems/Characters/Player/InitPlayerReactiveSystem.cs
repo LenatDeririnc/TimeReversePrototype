@@ -1,4 +1,5 @@
 ﻿using Common;
+using ECS.Tools;
 using Entitas;
 using UnityEngine;
 
@@ -22,16 +23,16 @@ namespace ECS.Systems.Characters.Player
             playerModel.inputEntity.ReplaceBasePlayerControllerHolder(playerModel.Controller.BasePlayerController);
 
             playerModel.playerEntity = _contexts.game.CreateEntity();
-            EcsManager.GameObjectEntityTools.SetEntityUniqueId(playerModel.playerEntity);
+            GameObjectEntityTools.Instance.SetEntityUniqueId(playerModel.playerEntity);
             playerModel.playerEntity.isCharacter = true;
             playerModel.playerEntity.isPlayer = true;
             playerModel.playerEntity.ReplaceTransform(playerModel.transform);
             playerModel.playerEntity.ReplaceTransformInfo(new TransformInfo(playerModel.transform));
             playerModel.playerEntity.ReplacePlayerRigidBody(playerModel.rigidBody);
-            EcsManager.GameObjectEntityTools.AddColliderData(playerModel.capsuleCollider, playerModel.playerEntity);
+            GameObjectEntityTools.Instance.AddColliderData(playerModel.capsuleCollider, playerModel.playerEntity);
 
             playerModel.cameraEntity = _contexts.game.CreateEntity();
-            EcsManager.GameObjectEntityTools.SetEntityUniqueId(playerModel.cameraEntity);
+            GameObjectEntityTools.Instance.SetEntityUniqueId(playerModel.cameraEntity);
             playerModel.cameraEntity.ReplacePlayerCamera(playerModel.Camera);
             playerModel.cameraEntity.ReplaceTransform(playerModel.CameraTransform);
             playerModel.cameraEntity.ReplaceCameraPitchAngle(playerModel.CameraTransform.rotation.eulerAngles.x);

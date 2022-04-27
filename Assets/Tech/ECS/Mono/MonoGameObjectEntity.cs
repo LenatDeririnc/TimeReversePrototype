@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ECS.Tools;
+using UnityEngine;
 
 namespace ECS.Mono
 {
@@ -8,7 +9,7 @@ namespace ECS.Mono
 
         protected virtual void Awake()
         {
-            Entity = EcsManager.GameObjectEntityTools.FindEntityByGameObject(gameObject);
+            Entity = GameObjectEntityTools.Instance.FindEntityByGameObject(gameObject);
             if (Entity != null) 
                 return;
             
@@ -16,8 +17,8 @@ namespace ECS.Mono
             Entity.ReplaceTransform(transform);
             Entity.ReplaceGameObject(gameObject);
             Entity.ReplaceMonoGameObjectEntity(this);
-            EcsManager.GameObjectEntityTools.SetEntityUniqueId(Entity);
-            EcsManager.GameObjectEntityTools.WriteEntityGameObject(Entity);
+            GameObjectEntityTools.Instance.SetEntityUniqueId(Entity);
+            GameObjectEntityTools.Instance.WriteEntityGameObject(Entity);
         }
 
         public virtual void Destroy()

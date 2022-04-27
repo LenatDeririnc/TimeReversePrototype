@@ -5,6 +5,6 @@ namespace ECS.Mono
 {
     public class MonoProvider : MonoBehaviour
     {
-        protected Contexts Contexts => EcsManager.Contexts;
+        protected Contexts Contexts => EcsBootstrapper.Contexts;
     }
 }

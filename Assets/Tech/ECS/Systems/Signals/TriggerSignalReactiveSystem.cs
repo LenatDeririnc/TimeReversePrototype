@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ECS.Tools;
 using Entitas;
 
 namespace ECS.Systems.Signals
@@ -26,7 +27,7 @@ namespace ECS.Systems.Signals
         {
             foreach (var e in entities)
             {
-                var entity = EcsManager.GameObjectEntityTools.GetEntityByCollider(e.triggerColliderSignal.Getter);
+                var entity = GameObjectEntityTools.Instance.GetEntityByCollider(e.triggerColliderSignal.Getter);
                 if (entity == null)
                 {
                     if (e.GetComponents().Length <= 0)

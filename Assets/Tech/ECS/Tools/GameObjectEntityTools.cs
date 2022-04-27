@@ -5,12 +5,15 @@ namespace ECS.Tools
 {
     public class GameObjectEntityTools
     {
+        public static GameObjectEntityTools Instance;
+    
         private readonly Contexts _contexts;
         private readonly Dictionary<GameObject, GameEntity> _gameEntityContainer = new Dictionary<GameObject, GameEntity>();
     
         public GameObjectEntityTools(Contexts contexts)
         {
             _contexts = contexts;
+            Instance = this;
         }
 
         public void WriteEntityGameObject(GameEntity entity)
