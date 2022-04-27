@@ -38,6 +38,9 @@ namespace ECS
 
             //Data
             _systems.Add(new ColliderDataSystem(Contexts));
+            
+            //TriggerSignals
+            _systems.Add(new TriggerSignalReactiveSystem(Contexts));
 
             //Input
             _systems.Add(new InputSettingsInitSystem(Contexts));
@@ -60,21 +63,18 @@ namespace ECS
             _systems.Add(new TimeSystem(Contexts));
             _systems.Add(new TimelineFeature(Contexts));
             
-            //MovingObjects
-            _systems.Add(new MovingObjectSystem(Contexts));
-            
+            //After time updated systems
+
             //Weapon
+            _systems.Add(new MovingObjectSystem(Contexts));
             _systems.Add(new BulletTriggerSystem(Contexts));
 
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));
 
-            //Trigger
-            _systems.Add(new TriggerSignalReactiveSystem(Contexts));
-
             //CleanupSignals
-            _systems.Add(new TriggerCleanupReactiveSystem(Contexts));
-            _systems.Add(new TriggeredByCleanupSReactiveSystem(Contexts));
+            _systems.Add(new TriggerColliderSignalCleanupReactiveSystem(Contexts));
+            _systems.Add(new TriggerEntityCleanupSReactiveSystem(Contexts));
             _systems.Add(new DestroyEntitySystem(Contexts));
             _systems.Add(new SetFlagSystem(Contexts));
         }

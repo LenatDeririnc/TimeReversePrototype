@@ -3,31 +3,30 @@ using Entitas;
 
 namespace ECS.Systems.Signals
 {
-    public class SetFlagSystem : ReactiveSystem<SignalsEntity>
+    public class TriggerEntityCleanupSReactiveSystem : ReactiveSystem<SignalsEntity>
     {
         private readonly Contexts _contexts;
 
-        public SetFlagSystem(Contexts contexts) : base(contexts.signals)
+        public TriggerEntityCleanupSReactiveSystem(Contexts contexts) : base(contexts.signals)
         {
             _contexts = contexts;
         }
-
+    
         protected override ICollector<SignalsEntity> GetTrigger(IContext<SignalsEntity> context)
         {
-            return context.CreateCollector(SignalsMatcher.SetFlagSignal.Added());
+            return context.CreateCollector(SignalsMatcher.TriggerEntitySignal.Added());
         }
 
         protected override bool Filter(SignalsEntity entity)
         {
-            return entity.setFlagSignal.Delegate != null;
+            return true;
         }
 
         protected override void Execute(List<SignalsEntity> entities)
         {
-            foreach (var flagSignal in entities)
+            foreach (var e in entities)
             {
-                flagSignal.setFlagSignal.Delegate.Invoke(flagSignal.setFlagSignal.Value);
-                flagSignal.RemoveSetFlagSignal();
+                e.RemoveTriggerEntitySignal();
             }
         }
     }

@@ -14,25 +14,21 @@ public static class GameComponentsLookup {
     public const int CameraPitchAngle = 3;
     public const int ColliderData = 4;
     public const int Dead = 5;
-    public const int DestroyEntitySignal = 6;
-    public const int DynamicRigidbody = 7;
-    public const int Enemy = 8;
-    public const int EntityID = 9;
-    public const int GameObject = 10;
-    public const int MaxEntityID = 11;
-    public const int MonoGameObjectEntity = 12;
-    public const int MovingForward = 13;
-    public const int PlayerCamera = 14;
-    public const int Player = 15;
-    public const int PlayerModel = 16;
-    public const int PlayerRigidBody = 17;
-    public const int SetFlagSignal = 18;
-    public const int Transform = 19;
-    public const int TransformInfo = 20;
-    public const int TriggeredBy = 21;
-    public const int TriggerSignal = 22;
+    public const int DynamicRigidbody = 6;
+    public const int Enemy = 7;
+    public const int EntityID = 8;
+    public const int GameObject = 9;
+    public const int MaxEntityID = 10;
+    public const int MonoGameObjectEntity = 11;
+    public const int MovingForward = 12;
+    public const int PlayerCamera = 13;
+    public const int Player = 14;
+    public const int PlayerModel = 15;
+    public const int PlayerRigidBody = 16;
+    public const int Transform = 17;
+    public const int TransformInfo = 18;
 
-    public const int TotalComponents = 23;
+    public const int TotalComponents = 19;
 
     public static readonly string[] componentNames = {
         "AddressablesAssetLoader",
@@ -41,7 +37,6 @@ public static class GameComponentsLookup {
         "CameraPitchAngle",
         "ColliderData",
         "Dead",
-        "DestroyEntitySignal",
         "DynamicRigidbody",
         "Enemy",
         "EntityID",
@@ -53,11 +48,8 @@ public static class GameComponentsLookup {
         "Player",
         "PlayerModel",
         "PlayerRigidBody",
-        "SetFlagSignal",
         "Transform",
-        "TransformInfo",
-        "TriggeredBy",
-        "TriggerSignal"
+        "TransformInfo"
     };
 
     public static readonly System.Type[] componentTypes = {
@@ -67,7 +59,6 @@ public static class GameComponentsLookup {
         typeof(CameraPitchAngleComponent),
         typeof(ColliderDataComponent),
         typeof(DeadComponent),
-        typeof(DestroyEntitySignalComponent),
         typeof(DynamicRigidbodyComponent),
         typeof(EnemyComponent),
         typeof(EntityIDComponent),
@@ -79,10 +70,7 @@ public static class GameComponentsLookup {
         typeof(PlayerComponent),
         typeof(PlayerModelComponent),
         typeof(PlayerRigidBodyComponent),
-        typeof(SetFlagSignal),
         typeof(TransformComponent),
-        typeof(TransformInfoComponent),
-        typeof(TriggeredByComponent),
-        typeof(TriggerSignalComponent)
+        typeof(TransformInfoComponent)
     };
 }

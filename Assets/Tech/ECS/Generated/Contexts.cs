@@ -23,13 +23,15 @@ public partial class Contexts : Entitas.IContexts {
 
     public GameContext game { get; set; }
     public InputContext input { get; set; }
+    public SignalsContext signals { get; set; }
     public TimeContext time { get; set; }
 
-    public Entitas.IContext[] allContexts { get { return new Entitas.IContext [] { game, input, time }; } }
+    public Entitas.IContext[] allContexts { get { return new Entitas.IContext [] { game, input, signals, time }; } }
 
     public Contexts() {
         game = new GameContext();
         input = new InputContext();
+        signals = new SignalsContext();
         time = new TimeContext();
 
         var postConstructors = System.Linq.Enumerable.Where(
@@ -67,6 +69,7 @@ public partial class Contexts {
         try {
             CreateContextObserver(game);
             CreateContextObserver(input);
+            CreateContextObserver(signals);
             CreateContextObserver(time);
         } catch(System.Exception) {
         }

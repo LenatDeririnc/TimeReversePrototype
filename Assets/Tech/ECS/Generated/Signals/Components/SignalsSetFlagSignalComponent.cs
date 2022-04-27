@@ -6,13 +6,13 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-public partial class GameEntity {
+public partial class SignalsEntity {
 
-    public SetFlagSignal setFlagSignal { get { return (SetFlagSignal)GetComponent(GameComponentsLookup.SetFlagSignal); } }
-    public bool hasSetFlagSignal { get { return HasComponent(GameComponentsLookup.SetFlagSignal); } }
+    public SetFlagSignal setFlagSignal { get { return (SetFlagSignal)GetComponent(SignalsComponentsLookup.SetFlagSignal); } }
+    public bool hasSetFlagSignal { get { return HasComponent(SignalsComponentsLookup.SetFlagSignal); } }
 
     public void AddSetFlagSignal(bool newValue, System.Action<bool> newDelegate) {
-        var index = GameComponentsLookup.SetFlagSignal;
+        var index = SignalsComponentsLookup.SetFlagSignal;
         var component = (SetFlagSignal)CreateComponent(index, typeof(SetFlagSignal));
         component.Value = newValue;
         component.Delegate = newDelegate;
@@ -20,7 +20,7 @@ public partial class GameEntity {
     }
 
     public void ReplaceSetFlagSignal(bool newValue, System.Action<bool> newDelegate) {
-        var index = GameComponentsLookup.SetFlagSignal;
+        var index = SignalsComponentsLookup.SetFlagSignal;
         var component = (SetFlagSignal)CreateComponent(index, typeof(SetFlagSignal));
         component.Value = newValue;
         component.Delegate = newDelegate;
@@ -28,7 +28,7 @@ public partial class GameEntity {
     }
 
     public void RemoveSetFlagSignal() {
-        RemoveComponent(GameComponentsLookup.SetFlagSignal);
+        RemoveComponent(SignalsComponentsLookup.SetFlagSignal);
     }
 }
 
@@ -40,15 +40,15 @@ public partial class GameEntity {
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-public sealed partial class GameMatcher {
+public sealed partial class SignalsMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherSetFlagSignal;
+    static Entitas.IMatcher<SignalsEntity> _matcherSetFlagSignal;
 
-    public static Entitas.IMatcher<GameEntity> SetFlagSignal {
+    public static Entitas.IMatcher<SignalsEntity> SetFlagSignal {
         get {
             if (_matcherSetFlagSignal == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.SetFlagSignal);
-                matcher.componentNames = GameComponentsLookup.componentNames;
+                var matcher = (Entitas.Matcher<SignalsEntity>)Entitas.Matcher<SignalsEntity>.AllOf(SignalsComponentsLookup.SetFlagSignal);
+                matcher.componentNames = SignalsComponentsLookup.componentNames;
                 _matcherSetFlagSignal = matcher;
             }
 

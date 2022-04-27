@@ -22,9 +22,7 @@ namespace ECS.Mono
 
         public virtual void Destroy()
         {
-            Entity.isDestroyEntitySignal = true;
-            MonoBehaviour.Destroy(Entity.gameObject.Value);
-            // Entity.gameObject.Value.SetActive(false);
+            Contexts.signals.CreateEntity().ReplaceDestroyEntitySignal(Entity);
         }
     }
 }

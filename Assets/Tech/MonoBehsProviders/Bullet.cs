@@ -21,7 +21,7 @@ namespace MonoBehsProviders
 
         private void OnTriggerEnter(Collider other)
         {
-            Entity.ReplaceTriggerSignal(other);
+            Contexts.signals.CreateEntity().ReplaceTriggerColliderSignal(Entity, other);
         }
     }
 }

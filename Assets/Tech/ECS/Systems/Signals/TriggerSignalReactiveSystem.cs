@@ -3,31 +3,32 @@ using Entitas;
 
 namespace ECS.Systems.Signals
 {
-    public class TriggerSignalReactiveSystem : ReactiveSystem<GameEntity>
+    public class TriggerSignalReactiveSystem : ReactiveSystem<SignalsEntity>
     {
         private readonly Contexts _contexts;
 
-        public TriggerSignalReactiveSystem(Contexts contexts) : base(contexts.game)
+        public TriggerSignalReactiveSystem(Contexts contexts) : base(contexts.signals)
         {
             _contexts = contexts;
         }
     
-        protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
+        protected override ICollector<SignalsEntity> GetTrigger(IContext<SignalsEntity> context)
         {
-            return context.CreateCollector(GameMatcher.TriggerSignal.Added());
+            return context.CreateCollector(SignalsMatcher.TriggerColliderSignal.Added());
         }
 
-        protected override bool Filter(GameEntity entity)
+        protected override bool Filter(SignalsEntity entity)
         {
             return true;
         }
 
-        protected override void Execute(List<GameEntity> entities)
+        protected override void Execute(List<SignalsEntity> entities)
         {
             foreach (var e in entities)
             {
-                var entity = EcsManager.GameObjectEntityTools.GetEntityByCollider(e.triggerSignal.Collider);
-                entity?.ReplaceTriggeredBy(e);
+                var entity = EcsManager.GameObjectEntityTools.GetEntityByCollider(e.triggerColliderSignal.Getter);
+                if (entity == null) continue;
+                _contexts.signals.CreateEntity().ReplaceTriggerEntitySignal(e.triggerColliderSignal.Sender, entity);
             }
         }
     }
