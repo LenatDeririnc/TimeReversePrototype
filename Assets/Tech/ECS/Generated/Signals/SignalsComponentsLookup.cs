@@ -8,14 +8,16 @@
 //------------------------------------------------------------------------------
 public static class SignalsComponentsLookup {
 
-    public const int DestroyEntitySignal = 0;
-    public const int SetFlagSignal = 1;
-    public const int TriggerColliderSignal = 2;
-    public const int TriggerEntitySignal = 3;
+    public const int Destroy = 0;
+    public const int DestroyEntitySignal = 1;
+    public const int SetFlagSignal = 2;
+    public const int TriggerColliderSignal = 3;
+    public const int TriggerEntitySignal = 4;
 
-    public const int TotalComponents = 4;
+    public const int TotalComponents = 5;
 
     public static readonly string[] componentNames = {
+        "Destroy",
         "DestroyEntitySignal",
         "SetFlagSignal",
         "TriggerColliderSignal",
@@ -23,6 +25,7 @@ public static class SignalsComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(DestroyComponent),
         typeof(DestroyEntitySignalComponent),
         typeof(SetFlagSignal),
         typeof(TriggerColliderSignalComponent),

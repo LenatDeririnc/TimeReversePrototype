@@ -75,7 +75,8 @@ namespace ECS
             //CleanupSignals
             _systems.Add(new TriggerColliderSignalCleanupReactiveSystem(Contexts));
             _systems.Add(new TriggerEntityCleanupSReactiveSystem(Contexts));
-            _systems.Add(new DestroyEntitySystem(Contexts));
+            _systems.Add(new DestroyGameEntitySystem(Contexts));
+            _systems.Add(new DestroySignalEntitySystem(Contexts));
             _systems.Add(new SetFlagSystem(Contexts));
         }
 

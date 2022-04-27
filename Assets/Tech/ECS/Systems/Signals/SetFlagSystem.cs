@@ -28,6 +28,8 @@ namespace ECS.Systems.Signals
             {
                 flagSignal.setFlagSignal.Delegate.Invoke(flagSignal.setFlagSignal.Value);
                 flagSignal.RemoveSetFlagSignal();
+                if (flagSignal.GetComponents().Length <= 0)
+                    flagSignal.isDestroy = true;
             }
         }
     }

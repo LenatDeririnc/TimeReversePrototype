@@ -27,6 +27,9 @@ namespace ECS.Systems.Signals
             foreach (var e in entities)
             {
                 e.RemoveTriggerColliderSignal();
+                
+                if (e.GetComponents().Length <= 0)
+                    e.isDestroy = true;
             }
         }
     }

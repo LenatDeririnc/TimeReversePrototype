@@ -27,6 +27,8 @@ namespace ECS.Systems.Signals
             foreach (var e in entities)
             {
                 e.RemoveTriggerEntitySignal();
+                if (e.GetComponents().Length <= 0)
+                    e.isDestroy = true;
             }
         }
     }

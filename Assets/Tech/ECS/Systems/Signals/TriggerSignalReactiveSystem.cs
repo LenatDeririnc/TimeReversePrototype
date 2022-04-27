@@ -27,8 +27,15 @@ namespace ECS.Systems.Signals
             foreach (var e in entities)
             {
                 var entity = EcsManager.GameObjectEntityTools.GetEntityByCollider(e.triggerColliderSignal.Getter);
-                if (entity == null) continue;
+                if (entity == null)
+                {
+                    if (e.GetComponents().Length <= 0)
+                        e.isDestroy = true;
+                    continue;
+                }
                 _contexts.signals.CreateEntity().ReplaceTriggerEntitySignal(e.triggerColliderSignal.Sender, entity);
+                if (e.GetComponents().Length <= 0)
+                    e.isDestroy = true;
             }
         }
     }

@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class DestroyEntitySystem : ReactiveSystem<SignalsEntity>
+    public class DestroySignalEntitySystem : ReactiveSystem<SignalsEntity>
     {
-        public DestroyEntitySystem(Contexts contexts) : base(contexts.signals)
+        public DestroySignalEntitySystem(Contexts contexts) : base(contexts.signals)
         {
         }
 
         protected override ICollector<SignalsEntity> GetTrigger(IContext<SignalsEntity> context)
         {
-            return context.CreateCollector(SignalsMatcher.DestroyEntitySignal.Added());
+            return context.CreateCollector(SignalsMatcher.Destroy.Added());
         }
 
         protected override bool Filter(SignalsEntity entity)
@@ -24,12 +24,7 @@ namespace ECS.Systems
         {
             foreach (var e in entities)
             {
-                var entityToDestroy = e.destroyEntitySignal.EntityToDestroy;
-            
-                if (entityToDestroy.hasGameObject)
-                    Object.Destroy(entityToDestroy.gameObject.Value);
-            
-                entityToDestroy.Destroy();
+                e.Destroy();
             }
         }
     }
