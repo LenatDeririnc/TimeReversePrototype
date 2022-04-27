@@ -16,12 +16,18 @@ namespace ECS.Systems.Characters.Player
         
         public void Execute()
         {
+            var timeSpeed = 1f;
+        
+            if (_contexts.time.hasGlobalTimeSpeed)
+                timeSpeed = _contexts.time.globalTimeSpeed.Value;
+        
             var data = new InputData()
             {
                 look =  _contexts.input.inputEntity.look.Value,
                 direction = _contexts.input.inputEntity.forwardMovement.Value,
                 crouch = false,
                 jump = _contexts.input.inputEntity.isJump,
+                timeSpeed = timeSpeed,
             };
         
             foreach (var e in _group)

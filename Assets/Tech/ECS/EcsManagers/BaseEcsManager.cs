@@ -17,4 +17,10 @@
             LateSystems = new Entitas.Systems();
         }
     }
+    
+    public enum EcsManagerType
+    {
+        GameEcsManager,
+        TestUnitEcsManager,
+    }
 }
