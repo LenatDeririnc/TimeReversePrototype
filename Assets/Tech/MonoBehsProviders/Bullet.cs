@@ -21,13 +21,7 @@ namespace MonoBehsProviders
 
         private void OnTriggerEnter(Collider other)
         {
-            var otherEntity = EcsManager.GameObjectEntityTools.GetEntityByCollider(other);
-            if (otherEntity == null)
-            {
-                Entity.gameObject.Value.SetActive(false);
-                return;
-            }
-            otherEntity.isDead = true;
+            Entity.ReplaceTriggerSignal(other);
         }
     }
 }

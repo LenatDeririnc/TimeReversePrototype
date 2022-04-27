@@ -2,7 +2,9 @@
 using ECS.Systems.Characters.Enemy;
 using ECS.Systems.Characters.Player;
 using ECS.Systems.Characters.Player.PlayerControllerSystems;
+using ECS.Systems.Features;
 using ECS.Systems.Input;
+using ECS.Systems.Signals;
 using ECS.Systems.TimeManagement;
 using ECS.Systems.TimeManagement.Bullet;
 using ECS.Systems.TimeManagement.Player;
@@ -56,31 +58,23 @@ namespace ECS
             //Time
             _systems.Add(new TimeSpeedSystem(Contexts));
             _systems.Add(new TimeSystem(Contexts));
+            _systems.Add(new TimelineFeature(Contexts));
             
             //MovingObjects
             _systems.Add(new MovingObjectSystem(Contexts));
-
-            //PlayerTimeline
-            _systems.Add(new PlayerTimeLineSystem(Contexts));
-            _systems.Add(new PlayerMovementTimeSpeedSystem(Contexts));
-            _systems.Add(new PlayerFireTimeSpeedSystem(Contexts));
-            _systems.Add(new UndoPlayerTimelineSystem(Contexts));
-            _systems.Add(new WritePlayerTimelineSystem(Contexts));
-
-            //BulletTimeline
-            _systems.Add(new OnBulletInitReactiveSystem(Contexts));
-            _systems.Add(new UndoBulletTimeLineSystem(Contexts));
-            _systems.Add(new WriteBulletTimeLineSystem(Contexts));
             
-            //RigidbodyTimeline
-            _systems.Add(new UndoRigidbodyImpulseTimelineSystem(Contexts));
-            _systems.Add(new WriteRigidbodyImpulseTimelineSystem(Contexts));
+            //Weapon
+            _systems.Add(new BulletTriggerSystem(Contexts));
 
             //Enemies
             _systems.Add(new EnemyAnimationRewindSystem(Contexts));
 
-            //Signals
+            //Trigger
             _systems.Add(new TriggerSignalReactiveSystem(Contexts));
+
+            //CleanupSignals
+            _systems.Add(new TriggerCleanupReactiveSystem(Contexts));
+            _systems.Add(new TriggeredByCleanupSReactiveSystem(Contexts));
             _systems.Add(new DestroyEntitySystem(Contexts));
             _systems.Add(new SetFlagSystem(Contexts));
         }

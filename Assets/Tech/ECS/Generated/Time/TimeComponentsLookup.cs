@@ -8,53 +8,26 @@
 //------------------------------------------------------------------------------
 public static class TimeComponentsLookup {
 
-    public const int GlobalResultTimeScale = 0;
-    public const int GlobalTimeSpeed = 1;
-    public const int PlayerTimelineData = 2;
-    public const int PreviousTickCount = 3;
-    public const int PreviousTime = 4;
-    public const int RollbackValue = 5;
-    public const int SmoothRewindSpeed = 6;
-    public const int TickCount = 7;
-    public const int TickRate = 8;
-    public const int Time = 9;
-    public const int TimelineLastPosition = 10;
-    public const int TimelineRewindPosition = 11;
-    public const int TimeLineStack = 12;
-    public const int TimeSpeed = 13;
+    public const int GlobalTimeSpeed = 0;
+    public const int TickRate = 1;
+    public const int Time = 2;
+    public const int TimeLineStack = 3;
+    public const int TimeSpeed = 4;
 
-    public const int TotalComponents = 14;
+    public const int TotalComponents = 5;
 
     public static readonly string[] componentNames = {
-        "GlobalResultTimeScale",
         "GlobalTimeSpeed",
-        "PlayerTimelineData",
-        "PreviousTickCount",
-        "PreviousTime",
-        "RollbackValue",
-        "SmoothRewindSpeed",
-        "TickCount",
         "TickRate",
         "Time",
-        "TimelineLastPosition",
-        "TimelineRewindPosition",
         "TimeLineStack",
         "TimeSpeed"
     };
 
     public static readonly System.Type[] componentTypes = {
-        typeof(GlobalResultTimeScaleComponent),
         typeof(GlobalTimeSpeedComponent),
-        typeof(PlayerTimelineDataComponent),
-        typeof(PreviousTickCountComponent),
-        typeof(PreviousTimeComponent),
-        typeof(RollbackValueComponent),
-        typeof(SmoothRewindSpeedComponent),
-        typeof(TickCountComponent),
         typeof(TickRateComponent),
         typeof(TimeComponent),
-        typeof(TimelineLastPositionComponent),
-        typeof(TimelineRewindPositionComponent),
         typeof(TimeLineStackComponent),
         typeof(TimeSpeedComponent)
     };

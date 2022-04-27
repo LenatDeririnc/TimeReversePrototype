@@ -3,11 +3,11 @@ using Entitas;
 
 namespace ECS.Systems.Signals
 {
-    public class TriggerSignalReactiveSystem : ReactiveSystem<GameEntity>
+    public class TriggerCleanupReactiveSystem : ReactiveSystem<GameEntity>
     {
         private readonly Contexts _contexts;
 
-        public TriggerSignalReactiveSystem(Contexts contexts) : base(contexts.game)
+        public TriggerCleanupReactiveSystem(Contexts contexts) : base(contexts.game)
         {
             _contexts = contexts;
         }
@@ -26,8 +26,7 @@ namespace ECS.Systems.Signals
         {
             foreach (var e in entities)
             {
-                var entity = EcsManager.GameObjectEntityTools.GetEntityByCollider(e.triggerSignal.Collider);
-                entity?.ReplaceTriggeredBy(e);
+                e.RemoveTriggerSignal();
             }
         }
     }

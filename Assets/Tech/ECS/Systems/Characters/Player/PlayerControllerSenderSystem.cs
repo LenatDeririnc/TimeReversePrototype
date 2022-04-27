@@ -1,7 +1,7 @@
 ﻿using CharacterSystem.Player.ECM.Scripts.Fields;
 using Entitas;
 
-namespace ECS.Systems.Input
+namespace ECS.Systems.Characters.Player
 {
     public class PlayerControllerSenderSystem : IExecuteSystem
     {

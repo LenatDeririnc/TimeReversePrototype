@@ -3,18 +3,18 @@ using Entitas;
 
 namespace ECS.Systems.Signals
 {
-    public class TriggerSignalReactiveSystem : ReactiveSystem<GameEntity>
+    public class TriggeredByCleanupSReactiveSystem : ReactiveSystem<GameEntity>
     {
         private readonly Contexts _contexts;
 
-        public TriggerSignalReactiveSystem(Contexts contexts) : base(contexts.game)
+        public TriggeredByCleanupSReactiveSystem(Contexts contexts) : base(contexts.game)
         {
             _contexts = contexts;
         }
     
         protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
         {
-            return context.CreateCollector(GameMatcher.TriggerSignal.Added());
+            return context.CreateCollector(GameMatcher.TriggeredBy.Added());
         }
 
         protected override bool Filter(GameEntity entity)
@@ -26,8 +26,7 @@ namespace ECS.Systems.Signals
         {
             foreach (var e in entities)
             {
-                var entity = EcsManager.GameObjectEntityTools.GetEntityByCollider(e.triggerSignal.Collider);
-                entity?.ReplaceTriggeredBy(e);
+                e.RemoveTriggeredBy();
             }
         }
     }

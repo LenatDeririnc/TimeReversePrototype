@@ -24,8 +24,6 @@ namespace ECS.Systems.TimeManagement.Player
                 cameraAngle = camera.cameraPitchAngle.Value,
             };
             
-            _contexts.time.isTimelineLastPosition = true;
-            _contexts.time.timelineLastPositionEntity.ReplacePlayerTimelineData(timelineData);
             _contexts.time.timeLineStack.Value.Push(timelineData);
         }
     }

@@ -32,8 +32,6 @@ namespace ECS.Systems.TimeManagement.Player
                 playerRigidbodyImpulse = player.playerRigidBody.Value.velocity,
             };
             
-            _contexts.time.isTimelineLastPosition = true;
-            _contexts.time.timelineLastPositionEntity.ReplacePlayerTimelineData(saveData);
             _contexts.time.timeLineStack.Value.Push(saveData);
         }
     }

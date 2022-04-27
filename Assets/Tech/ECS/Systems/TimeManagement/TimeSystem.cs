@@ -19,7 +19,6 @@ namespace ECS.Systems.TimeManagement
         {
             _timeContext.SetTimeLineStack(new TimeLineStack(_contexts));
             _timeContext.SetTime(0);
-            _timeContext.SetPreviousTime(0);
             _timeContext.SetTickRate(0.001f);
         }
 

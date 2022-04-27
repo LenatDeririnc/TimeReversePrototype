@@ -17,7 +17,6 @@ namespace ECS.Systems.TimeManagement
         public void Initialize()
         {
             _timeContext.SetGlobalTimeSpeed(0);
-            _timeContext.SetGlobalResultTimeScale(0);
         }
 
         public void Execute()

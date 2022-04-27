@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entitas;
 
-namespace ECS.Systems
+namespace ECS.Systems.Signals
 {
     public class SetFlagSystem : ReactiveSystem<GameEntity>
     {
