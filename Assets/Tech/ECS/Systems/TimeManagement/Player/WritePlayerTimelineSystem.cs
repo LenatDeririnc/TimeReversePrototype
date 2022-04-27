@@ -28,7 +28,8 @@ namespace ECS.Systems.TimeManagement.Player
                 isDead = isDead,
                 playerPosition = playerTransform.position,
                 playerRotation = playerTransform.rotation,
-                cameraAngle = cameraPitch, 
+                cameraAngle = cameraPitch,
+                playerRigidbodyImpulse = player.playerRigidBody.Value.velocity,
             };
             
             _contexts.time.isTimelineLastPosition = true;

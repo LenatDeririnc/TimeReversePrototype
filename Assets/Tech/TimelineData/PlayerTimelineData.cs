@@ -14,5 +14,6 @@ namespace TimelineData
         public Vector3 playerPosition;
         public Quaternion playerRotation;
         public float cameraAngle;
+        public Vector3 playerRigidbodyImpulse;
     }
 }

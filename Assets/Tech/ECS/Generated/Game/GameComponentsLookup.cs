@@ -27,13 +27,14 @@ public static class GameComponentsLookup {
     public const int PlayerCamera = 16;
     public const int Player = 17;
     public const int PlayerModel = 18;
-    public const int SetFlagSignal = 19;
-    public const int Transform = 20;
-    public const int TransformInfo = 21;
-    public const int TriggeredBy = 22;
-    public const int TriggerSignal = 23;
+    public const int PlayerRigidBody = 19;
+    public const int SetFlagSignal = 20;
+    public const int Transform = 21;
+    public const int TransformInfo = 22;
+    public const int TriggeredBy = 23;
+    public const int TriggerSignal = 24;
 
-    public const int TotalComponents = 24;
+    public const int TotalComponents = 25;
 
     public static readonly string[] componentNames = {
         "AddressablesAssetLoader",
@@ -55,6 +56,7 @@ public static class GameComponentsLookup {
         "PlayerCamera",
         "Player",
         "PlayerModel",
+        "PlayerRigidBody",
         "SetFlagSignal",
         "Transform",
         "TransformInfo",
@@ -82,6 +84,7 @@ public static class GameComponentsLookup {
         typeof(PlayerCameraComponent),
         typeof(PlayerComponent),
         typeof(PlayerModelComponent),
+        typeof(PlayerRigidBodyComponent),
         typeof(SetFlagSignal),
         typeof(TransformComponent),
         typeof(TransformInfoComponent),

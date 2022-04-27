@@ -37,6 +37,7 @@ namespace ECS.Systems.TimeManagement.Player
             cameraEntity.transform.Value.localRotation = Quaternion.Euler(transformData.cameraAngle, 0, 0);
             playerEntity.isDead = transformData.isDead;
             playerTransformInfo.Value = new TransformInfo(playerTransform.transform);
+            playerEntity.playerRigidBody.Value.velocity = transformData.playerRigidbodyImpulse;
         }
     }
 }
