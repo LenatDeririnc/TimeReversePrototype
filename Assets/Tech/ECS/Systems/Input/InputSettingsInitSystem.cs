@@ -25,7 +25,7 @@ namespace ECS.Systems.Input
             _inputContext.inputEntity.ReplaceBackMovement(Vector3.zero);
             _inputContext.inputEntity.ReplaceFireInput(0);
             _inputContext.inputEntity.ReplaceMouseLookSensitivity(0.05f);
-            _inputContext.inputEntity.ReplaceGamepadLookSensitivity(1f);
+            _inputContext.inputEntity.ReplaceGamepadLookSensitivity(0.8f);
         }
     }
 }

@@ -116,12 +116,12 @@ MonoBehaviour:
     canCrouch: 1
     standingHeight: 2
     crouchingHeight: 1
-    baseJumpHeight: 1.5
-    extraJumpTime: 0.5
-    extraJumpPower: 25
+    baseJumpHeight: 0.5
+    extraJumpTime: 1
+    extraJumpPower: 15
     jumpPreGroundedToleranceTime: 0.15
     jumpPostGroundedToleranceTime: 0.15
-    maxMidAirJumps: 1
+    maxMidAirJumps: 0
     useRootMotion: 0
     rootMotionRotation: 0
     maxLateralSpeed: 10

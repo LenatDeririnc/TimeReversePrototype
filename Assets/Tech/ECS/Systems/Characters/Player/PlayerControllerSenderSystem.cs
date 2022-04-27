@@ -17,14 +17,19 @@ namespace ECS.Systems.Characters.Player
         public void Execute()
         {
             var timeSpeed = 1f;
+            
+            var movement = _contexts.input.inputEntity.moveDirection.Value;
         
-            if (_contexts.time.hasGlobalTimeSpeed)
+            if (!_contexts.input.inputEntity.isForcedFullMovement && _contexts.time.hasGlobalTimeSpeed)
+            {
                 timeSpeed = _contexts.time.globalTimeSpeed.Value;
+                movement = _contexts.input.inputEntity.forwardMovement.Value;
+            }
         
             var data = new InputData()
             {
                 look =  _contexts.input.inputEntity.look.Value,
-                direction = _contexts.input.inputEntity.forwardMovement.Value,
+                direction = movement,
                 crouch = false,
                 jump = _contexts.input.inputEntity.isJump,
                 timeSpeed = timeSpeed,

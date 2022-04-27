@@ -28,9 +28,9 @@ public class @InputSettings : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""6352bc2f-4511-4def-8744-b6cbc963acb2"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -111,26 +111,48 @@ public class @InputSettings : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""19adcac1-7f17-4687-8d7d-cab991311ea8"",
+                    ""name"": ""Gamepad"",
+                    ""id"": ""1d29859e-22bb-4532-9ab8-e83829cceb6e"",
+                    ""path"": ""1DAxis(minValue=0)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""cf4db536-4f75-46b8-b523-9985db512ca3"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""3bfe1e71-4752-4bc4-8a13-91e4a216ae2e"",
+                    ""path"": ""1DAxis(minValue=0)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""d6ae9d1a-3326-4a72-a2df-6343b8cb9069"",
+                    ""name"": ""positive"",
+                    ""id"": ""5947e2f9-184d-4607-8903-ecbf67e81752"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",

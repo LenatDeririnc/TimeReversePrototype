@@ -23,7 +23,7 @@ namespace ECS.Systems.Input
             
             var resultValue = 
                 _inputContext.isGamepad ? 
-                rawValue * _inputContext.gamepadLookSensitivity.Value: 
+                rawValue * _inputContext.gamepadLookSensitivity.Value:
                 rawValue * _inputContext.mouseLookSensitivity.Value;
 
             foreach (var e in _group)

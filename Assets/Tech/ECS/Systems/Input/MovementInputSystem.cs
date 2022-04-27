@@ -1,5 +1,4 @@
-﻿using Common;
-using Entitas;
+﻿using Entitas;
 using UnityEngine;
 
 namespace ECS.Systems.Input
@@ -19,7 +18,7 @@ namespace ECS.Systems.Input
             foreach (var e in _group)
             {
                 var movementValue = _inputContext.inputSettings.Value.Game.Movement.ReadValue<Vector2>();
-                e.isJump = _inputContext.inputSettings.Value.Game.Jump.ReadValue<bool>();
+                e.isJump = _inputContext.inputSettings.Value.Game.Jump.ReadValue<float>() >= 0.5f;
             
                 var move = new Vector3()
                 {
