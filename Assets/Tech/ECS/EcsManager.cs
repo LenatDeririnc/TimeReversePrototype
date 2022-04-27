@@ -69,8 +69,8 @@ namespace ECS
             _systems.Add(new MovingObjectSystem(Contexts));
             _systems.Add(new BulletTriggerSystem(Contexts));
 
-            //Enemies
-            _systems.Add(new EnemyAnimationRewindSystem(Contexts));
+            //OtherCharacters
+            _systems.Add(new CharacterAnimationRewindSystem(Contexts));
 
             //CleanupSignals
             _systems.Add(new TriggerColliderSignalCleanupReactiveSystem(Contexts));

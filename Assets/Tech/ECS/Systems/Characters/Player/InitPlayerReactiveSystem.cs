@@ -23,6 +23,7 @@ namespace ECS.Systems.Characters.Player
 
             playerModel.playerEntity = _contexts.game.CreateEntity();
             EcsManager.GameObjectEntityTools.SetEntityUniqueId(playerModel.playerEntity);
+            playerModel.playerEntity.isCharacter = true;
             playerModel.playerEntity.isPlayer = true;
             playerModel.playerEntity.ReplaceTransform(playerModel.transform);
             playerModel.playerEntity.ReplaceTransformInfo(new TransformInfo(playerModel.transform));

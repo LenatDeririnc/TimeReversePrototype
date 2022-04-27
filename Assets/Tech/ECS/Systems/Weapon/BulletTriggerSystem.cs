@@ -23,14 +23,19 @@ namespace ECS.Systems.Weapon
         {
             foreach (var signal in entities)
             {
-                var sender = signal.triggerEntitySignal.Sender;
+                var bullet = signal.triggerEntitySignal.Sender;
                 var getter = signal.triggerEntitySignal.Getter;
                 if (getter == null)
                 {
-                    sender.gameObject.Value.SetActive(false);
+                    bullet.gameObject.Value.SetActive(false);
                     return;
                 }
-                getter.isDead = true;
+                
+                if (getter.isCharacter)
+                {
+                    getter.isDead = true;
+                    bullet.gameObject.Value.SetActive(false);
+                }
             }
         }
     }
